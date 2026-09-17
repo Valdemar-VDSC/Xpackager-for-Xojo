@@ -3,15 +3,27 @@ Protected Module PkgFS
 	#tag Method, Flags = &h0
 		Sub CopyInto(src As FolderItem, destParent As FolderItem, newName As String = "")
 		  // Copie un élément (fichier OU bundle) dans destParent, en écrasant la cible.
+		  //
+		  // Via ditto plutôt que FolderItem.CopyTo : celui-ci recopie les attributs
+		  // étendus et matérialise au passage des AppleDouble « ._nom » — vus dans le
+		  // dossier de scripts du paquet. --norsrc --noextattr --noacl copie le seul
+		  // contenu, en préservant la hiérarchie d'un bundle.
+		  //
+		  // À ne pas confondre avec les « write: Permission denied » de pkgbuild, qui
+		  // viennent de com.apple.provenance (macOS 14+) : cet attribut n'est pas
+		  // effaçable, même par xattr -rc, et pkgbuild ajoute alors ses propres ._nom
+		  // au Bom. Reproduit hors de XPackager ; la version Swift fait de même.
 		  If src Is Nil Or Not src.Exists Then Return
 		  Var name As String = newName
 		  If name = "" Then name = src.Name
 		  Var dest As FolderItem = destParent.Child(name)
 		  If dest <> Nil And dest.Exists Then DeleteRecursively(dest)
-		  src.CopyTo(destParent)
-		  If newName <> "" And newName <> src.Name Then
-		    Var copied As FolderItem = destParent.Child(src.Name)
-		    If copied <> Nil And copied.Exists Then copied.Name = newName
+		  
+		  Var args() As String = Array("--norsrc", "--noextattr", "--noacl", _
+		  src.NativePath, dest.NativePath)
+		  Var out As String
+		  If ToolRunner.Run("/usr/bin/ditto", args, out) <> 0 Then
+		    Raise New BuildError("Copie impossible : " + src.Name + EndOfLine + out)
 		  End If
 		End Sub
 	#tag EndMethod

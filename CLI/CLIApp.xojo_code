@@ -112,8 +112,16 @@ Inherits ConsoleApplication
 
 	#tag Method, Flags = &h21
 		Private Function Fail(message As String) As Integer
-		  Var err As TextOutputStream = TextOutputStream.Open(StandardError)
-		  err.WriteLine("xpackagerbuild: " + message)
+		  // Xojo n'expose pas la sortie d'erreur : on écrit sur le descripteur 2, comme
+		  // la version Swift avec FileHandle.standardError.
+		  Var line As String = "xpackagerbuild: " + message + EndOfLine
+		  #If TargetMacOS
+		    Declare Function writeFD Lib "/usr/lib/libSystem.dylib" Alias "write" _
+		    (fd As Integer, buffer As CString, count As Integer) As Integer
+		    Call writeFD(2, line, line.Bytes)
+		  #Else
+		    Print(line)
+		  #EndIf
 		  Return 1
 		End Function
 	#tag EndMethod
