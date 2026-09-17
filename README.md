@@ -12,9 +12,13 @@ Deux projets partagent le même moteur (les mêmes fichiers sur le disque) :
 
 ## Avant d'ouvrir le projet
 
-**VDSTools n'est pas versionné ici** : le dossier `VDSTools/` est volontairement exclu et
-doit être restauré localement depuis son propre dépôt, à la racine du projet. Sans lui,
-`XPackager.xojo_project` ne s'ouvre pas — il référence une centaine d'items `VDSTools/…`.
+**VDSTools n'est pas versionné ici** : `VDSTools-1.1.0.xojo_library` est volontairement
+exclu (`*.xojo_library`) et doit être déposé localement à la racine du projet, où l'IDE
+le charge automatiquement. Sans lui, le projet s'ouvre mais ne compile pas : toute
+l'interface repose sur des classes `Native…`.
+
+La version 1.1 est requise — elle apporte `NativeIconButtonControl`, sur lequel reposent
+les boutons à symbole SF.
 
 ## Arborescence
 
@@ -25,7 +29,6 @@ doit être restauré localement depuis son propre dépôt, à la racine du proje
 | `Support/` | Modèles de projet, préférences, aides d'interface |
 | `Localization/` | `Loc` : constantes dynamiques (fr source + en, es, de, it, pt) |
 | `CLI/` | `CLIApp` : l'outil en ligne de commande |
-| `VDSTools/` | Sources de la librairie (identiques à `VDSTools-1.0.0.xojo_library`) |
 
 ## Correspondance avec la version Swift
 
@@ -68,6 +71,7 @@ ne subsistent que là où VDSTools n'offre pas d'équivalent.
 | Rôle | Contrôle |
 |---|---|
 | Libellés, champs, cases, boutons, menus locaux | `NativeLabelControl`, `NativeTextFieldControl`, `NativeCheckBoxControl`, `NativeButtonControl`, `NativePopupMenuControl` |
+| Boutons à symbole SF, menus à symbole | `NativeIconButtonControl`, `NativeComboButtonControl` |
 | Zone de journal | `NativeTextAreaControl` |
 | Barre de progression | `NativeProgressBarControl` |
 | Onglets internes (Composants, Présentation, Réglages) | `NativeSegmentedButtonControl` |

@@ -668,38 +668,35 @@ Begin DesktopWindow PrefsWindow
          Visible         =   True
          Width           =   520
       End
-      Begin NativeButtonControl AppleLinkBtn
+      Begin NativeIconButtonControl AppleLinkBtn
          AllowAutoDeactivate=   True
-         Bold            =   False
-         Bordered        =   True
-         Cancel          =   False
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         BezelStyle      =   1
          Caption         =   ""
          ControlSize     =   0
-         Default         =   False
          Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
+         Height          =   24
+         ImageHugsTitle  =   True
+         ImagePosition   =   7
          Index           =   -2147483648
          InitialParent   =   "PrefsPanel"
-         Italic          =   False
          Left            =   20
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
-         MacButtonStyle  =   0
          Scope           =   0
-         ShowsBorderOnlyOnHover=   False
+         SymbolName      =   "arrow.up.forward.square"
          TabIndex        =   15
          TabPanelIndex   =   2
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   270
-         Transparent     =   False
-         Underline       =   False
+         Top             =   269
+         Transparent     =   True
          Visible         =   True
          Width           =   280
       End
@@ -911,6 +908,7 @@ End
 		  PasswordNote.Text = Loc.kPasswordNotStored
 		  AppleLinkBtn.Caption = Loc.kGeneratePasswordLink
 		  AppleLinkBtn.Tooltip = Loc.kOpenAppleAccountHelp
+		  If AppleLinkBtn.Inner <> Nil Then AppleLinkBtn.Inner.SetBordered(False)
 		  CreateProfileBtn.Caption = Loc.kCreateOrUpdateProfile
 		  VerifyProfileBtn.Caption = Loc.kVerifyButton
 		  ProfileHint.Text = Loc.kProfileNameUsedIn

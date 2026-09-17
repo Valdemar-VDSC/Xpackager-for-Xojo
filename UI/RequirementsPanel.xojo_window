@@ -56,7 +56,12 @@ Begin DesktopContainer RequirementsPanel
       Width           =   668
       Begin NativeLabelControl MinOSLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -66,11 +71,13 @@ Begin DesktopContainer RequirementsPanel
          InitialParent   =   "SystemBox"
          Italic          =   False
          Left            =   36
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
+         MaximumNumberOfLines=   0
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -83,6 +90,7 @@ Begin DesktopContainer RequirementsPanel
          Tooltip         =   ""
          Top             =   50
          Transparent     =   False
+         TruncatesLastVisibleLine=   False
          Underline       =   False
          Visible         =   True
          Width           =   260
@@ -91,9 +99,13 @@ Begin DesktopContainer RequirementsPanel
          AllowAutoDeactivate=   True
          AllowFocusRing  =   True
          AllowSpellChecking=   False
+         AllowsWritingTools=   True
+         AllowsWritingToolsAffordance=   False
          AllowTabs       =   False
          BackgroundColor =   &cFFFFFF
          Bold            =   False
+         ContentType     =   0
+         EchosBullets    =   True
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -131,7 +143,12 @@ Begin DesktopContainer RequirementsPanel
       End
       Begin NativeLabelControl MinOSHelp
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -141,11 +158,13 @@ Begin DesktopContainer RequirementsPanel
          InitialParent   =   "SystemBox"
          Italic          =   False
          Left            =   36
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         MaximumNumberOfLines=   0
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -158,6 +177,7 @@ Begin DesktopContainer RequirementsPanel
          Tooltip         =   ""
          Top             =   82
          Transparent     =   False
+         TruncatesLastVisibleLine=   False
          Underline       =   False
          Visible         =   True
          Width           =   624
@@ -196,6 +216,7 @@ Begin DesktopContainer RequirementsPanel
          AllowAutoDeactivate=   True
          Bold            =   False
          Caption         =   ""
+         ControlSize     =   0
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -210,6 +231,7 @@ Begin DesktopContainer RequirementsPanel
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         MixedState      =   False
          Scope           =   0
          TabIndex        =   0
          TabPanelIndex   =   0
@@ -227,6 +249,7 @@ Begin DesktopContainer RequirementsPanel
          AllowAutoDeactivate=   True
          Bold            =   False
          Caption         =   ""
+         ControlSize     =   0
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -241,6 +264,7 @@ Begin DesktopContainer RequirementsPanel
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         MixedState      =   False
          Scope           =   0
          TabIndex        =   1
          TabPanelIndex   =   0
@@ -256,7 +280,12 @@ Begin DesktopContainer RequirementsPanel
       End
       Begin NativeLabelControl ArchLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -266,11 +295,13 @@ Begin DesktopContainer RequirementsPanel
          InitialParent   =   "ArchBox"
          Italic          =   False
          Left            =   36
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         MaximumNumberOfLines=   0
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -283,6 +314,7 @@ Begin DesktopContainer RequirementsPanel
          Tooltip         =   ""
          Top             =   216
          Transparent     =   False
+         TruncatesLastVisibleLine=   False
          Underline       =   False
          Visible         =   True
          Width           =   624
@@ -321,8 +353,15 @@ Begin DesktopContainer RequirementsPanel
          AllowAutoDeactivate=   True
          AllowFocus      =   False
          AllowFocusRing  =   True
+         AllowsColumnReordering=   True
+         AllowsColumnResizing=   True
+         AllowsMultipleSelection=   False
+         AllowsRowReordering=   False
          AllowTabs       =   False
+         AlternatingRowColors=   True
          Backdrop        =   0
+         BezeledEditableCells=   False
+         DoubleClickAction=   False
          Enabled         =   True
          Height          =   140
          Index           =   -2147483648
@@ -333,7 +372,10 @@ Begin DesktopContainer RequirementsPanel
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         RowHeight       =   22.0
          Scope           =   0
+         SelectedRow     =   0
+         ShowsHeader     =   True
          TabIndex        =   0
          TabPanelIndex   =   0
          TabStop         =   True
@@ -345,7 +387,12 @@ Begin DesktopContainer RequirementsPanel
       End
       Begin NativeLabelControl NoChecksLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -355,11 +402,13 @@ Begin DesktopContainer RequirementsPanel
          InitialParent   =   "ChecksBox"
          Italic          =   False
          Left            =   44
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
+         MaximumNumberOfLines=   0
          Multiline       =   True
          Scope           =   0
          Selectable      =   False
@@ -372,76 +421,78 @@ Begin DesktopContainer RequirementsPanel
          Tooltip         =   ""
          Top             =   348
          Transparent     =   False
+         TruncatesLastVisibleLine=   False
          Underline       =   False
          Visible         =   True
          Width           =   608
       End
-      Begin NativeButtonControl AddCheckBtn
+      Begin NativeIconButtonControl AddCheckBtn
          AllowAutoDeactivate=   True
-         Bold            =   False
-         Cancel          =   False
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         BezelStyle      =   1
          Caption         =   ""
-         Default         =   False
+         ControlSize     =   0
          Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
+         Height          =   24
+         ImageHugsTitle  =   True
+         ImagePosition   =   7
          Index           =   -2147483648
          InitialParent   =   "ChecksBox"
-         Italic          =   False
          Left            =   36
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
-         MacButtonStyle  =   0
          Scope           =   0
+         SymbolName      =   "plus"
          TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   442
-         Transparent     =   False
-         Underline       =   False
+         Top             =   441
+         Transparent     =   True
          Visible         =   True
          Width           =   180
       End
-      Begin NativeButtonControl RemoveCheckBtn
+      Begin NativeIconButtonControl RemoveCheckBtn
          AllowAutoDeactivate=   True
-         Bold            =   False
-         Cancel          =   False
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         BezelStyle      =   1
          Caption         =   ""
-         Default         =   False
+         ControlSize     =   0
          Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
+         Height          =   24
+         ImageHugsTitle  =   True
+         ImagePosition   =   7
          Index           =   -2147483648
          InitialParent   =   "ChecksBox"
-         Italic          =   False
          Left            =   224
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
-         MacButtonStyle  =   0
          Scope           =   0
+         SymbolName      =   "minus.circle.fill"
          TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   442
-         Transparent     =   False
-         Underline       =   False
+         Top             =   441
+         Transparent     =   True
          Visible         =   True
          Width           =   180
       End
       Begin NativePopupMenuControl KindPopup
          AllowAutoDeactivate=   True
+         AltersStateOfSelectedItem=   True
          Bold            =   False
          Enabled         =   True
          FontName        =   "System"
@@ -467,6 +518,7 @@ Begin DesktopContainer RequirementsPanel
          Top             =   476
          Transparent     =   False
          Underline       =   False
+         UsesItemFromMenu=   True
          Visible         =   True
          Width           =   180
       End
@@ -474,9 +526,13 @@ Begin DesktopContainer RequirementsPanel
          AllowAutoDeactivate=   True
          AllowFocusRing  =   True
          AllowSpellChecking=   False
+         AllowsWritingTools=   True
+         AllowsWritingToolsAffordance=   False
          AllowTabs       =   False
          BackgroundColor =   &cFFFFFF
          Bold            =   False
+         ContentType     =   0
+         EchosBullets    =   True
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -515,8 +571,10 @@ Begin DesktopContainer RequirementsPanel
       Begin NativeButtonControl BrowseBtn
          AllowAutoDeactivate=   True
          Bold            =   False
+         Bordered        =   True
          Cancel          =   False
          Caption         =   ""
+         ControlSize     =   0
          Default         =   False
          Enabled         =   True
          FontName        =   "System"
@@ -534,6 +592,7 @@ Begin DesktopContainer RequirementsPanel
          LockTop         =   True
          MacButtonStyle  =   0
          Scope           =   0
+         ShowsBorderOnlyOnHover=   False
          TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
@@ -546,7 +605,12 @@ Begin DesktopContainer RequirementsPanel
       End
       Begin NativeLabelControl GoLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -556,11 +620,13 @@ Begin DesktopContainer RequirementsPanel
          InitialParent   =   "ChecksBox"
          Italic          =   False
          Left            =   562
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   False
          LockRight       =   True
          LockTop         =   True
+         MaximumNumberOfLines=   0
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -573,6 +639,7 @@ Begin DesktopContainer RequirementsPanel
          Tooltip         =   ""
          Top             =   478
          Transparent     =   False
+         TruncatesLastVisibleLine=   False
          Underline       =   False
          Visible         =   True
          Width           =   40
@@ -581,9 +648,13 @@ Begin DesktopContainer RequirementsPanel
          AllowAutoDeactivate=   True
          AllowFocusRing  =   True
          AllowSpellChecking=   False
+         AllowsWritingTools=   True
+         AllowsWritingToolsAffordance=   False
          AllowTabs       =   False
          BackgroundColor =   &cFFFFFF
          Bold            =   False
+         ContentType     =   0
+         EchosBullets    =   True
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
@@ -624,7 +695,6 @@ End
 #tag EndDesktopWindow
 
 #tag WindowCode
-
 	#tag Event
 		Sub Opening()
 		  ApplyTexts
@@ -644,6 +714,7 @@ End
 		  NoChecksLabel.Text = Loc.kNoConditions
 		  AddCheckBtn.Caption = Loc.kAddCondition
 		  RemoveCheckBtn.Caption = Loc.kRemoveCondition
+		  If RemoveCheckBtn.Inner <> Nil Then RemoveCheckBtn.Inner.SetDestructive(True)
 		  BrowseBtn.Caption = Loc.kBrowseEllipsis
 		  GoLabel.Text = Loc.kGoUnit
 		  MessageField.Hint = Loc.kConditionMessage
@@ -700,6 +771,7 @@ End
 		  MessageField.Enabled = has
 		  BrowseBtn.Enabled = has
 		  RemoveCheckBtn.Enabled = has
+		  If RemoveCheckBtn.Inner <> Nil Then RemoveCheckBtn.Inner.Enabled = has
 		  If Not has Then
 		    mUpdating = True
 		    ValueField.Text = ""
@@ -773,8 +845,39 @@ End
 	#tag Property, Flags = &h0
 		Owner As ProjectWindow
 	#tag EndProperty
+
+
 #tag EndWindowCode
 
+#tag Events MinOSField
+	#tag Event
+		Sub TextChanged()
+		  If mUpdating Or mProject Is Nil Then Return
+		  mProject.Requirements.MinimumOSVersion = Me.Text
+		  Touch
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events ArmCheck
+	#tag Event
+		Sub ValueChanged()
+		  If mUpdating Or mProject Is Nil Then Return
+		  mProject.Requirements.AllowArm64 = Me.Value
+		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
+		  Touch
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events IntelCheck
+	#tag Event
+		Sub ValueChanged()
+		  If mUpdating Or mProject Is Nil Then Return
+		  mProject.Requirements.AllowIntel = Me.Value
+		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
+		  Touch
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events ChecksList
 	#tag Event
 		Sub SelectionChanged(row As Integer)
@@ -857,32 +960,221 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events MinOSField
-	#tag Event
-		Sub TextChanged()
-		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Requirements.MinimumOSVersion = Me.Text
-		  Touch
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events IntelCheck
-	#tag Event
-		Sub ValueChanged()
-		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Requirements.AllowIntel = Me.Value
-		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
-		  Touch
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events ArmCheck
-	#tag Event
-		Sub ValueChanged()
-		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Requirements.AllowArm64 = Me.Value
-		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
-		  Touch
-		End Sub
-	#tag EndEvent
-#tag EndEvents
+#tag ViewBehavior
+	#tag ViewProperty
+		Name="Name"
+		Visible=true
+		Group="ID"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Super"
+		Visible=true
+		Group="ID"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Index"
+		Visible=true
+		Group="ID"
+		InitialValue="-2147483648"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Width"
+		Visible=true
+		Group="Size"
+		InitialValue="300"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Height"
+		Visible=true
+		Group="Size"
+		InitialValue="300"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="InitialParent"
+		Visible=false
+		Group="Position"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Left"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Top"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockLeft"
+		Visible=true
+		Group="Position"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockTop"
+		Visible=true
+		Group="Position"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockRight"
+		Visible=true
+		Group="Position"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="LockBottom"
+		Visible=true
+		Group="Position"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="TabIndex"
+		Visible=true
+		Group="Position"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="TabPanelIndex"
+		Visible=false
+		Group="Position"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="TabStop"
+		Visible=true
+		Group="Position"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="AllowAutoDeactivate"
+		Visible=true
+		Group="Appearance"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Enabled"
+		Visible=true
+		Group="Appearance"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Tooltip"
+		Visible=true
+		Group="Appearance"
+		InitialValue=""
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="AllowFocusRing"
+		Visible=true
+		Group="Appearance"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Visible"
+		Visible=true
+		Group="Appearance"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="BackgroundColor"
+		Visible=true
+		Group="Background"
+		InitialValue="&hFFFFFF"
+		Type="ColorGroup"
+		EditorType="ColorGroup"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Backdrop"
+		Visible=true
+		Group="Background"
+		InitialValue=""
+		Type="Picture"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="HasBackgroundColor"
+		Visible=true
+		Group="Background"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="AllowFocus"
+		Visible=true
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="AllowTabs"
+		Visible=true
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Transparent"
+		Visible=true
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Composited"
+		Visible=true
+		Group="Window Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+#tag EndViewBehavior

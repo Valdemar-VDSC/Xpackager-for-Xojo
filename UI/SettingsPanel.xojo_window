@@ -135,54 +135,51 @@ Begin DesktopContainer SettingsPanel
          Visible         =   True
          Width           =   422
       End
-      Begin NativeButtonControl InfoButton
+      Begin NativeIconButtonControl InfoButton
          AllowAutoDeactivate=   True
-         Bold            =   False
-         Bordered        =   True
-         Cancel          =   False
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         BezelStyle      =   1
          Caption         =   ""
          ControlSize     =   0
-         Default         =   False
          Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
+         Height          =   24
+         ImageHugsTitle  =   True
+         ImagePosition   =   1
          Index           =   -2147483648
          InitialParent   =   "NativeGroupBoxControl1"
-         Italic          =   False
          Left            =   470
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
-         MacButtonStyle  =   0
          Scope           =   0
-         ShowsBorderOnlyOnHover=   False
+         SymbolName      =   "info.circle"
          TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   70
-         Transparent     =   False
-         Underline       =   False
+         Top             =   69
+         Transparent     =   True
          Visible         =   True
          Width           =   30
       End
-      Begin NativePopupMenuControl TokenMenu
+      Begin NativeComboButtonControl TokenMenu
          AllowAutoDeactivate=   True
-         AltersStateOfSelectedItem=   True
-         Bold            =   False
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         Caption         =   ""
+         ControlSize     =   0
          Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
+         Height          =   24
          Index           =   -2147483648
          InitialParent   =   "NativeGroupBoxControl1"
-         InitialValue    =   ""
-         Italic          =   False
+         Items           =   ""
          Left            =   230
          LockBottom      =   False
          LockedInPosition=   False
@@ -190,15 +187,14 @@ Begin DesktopContainer SettingsPanel
          LockRight       =   False
          LockTop         =   True
          Scope           =   0
-         SelectedRowIndex=   -1
+         Style           =   1
+         SymbolName      =   "curlybraces"
          TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   70
-         Transparent     =   False
-         Underline       =   False
-         UsesItemFromMenu=   True
+         Top             =   69
+         Transparent     =   True
          Visible         =   True
          Width           =   230
       End
@@ -474,38 +470,35 @@ Begin DesktopContainer SettingsPanel
          Visible         =   True
          Width           =   423
       End
-      Begin NativeButtonControl RefreshButton
+      Begin NativeIconButtonControl RefreshButton
          AllowAutoDeactivate=   True
-         Bold            =   False
-         Bordered        =   True
-         Cancel          =   False
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         BezelStyle      =   1
          Caption         =   ""
          ControlSize     =   0
-         Default         =   False
          Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
+         Height          =   24
+         ImageHugsTitle  =   True
+         ImagePosition   =   1
          Index           =   -2147483648
          InitialParent   =   "NativeGroupBoxControl2"
-         Italic          =   False
          Left            =   625
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   False
          LockRight       =   True
          LockTop         =   True
-         MacButtonStyle  =   0
          Scope           =   0
-         ShowsBorderOnlyOnHover=   False
+         SymbolName      =   "arrow.clockwise"
          TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   224
-         Transparent     =   False
-         Underline       =   False
+         Top             =   223
+         Transparent     =   True
          Visible         =   True
          Width           =   32
       End
@@ -872,14 +865,14 @@ End
 		  // ProductHeader.Text = Loc.kProduct
 		  PackageNameLabel.Text = Loc.kPackageName
 		  PackageNameField.Tooltip = Loc.kPackageNameHelp
-		  InfoButton.Caption = "ⓘ"
 		  InfoButton.Tooltip = Loc.kDynamicTokensHelp
+		  If InfoButton.Inner <> Nil Then InfoButton.Inner.SetBordered(False)
 		  WebSafeCheck.Caption = Loc.kWebSafeToggle
 		  NameHelp.Text = Loc.kPerComponentNote
 		  // SignatureHeader.Text = Loc.kSignatureOptional
 		  SigningLabel.Text = Loc.kSigningIdentity
-		  RefreshButton.Caption = "↻"
 		  RefreshButton.Tooltip = Loc.kRefreshIdentities
+		  If RefreshButton.Inner <> Nil Then RefreshButton.Inner.SetBordered(False)
 		  // HardenHeader.Text = Loc.kHardeningSection
 		  HardenCheck.Caption = Loc.kHardenToggle
 		  AppIdentityLabel.Text = Loc.kAppIdentityLabel
@@ -887,12 +880,12 @@ End
 		  // NotarizeHeader.Text = Loc.kNotarizationOptional
 		  NotarizeCheck.Caption = Loc.kNotarizeAfterBuild
 		  
-		  TokenMenu.RemoveAllRows
-		  TokenMenu.AddRow(Loc.kInsertVariable)
+		  TokenMenu.Caption = Loc.kInsertVariable
+		  Var entries() As String
 		  For Each token As String In PackageNaming.TokenNames
-		    TokenMenu.AddRow("$(" + token + ") — " + TokenDescription(token))
+		    entries.Add("$(" + token + ") — " + TokenDescription(token))
 		  Next
-		  TokenMenu.SelectedRowIndex = 0
+		  TokenMenu.Items = String.FromArray(entries, ";")
 		  mUpdating = False
 		End Sub
 	#tag EndMethod
@@ -1090,15 +1083,14 @@ End
 #tag EndEvents
 #tag Events TokenMenu
 	#tag Event
-		Sub SelectionChanged(item As DesktopMenuItem)
+		Sub MenuItemSelected(index As Integer, title As String)
+		  #Pragma Unused title
 		  If mUpdating Or mProject Is Nil Then Return
-		  Var index As Integer = Me.SelectedRowIndex
-		  If index <= 0 Then Return
 		  Var tokens() As String = PackageNaming.TokenNames
-		  mProject.Settings.PackageName = mProject.Settings.PackageName + "$(" + tokens(index - 1) + ")"
+		  If index < 0 Or index > tokens.LastIndex Then Return
+		  mProject.Settings.PackageName = mProject.Settings.PackageName + "$(" + tokens(index) + ")"
 		  mUpdating = True
 		  PackageNameField.Text = mProject.Settings.PackageName
-		  Me.SelectedRowIndex = 0
 		  mUpdating = False
 		  Touch
 		End Sub

@@ -98,73 +98,67 @@ Begin DesktopContainer ComponentsPanel
       Visible         =   True
       Width           =   160
    End
-   Begin NativeButtonControl AddBtn
+   Begin NativeIconButtonControl AddBtn
       AllowAutoDeactivate=   True
-      Bold            =   False
-      Bordered        =   True
-      Cancel          =   False
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   0
-      Default         =   False
+      ControlSize     =   1
       Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   22
+      Height          =   24
+      ImageHugsTitle  =   True
+      ImagePosition   =   1
       Index           =   -2147483648
       InitialParent   =   "ComponentsPanel"
-      Italic          =   False
       Left            =   616
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
       LockRight       =   True
       LockTop         =   True
-      MacButtonStyle  =   0
       Scope           =   0
-      ShowsBorderOnlyOnHover=   False
+      SymbolName      =   "plus"
       TabIndex        =   2
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   8
-      Transparent     =   False
-      Underline       =   False
+      Top             =   7
+      Transparent     =   True
       Visible         =   True
       Width           =   32
    End
-   Begin NativeButtonControl RemoveBtn
+   Begin NativeIconButtonControl RemoveBtn
       AllowAutoDeactivate=   True
-      Bold            =   False
-      Bordered        =   True
-      Cancel          =   False
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   0
-      Default         =   False
+      ControlSize     =   1
       Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   22
+      Height          =   24
+      ImageHugsTitle  =   True
+      ImagePosition   =   1
       Index           =   -2147483648
       InitialParent   =   "ComponentsPanel"
-      Italic          =   False
       Left            =   652
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
       LockRight       =   True
       LockTop         =   True
-      MacButtonStyle  =   0
       Scope           =   0
-      ShowsBorderOnlyOnHover=   False
+      SymbolName      =   "minus"
       TabIndex        =   3
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   8
-      Transparent     =   False
-      Underline       =   False
+      Top             =   7
+      Transparent     =   True
       Visible         =   True
       Width           =   32
    End
@@ -1287,10 +1281,10 @@ End
 	#tag Method, Flags = &h21
 		Private Sub ApplyTexts()
 		  mUpdating = True
-		  AddBtn.Caption = "+"
 		  AddBtn.Tooltip = Loc.kAddComponent
-		  RemoveBtn.Caption = "−"
 		  RemoveBtn.Tooltip = Loc.kRemoveComponent
+		  // Comme en SwiftUI : Button(role: .destructive) pour le retrait.
+		  If RemoveBtn.Inner <> Nil Then RemoveBtn.Inner.SetDestructive(True)
 		  // IdentityHeader.Text = Loc.kComponentIdentity
 		  CompNameLabel.Text = Loc.kNameChoiceTitle
 		  CompIdLabel.Text = Loc.kIdentifier
@@ -1383,6 +1377,7 @@ End
 		  If n > 1 Then word = Loc.kComponentsPlural
 		  CountLabel.Text = n.ToString + " " + word
 		  RemoveBtn.Enabled = n > 1
+		  If RemoveBtn.Inner <> Nil Then RemoveBtn.Inner.Enabled = (n > 1)
 		  MultiNote.Visible = n > 1
 		  MultiNote.Text = Loc.kMultiComponentNote
 		  mUpdating = False
@@ -1620,6 +1615,7 @@ End
 	#tag Event
 		Sub SelectionChanged(index As Integer)
 		  SubPanel.SelectedPanelIndex = index
+		  If index = 1 And mPayloadPanel <> Nil Then mPayloadPanel.RefreshView
 		End Sub
 	#tag EndEvent
 	#tag Event

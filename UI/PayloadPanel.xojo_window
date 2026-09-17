@@ -25,124 +25,115 @@ Begin DesktopContainer PayloadPanel
    Transparent     =   True
    Visible         =   True
    Width           =   700
-   Begin NativeButtonControl AddFolderBtn
+   Begin NativeIconButtonControl AddFolderBtn
       AllowAutoDeactivate=   True
-      Bold            =   False
-      Bordered        =   True
-      Cancel          =   False
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   0
-      Default         =   False
+      ControlSize     =   1
       Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   22
+      Height          =   24
+      ImageHugsTitle  =   True
+      ImagePosition   =   7
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
-      Italic          =   False
       Left            =   16
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
-      MacButtonStyle  =   0
       Scope           =   0
-      ShowsBorderOnlyOnHover=   False
+      SymbolName      =   "folder.badge.plus"
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   8
-      Transparent     =   False
-      Underline       =   False
+      Top             =   7
+      Transparent     =   True
       Visible         =   True
       Width           =   110
    End
-   Begin NativeButtonControl AddFilesBtn
+   Begin NativeIconButtonControl AddFilesBtn
       AllowAutoDeactivate=   True
-      Bold            =   False
-      Bordered        =   True
-      Cancel          =   False
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   0
-      Default         =   False
+      ControlSize     =   1
       Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   22
+      Height          =   24
+      ImageHugsTitle  =   True
+      ImagePosition   =   7
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
-      Italic          =   False
       Left            =   134
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
-      MacButtonStyle  =   0
       Scope           =   0
-      ShowsBorderOnlyOnHover=   False
+      SymbolName      =   "doc.badge.plus"
       TabIndex        =   1
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   8
-      Transparent     =   False
-      Underline       =   False
+      Top             =   7
+      Transparent     =   True
       Visible         =   True
       Width           =   110
    End
-   Begin NativeButtonControl RemoveBtn
+   Begin NativeIconButtonControl RemoveBtn
       AllowAutoDeactivate=   True
-      Bold            =   False
-      Bordered        =   True
-      Cancel          =   False
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   0
-      Default         =   False
+      ControlSize     =   1
       Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   22
+      Height          =   24
+      ImageHugsTitle  =   True
+      ImagePosition   =   7
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
-      Italic          =   False
       Left            =   252
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
-      MacButtonStyle  =   0
       Scope           =   0
-      ShowsBorderOnlyOnHover=   False
+      SymbolName      =   "trash"
       TabIndex        =   2
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   8
-      Transparent     =   False
-      Underline       =   False
+      Top             =   7
+      Transparent     =   True
       Visible         =   True
       Width           =   100
    End
-   Begin NativePopupMenuControl TemplateMenu
+   Begin NativeComboButtonControl TemplateMenu
       AllowAutoDeactivate=   True
-      AltersStateOfSelectedItem=   True
-      Bold            =   False
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      Caption         =   ""
+      ControlSize     =   1
       Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   22
+      Height          =   24
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
-      InitialValue    =   ""
-      Italic          =   False
+      Items           =   ""
       Left            =   534
       LockBottom      =   False
       LockedInPosition=   False
@@ -150,15 +141,14 @@ Begin DesktopContainer PayloadPanel
       LockRight       =   True
       LockTop         =   True
       Scope           =   0
-      SelectedRowIndex=   -1
+      Style           =   1
+      SymbolName      =   "plus.rectangle.on.folder"
       TabIndex        =   3
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   8
-      Transparent     =   False
-      Underline       =   False
-      UsesItemFromMenu=   True
+      Top             =   7
+      Transparent     =   True
       Visible         =   True
       Width           =   150
    End
@@ -197,88 +187,114 @@ Begin DesktopContainer PayloadPanel
       Transparent     =   False
       Visible         =   True
       Width           =   668
-      Begin NativeLabelControl EmptyTitle
-         AllowAutoDeactivate=   True
-         AllowsDefaultTighteningForTruncation=   False
-         AllowsExpansionToolTips=   False
-         BackgroundColor =   &cFFFFFF00
-         Bold            =   False
-         Bordered        =   False
-         DrawsBackground =   False
-         Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   22
-         Index           =   -2147483648
-         InitialParent   =   "TreeView"
-         Italic          =   False
-         Left            =   16
-         LineBreakMode   =   0
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         MaximumNumberOfLines=   0
-         Multiline       =   False
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   5
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   ""
-         TextAlignment   =   1
-         TextColor       =   &c8E8E93
-         Tooltip         =   ""
-         Top             =   120
-         Transparent     =   False
-         TruncatesLastVisibleLine=   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   668
-      End
-      Begin NativeLabelControl EmptyHint
-         AllowAutoDeactivate=   True
-         AllowsDefaultTighteningForTruncation=   False
-         AllowsExpansionToolTips=   False
-         BackgroundColor =   &cFFFFFF00
-         Bold            =   False
-         Bordered        =   False
-         DrawsBackground =   False
-         Enabled         =   True
-         FontName        =   "System"
-         FontSize        =   0.0
-         FontUnit        =   0
-         Height          =   46
-         Index           =   -2147483648
-         InitialParent   =   "TreeView"
-         Italic          =   False
-         Left            =   96
-         LineBreakMode   =   0
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         MaximumNumberOfLines=   0
-         Multiline       =   True
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   6
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   ""
-         TextAlignment   =   1
-         TextColor       =   &c8E8E93
-         Tooltip         =   ""
-         Top             =   146
-         Transparent     =   False
-         TruncatesLastVisibleLine=   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   508
-      End
+   End
+   Begin DesktopCanvas EmptyIcon
+      AllowAutoDeactivate=   True
+      AllowFocus      =   False
+      AllowFocusRing  =   True
+      AllowTabs       =   False
+      Backdrop        =   0
+      Enabled         =   True
+      Height          =   96
+      Index           =   -2147483648
+      InitialParent   =   "PayloadPanel"
+      Left            =   302
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   0
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Tooltip         =   ""
+      Top             =   64
+      Transparent     =   True
+      Visible         =   True
+      Width           =   96
+   End
+   Begin NativeLabelControl EmptyTitle
+      AllowAutoDeactivate=   True
+      AllowsDefaultTighteningForTruncation=   False
+      AllowsExpansionToolTips=   False
+      BackgroundColor =   &cFFFFFF00
+      Bold            =   False
+      Bordered        =   False
+      DrawsBackground =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   22
+      Index           =   -2147483648
+      InitialParent   =   "PayloadPanel"
+      Italic          =   False
+      Left            =   16
+      LineBreakMode   =   0
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      MaximumNumberOfLines=   0
+      Multiline       =   False
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   5
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   ""
+      TextAlignment   =   1
+      TextColor       =   &c8E8E93
+      Tooltip         =   ""
+      Top             =   172
+      Transparent     =   False
+      TruncatesLastVisibleLine=   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   668
+   End
+   Begin NativeLabelControl EmptyHint
+      AllowAutoDeactivate=   True
+      AllowsDefaultTighteningForTruncation=   False
+      AllowsExpansionToolTips=   False
+      BackgroundColor =   &cFFFFFF00
+      Bold            =   False
+      Bordered        =   False
+      DrawsBackground =   False
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   40
+      Index           =   -2147483648
+      InitialParent   =   "PayloadPanel"
+      Italic          =   False
+      Left            =   116
+      LineBreakMode   =   0
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      MaximumNumberOfLines=   0
+      Multiline       =   True
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   6
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   ""
+      TextAlignment   =   1
+      TextColor       =   &c8E8E93
+      Tooltip         =   ""
+      Top             =   200
+      Transparent     =   False
+      TruncatesLastVisibleLine=   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   468
    End
    Begin DesktopSeparator SepInspector
       Active          =   False
@@ -774,6 +790,7 @@ End
 		    Else
 		      TreeView.Tree.SetNodeIcon(node, "doc.fill")
 		    End If
+		    TreeView.Tree.SetNodeTextColor(node, 1, &c8E8E93)
 		    If n.SourcePath <> "" Then TreeView.Tree.SetNodeSubtitle(node, 0, n.SourcePath)
 		    AddNodes(n.Children, node)
 		  Next
@@ -795,12 +812,10 @@ End
 		  PermsLabel.Text = Loc.kPermissionsLabel
 		  PermsField.Hint = Loc.kPermsPlaceholder
 		  InspectorHint.Text = Loc.kSelectItemForPermissions
-		  TemplateMenu.RemoveAllRows
-		  TemplateMenu.AddRow(Loc.kTemplateButton)
-		  TemplateMenu.AddRow("/Applications")
-		  TemplateMenu.AddRow("/Library")
-		  TemplateMenu.AddRow("/usr/local/bin")
-		  TemplateMenu.SelectedRowIndex = 0
+		  TemplateMenu.Caption = Loc.kTemplateButton
+		  TemplateMenu.Items = "/Applications;/Library;/usr/local/bin"
+		  // Comme en SwiftUI : Button(role: .destructive) pour « Retirer ».
+		  If RemoveBtn.Inner <> Nil Then RemoveBtn.Inner.SetDestructive(True)
 		  mUpdating = False
 		End Sub
 	#tag EndMethod
@@ -811,8 +826,16 @@ End
 		  TreeView.RemoveAllRows
 		  mNodeIDs = New Dictionary
 		  If mPayload <> Nil Then AddNodes(mPayload.Tree, Nil)
+		  TreeView.Reload
 		  TreeView.ExpandAll
 		  Var empty As Boolean = mPayload Is Nil Or mPayload.Tree.Count = 0
+		  If mEmptyIcon Is Nil Then
+		    mEmptyIcon = New NativeImageView(96, 96)
+		    mEmptyIcon.SetTint(True, &cB0B0B5)
+		    mEmptyIcon.ShowSymbol("arrow.down.doc", Loc.kDropFilesHere)
+		    NativeControlHost.Fill(EmptyIcon, mEmptyIcon.Handle)
+		  End If
+		  EmptyIcon.Visible = empty
 		  EmptyTitle.Visible = empty
 		  EmptyHint.Visible = empty
 		  TreeView.Visible = Not empty
@@ -820,15 +843,28 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub RefreshView()
+		  // Le NativeTableViewControl ne monte sa table qu'au premier Paint : un arbre
+		  // peuplé pendant que l'onglet était masqué reste invisible. On recharge donc
+		  // la vue quand le panneau devient visible.
+		  TreeView.Reload
+		  TreeView.ExpandAll
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub EnsureTree()
 		  If mColumnsReady Then Return
 		  mColumnsReady = True
-		  TreeView.ShowsHeader = True
+		  // Comme la List SwiftUI : pas d'en-tête, pas de lignes alternées, et les
+		  // permissions discrètes, alignées à droite.
+		  TreeView.ShowsHeader = False
 		  TreeView.AllowsRowReordering = True
-		  TreeView.AlternatingRowColors = True
-		  TreeView.AddColumn(Loc.kNameLabel, 380, False)
-		  TreeView.AddColumn(Loc.kPermissionsLabel, 100, False)
+		  TreeView.AlternatingRowColors = False
+		  TreeView.AddColumn(Loc.kNameLabel, 420, False)
+		  TreeView.AddColumn(Loc.kPermissionsLabel, 90, False)
+		  TreeView.Tree.SetColumnAlignment(1, NativeTableView.Alignments.Right)
 		End Sub
 	#tag EndMethod
 
@@ -866,6 +902,7 @@ End
 		  PermsField.Visible = has
 		  InspectorHint.Visible = Not has
 		  RemoveBtn.Enabled = has
+		  If RemoveBtn.Inner <> Nil Then RemoveBtn.Inner.Enabled = has
 		  If Not has Then Return
 		  
 		  mUpdating = True
@@ -890,6 +927,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mColumnsReady As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mEmptyIcon As NativeImageView
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -962,18 +1003,16 @@ End
 #tag EndEvents
 #tag Events TemplateMenu
 	#tag Event
-		Sub SelectionChanged(item As DesktopMenuItem)
+		Sub MenuItemSelected(index As Integer, title As String)
+		  #Pragma Unused title
 		  If mPayload Is Nil Then Return
-		  Var index As Integer = Me.SelectedRowIndex
-		  If index <= 0 Then Return
-		  Me.SelectedRowIndex = 0
 		  Var node As PayloadNode
 		  Select Case index
-		  Case 1
+		  Case 0
 		    node = PayloadNode.DirectoryNode("Applications")
-		  Case 2
+		  Case 1
 		    node = PayloadNode.DirectoryNode("Library")
-		  Case 3
+		  Case 2
 		    Var bin As PayloadNode = PayloadNode.DirectoryNode("bin")
 		    Var local As PayloadNode = PayloadNode.DirectoryNode("local")
 		    local.Children.Add(bin)
