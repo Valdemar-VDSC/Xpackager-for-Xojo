@@ -182,33 +182,56 @@ End
 		  // PagePanel en page —, la POSITION par AppKit. Ne jamais LIRE .Left ici.
 		  If w <= 0 Or h <= 0 Then Return
 		  
-		  Var top As Double = sender.SafeAreaTop
-		  Var usable As Double = h - top
+		  Var usable As Double = h - sender.SafeAreaTop
 		  If usable < 140 Then Return
 		  
-		  DetailPanel.Width = w
-		  DetailPanel.Height = usable
-		  sender.PlaceView(DetailPanel.Handle, 0, 0, w, usable)
+		  mDetailW = w
+		  mDetailH = usable
+		  ApplyDetailLayout
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ApplyDetailLayout()
+		  // Appelé par ChromeDetailResized et, une fois Opening rendu, par
+		  // DeferredRelayout : la même pose, à partir des dernières mesures connues.
+		  If mChrome Is Nil Or mDetailW <= 0 Or mDetailH <= 0 Then Return
 		  
-		  // Un DesktopContainer embarqué se positionne en coordonnées FENÊTRE : il ne
-		  // suit pas le placement AppKit du PagePanel. On lui donne donc le décalage de
-		  // la zone sûre à la main — Left reste 0, la vue de contenu Xojo étant déjà
-		  // celle du volet de détail.
-		  PlacePanel(mSettingsPanel, top, w, usable)
-		  PlacePanel(mComponentsPanel, top, w, usable)
-		  PlacePanel(mRequirementsPanel, top, w, usable)
-		  PlacePanel(mPresentationPanel, top, w, usable)
+		  DetailPanel.Width = mDetailW
+		  DetailPanel.Height = mDetailH
+		  mChrome.PlaceView(DetailPanel.Handle, 0, 0, mDetailW, mDetailH)
+		  
+		  // Les conteneurs sont enfants de DetailPanel, dont AppKit a déjà placé la vue
+		  // SOUS la barre d'outils : leur donner en plus le décalage de la zone sûre
+		  // les descendait une seconde fois (vu à la trace : frame y = -66 après le
+		  // moindre redimensionnement). Ils se collent donc à l'origine du volet.
+		  PlacePanel(mSettingsPanel, mDetailW, mDetailH)
+		  PlacePanel(mComponentsPanel, mDetailW, mDetailH)
+		  PlacePanel(mRequirementsPanel, mDetailW, mDetailH)
+		  PlacePanel(mPresentationPanel, mDetailW, mDetailH)
 		  If mComponentsPanel <> Nil Then mComponentsPanel.LayoutChildren
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub PlacePanel(panel As DesktopContainer, top As Double, w As Double, h As Double)
+		Private Sub PlacePanel(panel As DesktopContainer, w As Double, h As Double)
 		  If panel Is Nil Then Return
+		  
+		  // La TAILLE par l'API Xojo : c'est le seul geste qui remet les enfants du
+		  // conteneur en page.
 		  panel.Left = 0
-		  panel.Top = top
+		  panel.Top = 0
 		  panel.Width = w
 		  panel.Height = h
+		  
+		  // La POSITION par AppKit. Xojo déduit l'ordonnée d'un conteneur embarqué
+		  // d'une hauteur de parent qu'il ne remet à jour qu'à la passe suivante :
+		  // pendant Opening il compte encore les 790 du markup au lieu des 725 du
+		  // volet, et pose la vue 66 points trop haut. On écrit donc le cadre.
+		  Var r As Cocoa.NSRect
+		  r.width = w
+		  r.height = h
+		  Cocoa.SetViewFrame(panel.Handle, r)
 		End Sub
 	#tag EndMethod
 
@@ -331,28 +354,27 @@ End
 		  // ─── Conteneur 1/4 : Réglages ───
 		  mSettingsPanel = New SettingsPanel
 		  mSettingsPanel.Owner = Self
-		  Var topInset As Integer = mChrome.SafeAreaTop
 		  Var panelW As Integer = DetailPanel.Width
 		  Var panelH As Integer = DetailPanel.Height
-		  mSettingsPanel.EmbedWithinPanel(DetailPanel, 0, 0, topInset, panelW, panelH)
+		  mSettingsPanel.EmbedWithinPanel(DetailPanel, 0, 0, 0, panelW, panelH)
 		  mSettingsPanel.LoadProject(mProject)
 		  
 		  // ─── Conteneur 2/4 : Composants (il embarque lui-même PayloadPanel) ───
 		  mComponentsPanel = New ComponentsPanel
 		  mComponentsPanel.Owner = Self
-		  mComponentsPanel.EmbedWithinPanel(DetailPanel, 1, 0, topInset, panelW, panelH)
+		  mComponentsPanel.EmbedWithinPanel(DetailPanel, 1, 0, 0, panelW, panelH)
 		  mComponentsPanel.LoadProject(mProject)
 		  
 		  // ─── Conteneur 3/4 : Prérequis ───
 		  mRequirementsPanel = New RequirementsPanel
 		  mRequirementsPanel.Owner = Self
-		  mRequirementsPanel.EmbedWithinPanel(DetailPanel, 2, 0, topInset, panelW, panelH)
+		  mRequirementsPanel.EmbedWithinPanel(DetailPanel, 2, 0, 0, panelW, panelH)
 		  mRequirementsPanel.LoadProject(mProject)
 		  
 		  // ─── Conteneur 4/4 : Présentation ───
 		  mPresentationPanel = New PresentationPanel
 		  mPresentationPanel.Owner = Self
-		  mPresentationPanel.EmbedWithinPanel(DetailPanel, 3, 0, topInset, panelW, panelH)
+		  mPresentationPanel.EmbedWithinPanel(DetailPanel, 3, 0, 0, panelW, panelH)
 		  mPresentationPanel.LoadProject(mProject)
 		  
 		  ShowPage(0)
@@ -362,8 +384,23 @@ End
 		  // second appel, ils ne reçoivent jamais de ChromeDetailResized et restent
 		  // collés en haut de la fenêtre, sous la barre de titre.
 		  mChrome.Relayout
+		  
+		  // Xojo fait sa propre passe de mise en page APRÈS Opening, et réapplique aux
+		  // conteneurs la géométrie déclarée à l'embarquement — celle du markup, pas
+		  // celle du volet de détail. Un dernier Relayout, une fois la main rendue,
+		  // reprend le dessus : sans lui le panneau s'affiche trop haut jusqu'au
+		  // premier redimensionnement.
+		  Timer.CallLater(0, AddressOf DeferredRelayout)
 		End Sub
 	#tag EndEvent
+
+	#tag Method, Flags = &h21
+		Private Sub DeferredRelayout()
+		  // Relayout ne rejoue pas l'événement quand la géométrie n'a pas bougé : on
+		  // repose donc directement, avec les mesures relevées pendant Opening.
+		  ApplyDetailLayout
+		End Sub
+	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub ShowPage(index As Integer)
@@ -406,6 +443,14 @@ End
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private mDetailH As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mDetailW As Double
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mBar As NativeToolbar

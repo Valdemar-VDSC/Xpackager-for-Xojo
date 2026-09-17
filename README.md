@@ -84,34 +84,47 @@ Restent en Xojo natif, faute d'équivalent : `DesktopSeparator` (filets), `Deskt
 (pages sans onglets visibles) et deux `DesktopCanvas` servant d'hôtes à l'éditeur RTF et à
 l'icône de la fenêtre « À propos ».
 
-## Un piège macOS 26 : le split view ne pose pas ses volets
+## Un piège : où Xojo croit que commence le volet de détail
 
 `NativeWindowChrome.Install` confie le `contentViewController` de la fenêtre à un
-`NSSplitViewController`. Sur macOS 26, le contenu est enveloppé dans un
-`NSGlassEffectView` et le `NSSplitView` **attribue bien les épaisseurs** des volets
-(200 + 1000 sur une fenêtre de 1200) **mais ne pose pas leurs frames** : les deux volets
-restent à `x = 0`, et le volet de détail — opaque — recouvre la barre latérale.
+`NSSplitViewController`, et `ChromeDetailResized` donne la taille du volet de détail. La
+règle y est : la **taille** par l'API Xojo — seul geste qui remet les enfants d'un
+conteneur en page — et la **position** par AppKit.
 
-Le symptôme trompe : la barre latérale semble absente, le contenu commence au bord gauche
-de la fenêtre et déborde à droite. La mesure, elle, est nette — les trois vues partagent
-la même abscisse écran :
+Les quatre conteneurs sont enfants de `DetailPanel`, dont AppKit a déjà placé la vue sous
+la barre d'outils. Ils devraient donc se coller à son origine. Sauf que Xojo déduit
+l'ordonnée d'un conteneur embarqué de la hauteur de son parent — une hauteur qu'il ne
+remet à jour qu'à la passe de mise en page suivante. Pendant `Opening`, il compte encore
+les 790 du markup au lieu des 725 du volet :
 
 ```
-geo[detailContent] frame=0,1200  screenX=1004
-geo[DetailPanel]   frame=0,1000  screenX=1004   ← devrait être 1204
+y = 790 - (Top + 725)   →  Top = 0  donne y = 66   (panneau 66 points trop haut)
+y = 725 - (Top + 725)   →  Top = 66 donne y = -66  (panneau 66 points trop bas)
 ```
 
-Le remède tient en un appel, `ProjectWindow.AdjustSplit` : `adjustSubviews` sur
-`mChrome.SplitViewHandle`, suivi de `layoutSubtreeIfNeeded`. Il est fait juste après
-`Install` puis après le premier `Relayout`. Après quoi `DetailPanel` passe à
-`inWindowX = 200` et tout s'enchaîne normalement, redimensionnements compris.
+D'où un symptôme qui se retourne selon le moment : longtemps posés à
+`Top = SafeAreaTop`, les panneaux étaient justes à l'ouverture et descendaient d'une
+hauteur de barre d'outils au premier redimensionnement. À `Top = 0`, l'inverse.
 
-Le déclencheur est l'**embarquement de conteneurs** : `DesktopContainer.EmbedWithinPanel`
-réorganise la vue de contenu que Xojo gère, et le split y perd la disposition de ses
-volets. Une fenêtre dont les pages portent directement leurs contrôles — la démonstration
-VDSTools, le projet `Test VDSTools/` — n'a pas besoin de ce correctif : elle ne réembarque
-rien après `Install`. XPackager, lui, embarque quatre conteneurs, d'où l'appel
-supplémentaire après `EmbedPanels`.
+Le correctif ne choisit pas entre les deux : `PlacePanel` donne la taille par Xojo, puis
+**écrit le cadre** par `Cocoa.SetViewFrame`, ce qui rend la pose indépendante de la
+hauteur que Xojo croit. Et comme `Relayout` ne rejoue pas l'événement quand la géométrie
+n'a pas bougé, `Opening` se termine par un `Timer.CallLater(0, …)` qui rappelle
+`ApplyDetailLayout` une fois la main rendue.
+
+Mesure à l'appui, cadres relevés par `Cocoa.ViewFrame` juste après la pose :
+
+```
+avant :  ouverture  dp=0,0 1000x725   sp=0,66 1000x725
+         après redim.                 sp=0,-66
+après :  ouverture  dp=0,0 1000x725   sp=0,0  1000x725
+         après redim.                 sp=0,0
+```
+
+Deux détails qui font perdre du temps : `SafeAreaTop` vaut 32 tant que la barre d'outils
+n'est pas construite, puis 66 — toute valeur lue avant `BuildNativeToolbar` est trompeuse ;
+et seule la **hauteur** retranche la zone sûre (`usable = h - SafeAreaTop`), jamais la
+position des conteneurs.
 
 ## Écarts assumés par rapport à l'interface SwiftUI
 
