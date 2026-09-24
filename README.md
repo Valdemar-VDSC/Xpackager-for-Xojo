@@ -189,8 +189,10 @@ documentation.
 
 ### Texte
 
-- **Une virgule non échappée tronque la valeur d'une constante** dans un `#tag Constant`
-  (écrire `\x2C`).
+- **Une virgule ou un signe égal non échappés tronquent la valeur d'une constante** dans un
+  `#tag Constant` — le format lit des paires `clé = valeur` séparées par des virgules.
+  Écrire `\x2C` et `\x3D` : `hostArchitectures = « %@ »` se réduisait à
+  « hostArchitectures », tronqué au caractère précédant le signe.
 - **`NSAttributedString` lit le Markdown depuis macOS 12**, mais n'en tire aucune police :
   il marque les plages avec `NSInlinePresentationIntent` (2 = gras, 1 = italique), à
   convertir soi-même. Voir `XPUI.SetMarkdown`.

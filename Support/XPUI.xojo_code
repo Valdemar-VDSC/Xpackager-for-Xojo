@@ -1,6 +1,18 @@
 #tag Module
 Protected Module XPUI
 	#tag Method, Flags = &h0
+		Sub SetMonospaced(c As DesktopLabel, size As Double)
+		  // Équivalent de .font(.system(.caption, design: .monospaced)) : la police
+		  // système à chasse fixe, et non une famille nommée qui pourrait manquer.
+		  Declare Function monospacedSystemFont Lib "AppKit" Selector "monospacedSystemFontOfSize:weight:" (cls As Ptr, size As Double, weight As Double) As Ptr
+		  Declare Sub setFont Lib "AppKit" Selector "setFont:" (v As Ptr, f As Ptr)
+		  If c Is Nil Or c.Handle = Nil Then Return
+		  Var f As Ptr = monospacedSystemFont(Cocoa.ClassRef("NSFont"), size, 0)
+		  If f <> Nil Then setFont(c.Handle, f)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function FrameInPanel(panelView As Ptr, c As DesktopUIControl) As Cocoa.NSRect
 		  // Cadre réel du contrôle, exprimé depuis le coin haut-gauche du panneau : y
 		  // compte vers le bas, contrairement à AppKit.

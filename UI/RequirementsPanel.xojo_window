@@ -151,7 +151,7 @@ Begin DesktopContainer RequirementsPanel
          DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
-         FontSize        =   0.0
+         FontSize        =   10.0
          FontUnit        =   0
          Height          =   18
          Index           =   -2147483648
@@ -165,7 +165,7 @@ Begin DesktopContainer RequirementsPanel
          LockRight       =   True
          LockTop         =   True
          MaximumNumberOfLines=   0
-         Multiline       =   False
+         Multiline       =   True
          Scope           =   0
          Selectable      =   False
          TabIndex        =   2
@@ -350,62 +350,6 @@ Begin DesktopContainer RequirementsPanel
          Visible         =   True
          Width           =   40
       End
-      Begin DesktopSeparator ArchBoxRule1
-         Active          =   False
-         AllowAutoDeactivate=   True
-         AllowTabStop    =   True
-         Enabled         =   True
-         Height          =   2
-         Index           =   -2147483648
-         InitialParent   =   "ArchBox"
-         Left            =   36
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         PanelIndex      =   0
-         Scope           =   0
-         TabIndex        =   90
-         TabPanelIndex   =   0
-         Tooltip         =   ""
-         Top             =   191
-         Transparent     =   False
-         Visible         =   True
-         Width           =   624
-         _mIndex         =   0
-         _mInitialParent =   ""
-         _mName          =   ""
-         _mPanelIndex    =   0
-      End
-      Begin DesktopSeparator ArchBoxRule2
-         Active          =   False
-         AllowAutoDeactivate=   True
-         AllowTabStop    =   True
-         Enabled         =   True
-         Height          =   2
-         Index           =   -2147483648
-         InitialParent   =   "ArchBox"
-         Left            =   36
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         PanelIndex      =   0
-         Scope           =   0
-         TabIndex        =   91
-         TabPanelIndex   =   0
-         Tooltip         =   ""
-         Top             =   228
-         Transparent     =   False
-         Visible         =   True
-         Width           =   624
-         _mIndex         =   0
-         _mInitialParent =   ""
-         _mName          =   ""
-         _mPanelIndex    =   0
-      End
       Begin NativeLabelControl ArchLabel
          AllowAutoDeactivate=   True
          AllowsDefaultTighteningForTruncation=   False
@@ -416,7 +360,7 @@ Begin DesktopContainer RequirementsPanel
          DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
-         FontSize        =   0.0
+         FontSize        =   10.0
          FontUnit        =   0
          Height          =   18
          Index           =   -2147483648
@@ -430,7 +374,7 @@ Begin DesktopContainer RequirementsPanel
          LockRight       =   True
          LockTop         =   True
          MaximumNumberOfLines=   0
-         Multiline       =   False
+         Multiline       =   True
          Scope           =   0
          Selectable      =   False
          TabIndex        =   2
@@ -486,7 +430,7 @@ Begin DesktopContainer RequirementsPanel
          AllowsMultipleSelection=   False
          AllowsRowReordering=   False
          AllowTabs       =   False
-         AlternatingRowColors=   True
+         AlternatingRowColors=   False
          Backdrop        =   0
          BezeledEditableCells=   False
          DoubleClickAction=   False
@@ -523,7 +467,7 @@ Begin DesktopContainer RequirementsPanel
          DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
-         FontSize        =   0.0
+         FontSize        =   10.0
          FontUnit        =   0
          Height          =   34
          Index           =   -2147483648
@@ -830,6 +774,167 @@ End
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h0
+		Sub Relayout()
+		  // Appelé par ProjectWindow à chaque redimensionnement du volet de détail.
+		  LayoutAll
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LayoutAll()
+		  // Calque du Form(.grouped) SwiftUI : sections titrées, lignes de 37 pt séparées
+		  // par des filets. L'aide « Aucune condition… » ne paraît que sur une liste vide,
+		  // et la section se referme quand elle disparaît.
+		  Var pf As Cocoa.NSRect = Cocoa.ViewFrame(Self.Handle)
+		  If pf.width <= 0 Or pf.height <= 0 Then Return
+		  
+		  Const kMargin = 20
+		  Const kInset = 10
+		  Const kTitleH = 14
+		  Const kRowH = 37
+		  Const kGap = 18
+		  Const kListH = 160
+		  Var gx As Double = kMargin
+		  Var gw As Double = pf.width - 2 * kMargin
+		  Var cl As Double = gx + kInset
+		  Var cr As Double = gx + gw - kInset
+		  Var vc As Double = cl + 280   // le libellé « Version minimale de macOS… » est long
+		  
+		  mQC.RemoveAll
+		  mQX.RemoveAll
+		  mQY.RemoveAll
+		  mQW.RemoveAll
+		  mQH.RemoveAll
+		  mRuleCount = 0
+		  
+		  // ─── Système ───
+		  Var y As Double = 20
+		  Var top As Double = y
+		  Var n As Integer = 0
+		  y = y + kTitleH
+		  Rule(n, SystemBox, cl, cr, y)
+		  Q(MinOSLabel, cl, y + (kRowH - 18) / 2, vc - cl - 10, 18)
+		  Q(MinOSField, vc, y + (kRowH - 24) / 2, 200, 24)
+		  y = y + kRowH
+		  y = CaptionRow(n, SystemBox, MinOSHelp, cl, cr, y)
+		  Q(SystemBox, gx, top, gw, y - top)
+		  
+		  // ─── Architectures autorisées ───
+		  y = y + kGap
+		  top = y
+		  n = 0
+		  y = y + kTitleH
+		  y = SwitchRow(n, ArchBox, ArmCheckLabel, ArmCheck, cl, cr, y, kRowH)
+		  y = SwitchRow(n, ArchBox, IntelCheckLabel, IntelCheck, cl, cr, y, kRowH)
+		  y = CaptionRow(n, ArchBox, ArchLabel, cl, cr, y)
+		  Q(ArchBox, gx, top, gw, y - top)
+		  
+		  // ─── Conditions d'installation ───
+		  y = y + kGap
+		  top = y
+		  n = 0
+		  y = y + kTitleH
+		  Var empty As Boolean = mProject Is Nil Or mProject.Requirements.Checks.Count = 0
+		  XPUI.SetShown(NoChecksLabel, empty)
+		  If empty Then y = CaptionRow(n, ChecksBox, NoChecksLabel, cl, cr, y)
+		  
+		  Rule(n, ChecksBox, cl, cr, y)
+		  Q(ChecksList, cl, y + 10, cr - cl, kListH)
+		  y = y + kListH + 20
+		  
+		  Rule(n, ChecksBox, cl, cr, y)
+		  Q(AddCheckBtn, cl, y + (kRowH - 24) / 2, 180, 24)
+		  Q(RemoveCheckBtn, cl + 188, y + (kRowH - 24) / 2, 180, 24)
+		  y = y + kRowH
+		  
+		  // ligne d'édition : type, valeur, puis « Parcourir… » ou l'unité « Go »
+		  Rule(n, ChecksBox, cl, cr, y)
+		  Var bw As Double = 110
+		  Q(KindPopup, cl, y + (kRowH - 22) / 2, 180, 22)
+		  Q(ValueField, cl + 188, y + (kRowH - 24) / 2, cr - cl - 188 - bw - 8, 24)
+		  Q(BrowseBtn, cr - bw, y + (kRowH - 22) / 2, bw, 22)
+		  Q(GoLabel, cr - bw, y + (kRowH - 18) / 2, 40, 18)
+		  y = y + kRowH
+		  
+		  Rule(n, ChecksBox, cl, cr, y)
+		  Q(MessageField, cl, y + (kRowH - 24) / 2, cr - cl, 24)
+		  y = y + kRowH
+		  Q(ChecksBox, gx, top, gw, y - top)
+		  
+		  Flush
+		  XPUI.FitSwitch(ArmCheck)
+		  XPUI.FitSwitch(IntelCheck)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function SwitchRow(ByRef n As Integer, group As DesktopUIControl, label As DesktopLabel, sw As DesktopUIControl, cl As Double, cr As Double, y As Double, rowH As Double) As Double
+		  Rule(n, group, cl, cr, y)
+		  Q(label, cl, y + (rowH - 20) / 2, cr - cl - 52, 20)
+		  Q(sw, cr - 40, y + (rowH - 20) / 2, 40, 20)
+		  Return y + rowH
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function CaptionRow(ByRef n As Integer, group As DesktopUIControl, label As DesktopLabel, cl As Double, cr As Double, y As Double) As Double
+		  // Une légende vide ne fait pas de ligne : ni filet, ni place réservée.
+		  If label.Text.Trim = "" Then
+		    XPUI.SetShown(label, False)
+		    Return y
+		  End If
+		  XPUI.SetShown(label, True)
+		  Rule(n, group, cl, cr, y)
+		  Var h As Double = XPUI.TextHeight(label, label.Text, cr - cl)
+		  Q(label, cl, y + 10, cr - cl, h)
+		  Return y + h + 20
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Q(c As DesktopUIControl, x As Double, top As Double, w As Double, h As Double)
+		  mQC.Add(c)
+		  mQX.Add(x)
+		  mQY.Add(top)
+		  mQW.Add(w)
+		  mQH.Add(h)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Flush()
+		  // Les groupes d'abord : redimensionner un groupe après ses enfants les
+		  // déplacerait, puisqu'ils en sont des sous-vues.
+		  For i As Integer = 0 To mQC.LastIndex
+		    If mQC(i) IsA NativeGroupBoxControl Then XPUI.Place(Self.Handle, mQC(i), mQX(i), mQY(i), mQW(i), mQH(i))
+		  Next
+		  For i As Integer = 0 To mQC.LastIndex
+		    If Not (mQC(i) IsA NativeGroupBoxControl) Then XPUI.Place(Self.Handle, mQC(i), mQX(i), mQY(i), mQW(i), mQH(i))
+		  Next
+		  For i As Integer = mRuleCount To mRules.LastIndex
+		    XPUI.SetViewShown(mRules(i).Handle, False)
+		  Next
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Rule(ByRef n As Integer, group As DesktopUIControl, left As Double, right As Double, top As Double)
+		  n = n + 1
+		  If n = 1 Then Return
+		  If mRuleCount > mRules.LastIndex Then
+		    mRules.Add(NativeBox.Separator(0, 0, right - left, 1))
+		  End If
+		  Var rule As NativeBox = mRules(mRuleCount)
+		  // Sous-vue de SA section : autrement le filet reste à l'écran quand la page
+		  // change, et ceux d'un onglet traînent sur les autres.
+		  Cocoa.AddSubview(group.Handle, rule.Handle)
+		  XPUI.SetViewShown(rule.Handle, True)
+		  XPUI.PinView(Self.Handle, rule.Handle, left, top, right - left, 1)
+		  mRuleCount = mRuleCount + 1
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub ApplyTexts()
 		  mUpdating = True
@@ -848,7 +953,8 @@ End
 		  MessageField.Hint = Loc.kConditionMessage
 		  If ChecksList.ColumnCount = 0 Then
 		    ChecksList.ShowsHeader = True
-		    ChecksList.AlternatingRowColors = True
+		    // Pas de lignes alternées : la version SwiftUI n'en a pas.
+		    ChecksList.AlternatingRowColors = False
 		    ChecksList.AddColumn(Loc.kTypeLabel, 170)
 		    ChecksList.AddColumn(Loc.kNameLabel, 230)
 		    ChecksList.AddColumn(Loc.kDescriptionLabel, 220)
@@ -942,6 +1048,8 @@ End
 		  ArmCheck.Value = mProject.Requirements.AllowArm64
 		  IntelCheck.Value = mProject.Requirements.AllowIntel
 		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
+		  XPUI.SetMonospaced(ArchLabel, 10)
+		  LayoutAll
 		  ReloadChecks
 		  mUpdating = False
 		End Sub
@@ -975,6 +1083,34 @@ End
 
 
 	#tag Property, Flags = &h21
+		Private mQC() As DesktopUIControl
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mQH() As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mQW() As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mQX() As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mQY() As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mRuleCount As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mRules() As NativeBox
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mProject As PackageProject
 	#tag EndProperty
 
@@ -1004,6 +1140,8 @@ End
 		  If mUpdating Or mProject Is Nil Then Return
 		  mProject.Requirements.AllowArm64 = value
 		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
+		  XPUI.SetMonospaced(ArchLabel, 10)
+		  LayoutAll
 		  Touch
 		End Sub
 	#tag EndEvent
@@ -1014,6 +1152,8 @@ End
 		  If mUpdating Or mProject Is Nil Then Return
 		  mProject.Requirements.AllowIntel = value
 		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
+		  XPUI.SetMonospaced(ArchLabel, 10)
+		  LayoutAll
 		  Touch
 		End Sub
 	#tag EndEvent

@@ -1234,17 +1234,17 @@ End
 		  top = y
 		  y = y + kTitleH
 		  n = 0
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl1, cl, cr, y)
 		  Q(PackageNameLabel, cl, y + (kRowH - 18) / 2, vc - cl - 10, 18)
 		  Q(PackageNameField, vc, y + (kRowH - 24) / 2, cr - vc, 24)
 		  y = y + kRowH
 		  
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl1, cl, cr, y)
 		  Q(TokenHost, cl, y + (kRowH - 24) / 2, TokenHost.Width, 24)
 		  Q(InfoButton, cr - 30, y + (kRowH - 24) / 2, 30, 24)
 		  y = y + kRowH
 		  
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl1, cl, cr, y)
 		  Q(WebSafeCheckLabel, cl, y + (kRowH - 20) / 2, cr - cl - 52, 20)
 		  Q(WebSafeCheck, cr - 40, y + (kRowH - 20) / 2, 40, 20)
 		  y = y + kRowH
@@ -1252,13 +1252,13 @@ End
 		  Var showPreview As Boolean = PreviewLabel.Text <> ""
 		  XPUI.SetShown(PreviewLabel, showPreview)
 		  If showPreview Then
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl1, cl, cr, y)
 		    h = XPUI.TextHeight(PreviewLabel, PreviewLabel.Text, cr - cl)
 		    Q(PreviewLabel, cl, y + 10, cr - cl, h)
 		    y = y + h + 20
 		  End If
 		  
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl1, cl, cr, y)
 		  h = XPUI.TextHeight(NameHelp, NameHelp.Text, cr - cl)
 		  Q(NameHelp, cl, y + 10, cr - cl, h)
 		  y = y + h + 20
@@ -1269,14 +1269,14 @@ End
 		  top = y
 		  y = y + kTitleH
 		  n = 0
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl2, cl, cr, y)
 		  Var lw As Double = Min(XPUI.FitLabelWidth(SigningLabel), cr - cl - 200)
 		  Q(SigningLabel, cl, y + (kRowH - 18) / 2, lw, 18)
 		  Q(SigningHost, cl + lw + 12, y + (kRowH - 22) / 2, cr - cl - lw - 12, 22)
 		  y = y + kRowH
 		  
 		  // aide (ou avertissement « aucune identité ») à gauche, ↻ à droite
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl2, cl, cr, y)
 		  Var noIds As Boolean = mIdentities.Count = 0
 		  Var tx As Double = cl
 		  If noIds Then tx = cl + 20
@@ -1292,7 +1292,7 @@ End
 		  XPUI.SetShown(CertTitle, showCert)
 		  XPUI.SetShown(CertMessage, showCert)
 		  If showCert Then
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl2, cl, cr, y)
 		    Var th As Double = XPUI.TextHeight(CertTitle, CertTitle.Text, cr - cl - 24)
 		    Var mh As Double = XPUI.TextHeight(CertMessage, CertMessage.Text, cr - cl - 24)
 		    Icon(mCertIcon, True, mCertSymbol, mCertTint, cl, y + 10, 16)
@@ -1309,7 +1309,7 @@ End
 		  top = y
 		  y = y + kTitleH
 		  n = 0
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl3, cl, cr, y)
 		  Q(HardenCheckLabel, cl, y + (kRowH - 20) / 2, cr - cl - 52, 20)
 		  Q(HardenCheck, cr - 40, y + (kRowH - 20) / 2, 40, 20)
 		  y = y + kRowH
@@ -1321,7 +1321,7 @@ End
 		  XPUI.SetShown(HardenHelp, harden)
 		  XPUI.SetShown(HardenWarnLabel, hardenWarn)
 		  If harden Then
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl3, cl, cr, y)
 		    // Le libellé prend la place qu'il demande : à colonne fixe, « Identité
 		    // (Developer ID Application) » était tronqué.
 		    Var aw As Double = Min(XPUI.FitLabelWidth(AppIdentityLabel), cr - cl - 200)
@@ -1329,13 +1329,13 @@ End
 		    Q(AppIdentityHost, cl + aw + 12, y + (kRowH - 22) / 2, cr - cl - aw - 12, 22)
 		    y = y + kRowH
 		    
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl3, cl, cr, y)
 		    h = XPUI.TextHeight(HardenHelp, HardenHelp.Text, cr - cl)
 		    Q(HardenHelp, cl, y + 10, cr - cl, h)
 		    y = y + h + 20
 		  End If
 		  If hardenWarn Then
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl3, cl, cr, y)
 		    h = XPUI.TextHeight(HardenWarnLabel, HardenWarnLabel.Text, cr - cl - 20)
 		    Icon(mHardenIcon, True, "exclamationmark.triangle", &cFF9F0A, cl, y + 10, 14)
 		    Q(HardenWarnLabel, cl + 20, y + 10, cr - cl - 20, h)
@@ -1350,7 +1350,7 @@ End
 		  top = y
 		  y = y + kTitleH
 		  n = 0
-		  Rule(n, cl, cr, y)
+		  Rule(n, NativeGroupBoxControl4, cl, cr, y)
 		  Q(NotarizeCheckLabel, cl, y + (kRowH - 20) / 2, cr - cl - 52, 20)
 		  Q(NotarizeCheck, cr - 40, y + (kRowH - 20) / 2, 40, 20)
 		  y = y + kRowH
@@ -1360,13 +1360,13 @@ End
 		  XPUI.SetShown(NotarizeHelp, notarize)
 		  XPUI.SetShown(NotarizeWarnLabel, notarizeWarn)
 		  If notarize Then
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl4, cl, cr, y)
 		    h = XPUI.TextHeight(NotarizeHelp, NotarizeHelp.Text, cr - cl)
 		    Q(NotarizeHelp, cl, y + 10, cr - cl, h)
 		    y = y + h + 20
 		  End If
 		  If notarizeWarn Then
-		    Rule(n, cl, cr, y)
+		    Rule(n, NativeGroupBoxControl4, cl, cr, y)
 		    h = XPUI.TextHeight(NotarizeWarnLabel, NotarizeWarnLabel.Text, cr - cl - 20)
 		    Icon(mNotarizeIcon, True, "exclamationmark.triangle", &cFF9F0A, cl, y + 10, 14)
 		    Q(NotarizeWarnLabel, cl + 20, y + 10, cr - cl - 20, h)
@@ -1446,17 +1446,18 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub Rule(ByRef n As Integer, left As Double, right As Double, top As Double)
+		Private Sub Rule(ByRef n As Integer, group As DesktopUIControl, left As Double, right As Double, top As Double)
 		  // Filet entre deux lignes d'une section, comme dans un Form groupé : rien avant
 		  // la première ligne (n = 0), un filet avant chacune des suivantes.
 		  n = n + 1
 		  If n = 1 Then Return
 		  If mRuleCount > mRules.LastIndex Then
-		    Var box As NativeBox = NativeBox.Separator(0, 0, right - left, 1)
-		    Cocoa.AddSubview(Self.Handle, box.Handle)
-		    mRules.Add(box)
+		    mRules.Add(NativeBox.Separator(0, 0, right - left, 1))
 		  End If
 		  Var rule As NativeBox = mRules(mRuleCount)
+		  // Sous-vue de SA section : autrement le filet reste à l'écran quand la page
+		  // change, et ceux d'un onglet traînent sur les autres.
+		  Cocoa.AddSubview(group.Handle, rule.Handle)
 		  XPUI.SetViewShown(rule.Handle, True)
 		  XPUI.PinView(Self.Handle, rule.Handle, left, top, right - left, 1)
 		  mRuleCount = mRuleCount + 1

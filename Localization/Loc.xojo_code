@@ -1320,7 +1320,7 @@ Protected Module Loc
 	#tag Constant, Name = kGoUnit, Type = String, Dynamic = True, Default = \"Go", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = kHostArchFormat, Type = String, Dynamic = True, Default = \"hostArchitectures = \xC2\xAB %@ \xC2\xBB", Scope = Public
+	#tag Constant, Name = kHostArchFormat, Type = String, Dynamic = True, Default = \"hostArchitectures \x3D \xC2\xAB %@ \xC2\xBB", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = kCopyright, Type = String, Dynamic = True, Default = \"\xC2\xA9 2026 VDSC", Scope = Public
