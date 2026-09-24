@@ -212,6 +212,7 @@ End
 		  If mComponentsPanel <> Nil Then mComponentsPanel.LayoutChildren
 		  // Réglages : sections calculées, à recalculer sur la nouvelle largeur.
 		  If mSettingsPanel <> Nil Then mSettingsPanel.Relayout
+		  If mPresentationPanel <> Nil Then mPresentationPanel.Relayout
 		  FitSwitches
 		End Sub
 	#tag EndMethod

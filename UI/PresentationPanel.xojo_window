@@ -923,6 +923,90 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Relayout()
+		  // Le contenu s'arrêtait à 754 pt pour un volet qui en fait 725 à la taille de
+		  // fenêtre par défaut : le dernier groupe était coupé. La zone de l'éditeur RTF
+		  // absorbe donc la différence — c'est l'élément élastique de la page, comme en
+		  // SwiftUI où l'éditeur occupe la place restante — et les groupes du bas se
+		  // recalent d'autant.
+		  Var pf As Cocoa.NSRect = Cocoa.ViewFrame(Self.Handle)
+		  If pf.height <= 0 Then Return
+		  CaptureBaseline
+		  If mItems.LastIndex < 0 Then Return
+		  
+		  Const kMargin = 16
+		  Const kGap = 12
+		  Const kMinScreen = 190
+		  Var fixedH As Double = kMargin + mBaseH(0) + kGap + kGap + mBaseH(3) + kGap + mBaseH(4) + kMargin
+		  Var screenH As Double = Max(kMinScreen, pf.height - fixedH)
+		  Var dh As Double = screenH - mBaseH(1)
+		  
+		  For i As Integer = 0 To mItems.LastIndex
+		    Select Case i
+		    Case 0          // Assistant : inchangé
+		      Place(i, 0, 0)
+		    Case 1, 2       // le groupe de l'éditeur et son canevas grandissent
+		      Place(i, 0, dh)
+		    Else            // tout ce qui suit descend d'autant
+		      Place(i, dh, 0)
+		    End Select
+		  Next
+		  XPUI.FitSwitch(LaunchCheck)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub CaptureBaseline()
+		  // Positions de conception, relevées une fois : toutes les poses s'y rapportent,
+		  // sinon les décalages s'accumuleraient. L'ordre compte : Assistant, groupe de
+		  // l'éditeur, canevas, puis ce qui suit l'éditeur.
+		  If mItems.LastIndex >= 0 Then Return
+		  mItems.Add(AssistantBox)      // 0
+		  mItems.Add(ScreenBox)         // 1
+		  mItems.Add(RTFCanvas)         // 2
+		  mItems.Add(BackgroundBox)     // 3
+		  mItems.Add(EndBox)            // 4
+		  mItems.Add(ImportBtn)
+		  mItems.Add(UseEditorBtn)
+		  mItems.Add(FileLabel)
+		  mItems.Add(ResourceHint)
+		  mItems.Add(BgField)
+		  mItems.Add(BgBtn)
+		  mItems.Add(BgLabel)
+		  mItems.Add(ConclusionPopup)
+		  mItems.Add(FinalActionLabel)
+		  mItems.Add(ConclusionHelp)
+		  mItems.Add(EndBoxRule1)
+		  mItems.Add(LaunchCheckLabel)
+		  mItems.Add(LaunchCheck)
+		  mItems.Add(EndBoxRule2)
+		  mItems.Add(AppPathField)
+		  mItems.Add(AppPathBtn)
+		  mItems.Add(AppPathLabel)
+		  mItems.Add(LaunchHelp)
+		  For Each c As DesktopUIControl In mItems
+		    mBaseTop.Add(c.Top)
+		    mBaseH.Add(c.Height)
+		  Next
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Place(index As Integer, dy As Double, dh As Double)
+		  // Décalage vertical et variation de hauteur, à partir des valeurs de conception.
+		  // L'abscisse et la largeur restent celles que Xojo a calculées par ancrages : on
+		  // relit le cadre réel plutôt que de les recalculer.
+		  Var c As DesktopUIControl = mItems(index)
+		  If c Is Nil Then Return
+		  Var f As Cocoa.NSRect = XPUI.FrameInPanel(Self.Handle, c)
+		  If f.width <= 0 Then Return
+		  Var h As Double = mBaseH(index) + dh
+		  If h <> f.height Then c.Height = h
+		  XPUI.PinView(Self.Handle, c.Handle, f.x, mBaseTop(index) + dy, f.width, h)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub ApplyTexts()
 		  mUpdating = True
@@ -1154,6 +1238,18 @@ End
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private mBaseH() As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mBaseTop() As Double
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mItems() As DesktopUIControl
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mEditor As NativeRichTextEditor

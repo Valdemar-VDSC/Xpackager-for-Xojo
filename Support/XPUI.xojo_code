@@ -1,6 +1,24 @@
 #tag Module
 Protected Module XPUI
 	#tag Method, Flags = &h0
+		Function FrameInPanel(panelView As Ptr, c As DesktopUIControl) As Cocoa.NSRect
+		  // Cadre réel du contrôle, exprimé depuis le coin haut-gauche du panneau : y
+		  // compte vers le bas, contrairement à AppKit.
+		  Declare Function convertRectToView Lib "AppKit" Selector "convertRect:toView:" (v As Ptr, r As Cocoa.NSRect, other As Ptr) As Cocoa.NSRect
+		  Declare Function bounds Lib "AppKit" Selector "bounds" (v As Ptr) As Cocoa.NSRect
+		  Var out As Cocoa.NSRect
+		  If c Is Nil Or c.Handle = Nil Or panelView = Nil Then Return out
+		  Var pf As Cocoa.NSRect = Cocoa.ViewFrame(panelView)
+		  Var r As Cocoa.NSRect = convertRectToView(c.Handle, bounds(c.Handle), panelView)
+		  out.x = r.x
+		  out.y = pf.height - r.y - r.height
+		  out.width = r.width
+		  out.height = r.height
+		  Return out
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub SetMarkdown(c As DesktopLabel, markdown As String)
 		  // Équivalent de Text("… **gras** …") en SwiftUI, qui interprète le Markdown.
 		  // NSAttributedString sait le lire depuis macOS 12, mais l'analyseur ne pose
