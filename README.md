@@ -12,13 +12,14 @@ Deux projets partagent le même moteur (les mêmes fichiers sur le disque) :
 
 ## Avant d'ouvrir le projet
 
-**VDSTools n'est pas versionné ici** : `VDSTools-1.1.0.xojo_library` est volontairement
-exclu (`*.xojo_library`) et doit être déposé localement à la racine du projet, où l'IDE
-le charge automatiquement. Sans lui, le projet s'ouvre mais ne compile pas : toute
+**VDSTools n'est pas versionné ici** : le `.xojo_library` est volontairement exclu
+(`*.xojo_library`) et doit être déposé localement à la racine du projet, où l'IDE le
+charge automatiquement. Sans lui, le projet s'ouvre mais ne compile pas : toute
 l'interface repose sur des classes `Native…`.
 
-La version 1.1 est requise — elle apporte `NativeIconButtonControl`, sur lequel reposent
-les boutons à symbole SF.
+La version 1.1.1 est requise. La 1.1 apporte `NativeIconButtonControl`, sur lequel
+reposent les boutons à symbole SF ; la 1.1.1 corrige l'ordre des événements à l'export,
+sans quoi `Opening` et `Paint` sont intervertis sur onze contrôles (voir les pièges).
 
 ## Arborescence
 
@@ -70,8 +71,11 @@ ne subsistent que là où VDSTools n'offre pas d'équivalent.
 
 | Rôle | Contrôle |
 |---|---|
-| Libellés, champs, cases, boutons, menus locaux | `NativeLabelControl`, `NativeTextFieldControl`, `NativeCheckBoxControl`, `NativeButtonControl`, `NativePopupMenuControl` |
-| Boutons à symbole SF, menus à symbole | `NativeIconButtonControl`, `NativeComboButtonControl` |
+| Libellés, champs, boutons, menus locaux | `NativeLabelControl`, `NativeTextFieldControl`, `NativeButtonControl`, `NativePopupMenuControl` |
+| Boutons à symbole SF | `NativeIconButtonControl` |
+| Interrupteurs (les `Toggle` d'un `Form` groupé) | `NativeSwitchControl` |
+| Menus sans bordure : « Modèle », « Insérer une variable », identités de signature | `NativePopupButton` hébergé dans un canevas |
+| Filets d'un formulaire groupé | `NativeBox.Separator` |
 | Zone de journal | `NativeTextAreaControl` |
 | Barre de progression | `NativeProgressBarControl` |
 | Onglets internes (Composants, Présentation, Réglages) | `NativeSegmentedButtonControl` |
@@ -80,7 +84,7 @@ ne subsistent que là où VDSTools n'offre pas d'équivalent.
 | Barre latérale, barre d'outils, chrome de fenêtre | `NativeSidebar`, `NativeToolbar`, `NativeWindowChrome` |
 | Éditeur riche, panneaux de fichiers, alertes, popover, icône | `NativeRichTextEditor`, `NativeFilePanel`, `NativeAlert`, `NativePopover`, `NativeImageView` |
 
-Restent en Xojo natif, faute d'équivalent : `DesktopSeparator` (filets), `DesktopPagePanel`
+Restent en Xojo natif, faute d'équivalent : `DesktopSeparator` (filets fixes), `DesktopPagePanel`
 (pages sans onglets visibles) et deux `DesktopCanvas` servant d'hôtes à l'éditeur RTF et à
 l'icône de la fenêtre « À propos ».
 
@@ -125,6 +129,78 @@ Deux détails qui font perdre du temps : `SafeAreaTop` vaut 32 tant que la barre
 n'est pas construite, puis 66 — toute valeur lue avant `BuildNativeToolbar` est trompeuse ;
 et seule la **hauteur** retranche la zone sûre (`usable = h - SafeAreaTop`), jamais la
 position des conteneurs.
+
+## Autres pièges rencontrés
+
+Tous ont été constatés à l'exécution, sur des mesures, et non déduits de la
+documentation.
+
+### Mise en page
+
+- **`Left` et `Top` sont faux dans un conteneur déplacé par AppKit.** Xojo les convertit
+  via la position qu'il *croit* être celle du conteneur (x = 0), alors que la vue est à
+  x = 230, derrière la barre latérale : tout contrôle déplacé atterrissait à x = −230.
+  D'où `XPUI.Place` : la **taille** par Xojo, qui relaie ses événements de
+  redimensionnement, puis le **cadre** par AppKit, qui a le dernier mot.
+- **Xojo rattache au canevas tout contrôle posé dans son rectangle**, quel que soit
+  `InitialParent`. L'invite du payload était enfant de l'arbre : masquer l'arbre la
+  masquait avec lui, exactement quand elle devait paraître.
+- **`TextAlignment = 1` vaut *Gauche*** (0 défaut, 1 gauche, 2 centre, 3 droite). Un
+  libellé qu'on croit centré ne l'est pas.
+- **Relever les positions de conception une seule fois.** Toute pose calculée doit s'y
+  rapporter, sinon les décalages s'accumulent à chaque redimensionnement.
+
+### Contrôles hébergés
+
+- **`Visible` ne redescend pas jusqu'aux vues AppKit hébergées**, et un `Visible` posé
+  pendant que la page est masquée ne prend pas effet à son affichage. On masque les vues
+  elles-mêmes par `setHidden:`.
+- **`NativeTableViewControl` n'affiche les lignes ajoutées qu'après `Reload`.** Sans lui,
+  la table reste vide et la sélection d'une ligne neuve échoue — les trois tables de
+  l'application en souffraient.
+- **`NativeSwitchControl` laisse à son `NSSwitch` un cadre fixe de 54×24**, simplement
+  recentré : l'interrupteur déborde et se retrouve rogné. `XPUI.FitSwitch` le ramène à sa
+  taille intrinsèque — 36×16 en taille mini, celle d'un `Form` groupé.
+- **L'`Enabled` d'un canevas hôte n'atteint pas le contrôle hébergé** : partout où un
+  bouton se grise, l'affectation est doublée par `Inner.Enabled`.
+- **`sizeToFit` dimensionne un `NSPopUpButton` sur son item le plus long**, pas sur le
+  titre affiché : 752 pt à cause des noms de certificats. La largeur se calcule sur le
+  seul titre, plus la zone du chevron.
+- **Un `DesktopContainer` n'est pas un `DesktopUIControl`** : les fonctions d'aide
+  reçoivent la vue (`Self.Handle`) plutôt que le panneau.
+
+### Bibliothèque `.xojo_library`
+
+- **L'export trie les événements par ordre alphabétique, le binaire les déclenche dans
+  l'ordre du source.** Si les deux ordres diffèrent, les événements sont intervertis :
+  dans VDSTools 1.1, `Opening` appelait le gestionnaire `Paint` avec des arguments
+  invalides (plantage `EXC_BAD_ACCESS`), et le `MenuItemSelected` d'un
+  `NativeComboButtonControl` n'arrivait jamais. Corrigé en 1.1.1 en déclarant les
+  événements dans l'ordre alphabétique côté source.
+
+### Menus
+
+- **La touche Maj passe par `AltMenuModifier`.** `MenuModifierShift` n'existe pas — la
+  clé est absente du binaire de l'IDE — et l'analyseur de la chaîne `Shortcut` retient
+  « Cmd+ » et la lettre mais laisse tomber « Shift+ », y compris affectée par code.
+- **Avec les classes dédiées du menu de l'application** (`DesktopApplicationMenuItem`,
+  `DesktopPreferencesMenuItem`), `SpecialMenu` doit valoir 0. Les valeurs de l'ancien
+  mécanisme (1, 3) s'y superposent et l'élément disparaît.
+
+### Texte
+
+- **Une virgule non échappée tronque la valeur d'une constante** dans un `#tag Constant`
+  (écrire `\x2C`).
+- **`NSAttributedString` lit le Markdown depuis macOS 12**, mais n'en tire aucune police :
+  il marque les plages avec `NSInlinePresentationIntent` (2 = gras, 1 = italique), à
+  convertir soi-même. Voir `XPUI.SetMarkdown`.
+
+### Boucle de vérification
+
+L'IDE **ne relit pas** les fichiers modifiés hors de lui : « Revert to Saved » reste grisé
+et la construction repart de la copie en mémoire. Il faut fermer le projet (« Close
+Window ») puis le rouvrir. Dans le doute, chercher une chaîne de trace dans le binaire
+construit dit tout de suite si la version compilée est la bonne.
 
 ## Écarts assumés par rapport à l'interface SwiftUI
 
