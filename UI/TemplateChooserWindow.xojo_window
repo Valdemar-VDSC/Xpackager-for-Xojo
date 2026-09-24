@@ -171,6 +171,9 @@ End
 		    If t.IsBuiltIn Then kind = Loc.kBuiltInTemplates
 		    TemplatesList.AddRow(t.Name, kind)
 		  Next
+		  // NativeTableViewControl n'affiche les lignes ajoutées qu'après Reload : sans lui
+		  // la table restait vide et la sélection de la nouvelle ligne échouait.
+		  TemplatesList.Reload
 		  If TemplatesList.RowCount > 0 Then TemplatesList.SelectRow(0)
 		End Sub
 	#tag EndEvent

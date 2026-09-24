@@ -818,6 +818,9 @@ End
 		  For Each chk As PkgInstallCheck In mProject.Requirements.Checks
 		    ChecksList.AddRow(KindLabel(chk.Kind), chk.Value, chk.Message)
 		  Next
+		  // NativeTableViewControl n'affiche les lignes ajoutées qu'après Reload : sans lui
+		  // la table restait vide et la sélection de la nouvelle ligne échouait.
+		  ChecksList.Reload
 		  If selected >= 0 And selected < ChecksList.RowCount Then
 		    ChecksList.SelectRow(selected)
 		  End If
