@@ -1,6 +1,83 @@
 #tag Module
 Protected Module XPUI
 	#tag Method, Flags = &h0
+		Sub SetMarkdown(c As DesktopLabel, markdown As String)
+		  // Équivalent de Text("… **gras** …") en SwiftUI, qui interprète le Markdown.
+		  // NSAttributedString sait le lire depuis macOS 12, mais l'analyseur ne pose
+		  // aucune police : il marque les plages avec NSInlinePresentationIntent
+		  // (2 = gras, 1 = italique), qu'on convertit en polices du libellé.
+		  Declare Function alloc Lib "Foundation" Selector "alloc" (cls As Ptr) As Ptr
+		  Declare Function initMarkdown Lib "Foundation" Selector "initWithMarkdownString:options:baseURL:error:" (obj As Ptr, s As CFStringRef, options As Ptr, baseURL As Ptr, ByRef err As Ptr) As Ptr
+		  Declare Function initWithAttributed Lib "Foundation" Selector "initWithAttributedString:" (obj As Ptr, s As Ptr) As Ptr
+		  Declare Function lengthOf Lib "Foundation" Selector "length" (s As Ptr) As Integer
+		  Declare Function attributeAtIndex Lib "Foundation" Selector "attribute:atIndex:effectiveRange:" (s As Ptr, name As CFStringRef, index As Integer, ByRef range As Cocoa.NSRange) As Ptr
+		  Declare Sub addAttribute Lib "Foundation" Selector "addAttribute:value:range:" (s As Ptr, name As CFStringRef, value As Ptr, range As Cocoa.NSRange)
+		  Declare Function integerValue Lib "Foundation" Selector "integerValue" (n As Ptr) As Integer
+		  Declare Function fontOf Lib "AppKit" Selector "font" (v As Ptr) As Ptr
+		  Declare Function textColorOf Lib "AppKit" Selector "textColor" (v As Ptr) As Ptr
+		  Declare Sub setAttributedStringValue Lib "AppKit" Selector "setAttributedStringValue:" (v As Ptr, s As Ptr)
+		  
+		  // Repli : sans le texte brut, l'utilisateur verrait les astérisques.
+		  c.Text = markdown.ReplaceAll("**", "")
+		  Var host As Ptr = c.Handle
+		  If host = Nil Then Return
+		  
+		  Var err As Ptr
+		  Var parsed As Ptr = initMarkdown(alloc(Cocoa.ClassRef("NSAttributedString")), markdown, Nil, Nil, err)
+		  If parsed = Nil Or err <> Nil Then Return
+		  Var rich As Ptr = initWithAttributed(alloc(Cocoa.ClassRef("NSMutableAttributedString")), parsed)
+		  If rich = Nil Then Return
+		  
+		  Var n As Integer = lengthOf(rich)
+		  Var whole As Cocoa.NSRange
+		  whole.length = n
+		  Var base As Ptr = fontOf(host)
+		  If base <> Nil Then addAttribute(rich, "NSFont", base, whole)
+		  Var tint As Ptr = textColorOf(host)
+		  If tint <> Nil Then addAttribute(rich, "NSColor", tint, whole)
+		  
+		  Var fm As Ptr = Cocoa.SharedFontManager
+		  Var i As Integer = 0
+		  While i < n
+		    Var r As Cocoa.NSRange
+		    Var intent As Ptr = attributeAtIndex(rich, "NSInlinePresentationIntent", i, r)
+		    If intent <> Nil And base <> Nil And (integerValue(intent) And 2) <> 0 Then
+		      Var bold As Ptr = Cocoa.ConvertFontTrait(fm, base, 2)   // NSBoldFontMask
+		      If bold <> Nil Then addAttribute(rich, "NSFont", bold, r)
+		    End If
+		    If r.length = 0 Then Exit
+		    i = r.location + r.length
+		  Wend
+		  setAttributedStringValue(host, rich)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function FitLabelWidth(c As DesktopLabel) As Double
+		  // Largeur exacte demandée par le libellé, mesurée par AppKit : Picture.TextWidth
+		  // sous-estimait, et « Identité (Developer ID Application) » restait tronqué.
+		  Declare Sub sizeToFit Lib "AppKit" Selector "sizeToFit" (v As Ptr)
+		  Var h As Ptr = c.Handle
+		  If h = Nil Then Return 0
+		  sizeToFit(h)
+		  Return Ceiling(Cocoa.ViewFrame(h).width) + 2
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function TextWidth(c As DesktopLabel, text As String) As Double
+		  // Largeur naturelle du texte d'un libellé, pour lui donner la place qu'il
+		  // demande plutôt qu'une colonne fixe — comme un LabeledContent SwiftUI.
+		  If text = "" Then Return 0
+		  Var p As New Picture(4, 4)
+		  p.Graphics.FontName = "System"
+		  p.Graphics.FontSize = If(c.FontSize > 0, c.FontSize, 13)
+		  p.Graphics.Bold = c.Bold
+		  Return Ceiling(p.Graphics.TextWidth(text)) + 2
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub PinView(panelView As Ptr, v As Ptr, x As Double, top As Double, w As Double, h As Double)
 		  // Pose la vue v au rectangle (x, top, w, h) exprimé depuis le coin haut-gauche de
 		  // la vue panelView (le Handle du conteneur), quel que soit son parent réel : le cadre est converti dans le repère de

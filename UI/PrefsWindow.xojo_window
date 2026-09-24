@@ -905,7 +905,7 @@ End
 		  AppleIDLabel.Text = Loc.kAppleID
 		  TeamIDLabel.Text = Loc.kTeamID
 		  PasswordLabel.Text = Loc.kAppSpecificPassword
-		  PasswordNote.Text = Loc.kPasswordNotStored
+		  XPUI.SetMarkdown(PasswordNote, Loc.kPasswordNotStored)
 		  AppleLinkBtn.Caption = Loc.kGeneratePasswordLink
 		  AppleLinkBtn.Tooltip = Loc.kOpenAppleAccountHelp
 		  If AppleLinkBtn.Inner <> Nil Then AppleLinkBtn.Inner.SetBordered(False)

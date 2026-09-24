@@ -210,6 +210,9 @@ End
 		  PlacePanel(mRequirementsPanel, mDetailW, mDetailH)
 		  PlacePanel(mPresentationPanel, mDetailW, mDetailH)
 		  If mComponentsPanel <> Nil Then mComponentsPanel.LayoutChildren
+		  // Réglages : sections calculées, à recalculer sur la nouvelle largeur.
+		  If mSettingsPanel <> Nil Then mSettingsPanel.Relayout
+		  FitSwitches
 		End Sub
 	#tag EndMethod
 
@@ -395,6 +398,17 @@ End
 	#tag EndEvent
 
 	#tag Method, Flags = &h21
+		Private Sub FitSwitches()
+		  // Ramène chaque NSSwitch à sa taille intrinsèque (voir XPUI.FitSwitch). Sans
+		  // effet sur ceux qui sont déjà ajustés : on peut l'appeler à volonté.
+		  If mSettingsPanel <> Nil Then mSettingsPanel.FitSwitches
+		  If mComponentsPanel <> Nil Then mComponentsPanel.FitSwitches
+		  If mRequirementsPanel <> Nil Then mRequirementsPanel.FitSwitches
+		  If mPresentationPanel <> Nil Then mPresentationPanel.FitSwitches
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub DeferredRelayout()
 		  // Relayout ne rejoue pas l'événement quand la géométrie n'a pas bougé : on
 		  // repose donc directement, avec les mesures relevées pendant Opening.
@@ -407,6 +421,8 @@ End
 		  If index < 0 Or index > 3 Then Return
 		  If index <> 3 And mPresentationPanel <> Nil Then mPresentationPanel.Flush
 		  DetailPanel.SelectedPanelIndex = index
+		  // Les interrupteurs ne sont hébergés qu'au premier dessin de leur page.
+		  Timer.CallLater(150, AddressOf FitSwitches)
 		End Sub
 	#tag EndMethod
 
