@@ -1090,6 +1090,25 @@ End
 		  If mEditor <> Nil Then Return
 		  mEditor = New NativeRichTextEditor(RTFCanvas.Width, RTFCanvas.Height)
 		  NativeControlHost.Fill(RTFCanvas, mEditor.Handle)
+		  AddHandler mEditor.Changed, AddressOf EditorChanged
+		  AddHandler mEditor.CommandUsed, AddressOf EditorCommandUsed
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub EditorChanged(sender As NativeRichTextEditor)
+		  // La frappe et la mise en forme rendent le document modifié : sans ça,
+		  // un texte saisi puis la fenêtre fermée disparaissait sans avertissement.
+		  #Pragma Unused sender
+		  Touch
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub EditorCommandUsed(sender As NativeRichTextEditor, index As Integer)
+		  #Pragma Unused sender
+		  #Pragma Unused index
+		  Touch
 		End Sub
 	#tag EndMethod
 
