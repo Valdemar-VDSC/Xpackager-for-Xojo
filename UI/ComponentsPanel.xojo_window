@@ -251,7 +251,7 @@ Begin DesktopContainer ComponentsPanel
          FontName        =   "System"
          FontSize        =   0.0
          FontUnit        =   0
-         Height          =   201
+         Height          =   231
          Index           =   -2147483648
          InitialParent   =   "SubPanel"
          Italic          =   False
@@ -359,38 +359,74 @@ Begin DesktopContainer ComponentsPanel
             Visible         =   True
             Width           =   440
          End
-         Begin NativeCheckBoxControl StartSelectedCheck
+         Begin NativeLabelControl StartSelectedCheckLabel
             AllowAutoDeactivate=   True
+            AllowsDefaultTighteningForTruncation=   False
+            AllowsExpansionToolTips=   False
+            BackgroundColor =   &cFFFFFF00
             Bold            =   False
-            Caption         =   ""
-            ControlSize     =   0
+            Bordered        =   False
+            DrawsBackground =   False
             Enabled         =   True
             FontName        =   "System"
             FontSize        =   0.0
             FontUnit        =   0
-            Height          =   22
+            Height          =   20
             Index           =   -2147483648
             InitialParent   =   "NativeGroupBoxControl2"
             Italic          =   False
             Left            =   40
+            LineBreakMode   =   0
             LockBottom      =   False
             LockedInPosition=   False
             LockLeft        =   True
             LockRight       =   True
             LockTop         =   True
-            MixedState      =   False
+            MaximumNumberOfLines=   1
+            Multiline       =   False
+            Scope           =   0
+            Selectable      =   False
+            TabIndex        =   2
+            TabPanelIndex   =   1
+            TabStop         =   True
+            Text            =   ""
+            TextAlignment   =   0
+            TextColor       =   &c000000
+            Tooltip         =   ""
+            Top             =   364
+            Transparent     =   False
+            TruncatesLastVisibleLine=   False
+            Underline       =   False
+            Visible         =   True
+            Width           =   570
+         End
+         Begin NativeSwitchControl StartSelectedCheck
+            AllowAutoDeactivate=   True
+            AllowFocus      =   False
+            AllowFocusRing  =   True
+            AllowTabs       =   False
+            Backdrop        =   0
+            ControlSize     =   2
+            Enabled         =   True
+            Height          =   20
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
+            Left            =   624
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   False
+            LockRight       =   True
+            LockTop         =   True
             Scope           =   0
             TabIndex        =   2
             TabPanelIndex   =   1
             TabStop         =   True
             Tooltip         =   ""
-            Top             =   359
-            Transparent     =   False
-            Underline       =   False
+            Top             =   364
+            Transparent     =   True
             Value           =   False
             Visible         =   True
-            VisualState     =   0
-            Width           =   624
+            Width           =   40
          End
          Begin NativeLabelControl MultiNote
             AllowAutoDeactivate=   True
@@ -426,78 +462,262 @@ Begin DesktopContainer ComponentsPanel
             TextAlignment   =   0
             TextColor       =   &c8E8E93
             Tooltip         =   ""
-            Top             =   445
+            Top             =   475
             Transparent     =   False
             TruncatesLastVisibleLine=   False
             Underline       =   False
             Visible         =   True
             Width           =   624
          End
-         Begin NativeCheckBoxControl VisibleCheck
+         Begin NativeLabelControl VisibleCheckLabel
             AllowAutoDeactivate=   True
+            AllowsDefaultTighteningForTruncation=   False
+            AllowsExpansionToolTips=   False
+            BackgroundColor =   &cFFFFFF00
             Bold            =   False
-            Caption         =   ""
-            ControlSize     =   0
+            Bordered        =   False
+            DrawsBackground =   False
             Enabled         =   True
             FontName        =   "System"
             FontSize        =   0.0
             FontUnit        =   0
-            Height          =   22
+            Height          =   20
             Index           =   -2147483648
             InitialParent   =   "NativeGroupBoxControl2"
             Italic          =   False
             Left            =   40
+            LineBreakMode   =   0
             LockBottom      =   False
             LockedInPosition=   False
             LockLeft        =   True
             LockRight       =   True
             LockTop         =   True
-            MixedState      =   False
+            MaximumNumberOfLines=   1
+            Multiline       =   False
+            Scope           =   0
+            Selectable      =   False
+            TabIndex        =   4
+            TabPanelIndex   =   1
+            TabStop         =   True
+            Text            =   ""
+            TextAlignment   =   0
+            TextColor       =   &c000000
+            Tooltip         =   ""
+            Top             =   438
+            Transparent     =   False
+            TruncatesLastVisibleLine=   False
+            Underline       =   False
+            Visible         =   True
+            Width           =   570
+         End
+         Begin NativeSwitchControl VisibleCheck
+            AllowAutoDeactivate=   True
+            AllowFocus      =   False
+            AllowFocusRing  =   True
+            AllowTabs       =   False
+            Backdrop        =   0
+            ControlSize     =   2
+            Enabled         =   True
+            Height          =   20
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
+            Left            =   624
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   False
+            LockRight       =   True
+            LockTop         =   True
             Scope           =   0
             TabIndex        =   4
             TabPanelIndex   =   1
             TabStop         =   True
             Tooltip         =   ""
-            Top             =   411
-            Transparent     =   False
-            Underline       =   False
+            Top             =   438
+            Transparent     =   True
             Value           =   False
             Visible         =   True
-            VisualState     =   0
-            Width           =   624
+            Width           =   40
          End
-         Begin NativeCheckBoxControl ToggleableCheck
+         Begin NativeLabelControl ToggleableCheckLabel
             AllowAutoDeactivate=   True
+            AllowsDefaultTighteningForTruncation=   False
+            AllowsExpansionToolTips=   False
+            BackgroundColor =   &cFFFFFF00
             Bold            =   False
-            Caption         =   ""
-            ControlSize     =   0
+            Bordered        =   False
+            DrawsBackground =   False
             Enabled         =   True
             FontName        =   "System"
             FontSize        =   0.0
             FontUnit        =   0
-            Height          =   22
+            Height          =   20
             Index           =   -2147483648
             InitialParent   =   "NativeGroupBoxControl2"
             Italic          =   False
+            Left            =   40
+            LineBreakMode   =   0
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   True
+            LockRight       =   True
+            LockTop         =   True
+            MaximumNumberOfLines=   1
+            Multiline       =   False
+            Scope           =   0
+            Selectable      =   False
+            TabIndex        =   5
+            TabPanelIndex   =   1
+            TabStop         =   True
+            Text            =   ""
+            TextAlignment   =   0
+            TextColor       =   &c000000
+            Tooltip         =   ""
+            Top             =   401
+            Transparent     =   False
+            TruncatesLastVisibleLine=   False
+            Underline       =   False
+            Visible         =   True
+            Width           =   570
+         End
+         Begin NativeSwitchControl ToggleableCheck
+            AllowAutoDeactivate=   True
+            AllowFocus      =   False
+            AllowFocusRing  =   True
+            AllowTabs       =   False
+            Backdrop        =   0
+            ControlSize     =   2
+            Enabled         =   True
+            Height          =   20
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
+            Left            =   624
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   False
+            LockRight       =   True
+            LockTop         =   True
+            Scope           =   0
+            TabIndex        =   5
+            TabPanelIndex   =   1
+            TabStop         =   True
+            Tooltip         =   ""
+            Top             =   401
+            Transparent     =   True
+            Value           =   False
+            Visible         =   True
+            Width           =   40
+         End
+         Begin DesktopSeparator NativeGroupBoxControl2Rule1
+            Active          =   False
+            AllowAutoDeactivate=   True
+            AllowTabStop    =   True
+            Enabled         =   True
+            Height          =   2
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
             Left            =   40
             LockBottom      =   False
             LockedInPosition=   False
             LockLeft        =   True
             LockRight       =   True
             LockTop         =   True
-            MixedState      =   False
+            PanelIndex      =   0
             Scope           =   0
-            TabIndex        =   5
+            TabIndex        =   90
             TabPanelIndex   =   1
-            TabStop         =   True
             Tooltip         =   ""
-            Top             =   385
+            Top             =   355
             Transparent     =   False
-            Underline       =   False
-            Value           =   False
             Visible         =   True
-            VisualState     =   0
             Width           =   624
+            _mIndex         =   0
+            _mInitialParent =   ""
+            _mName          =   ""
+            _mPanelIndex    =   0
+         End
+         Begin DesktopSeparator NativeGroupBoxControl2Rule2
+            Active          =   False
+            AllowAutoDeactivate=   True
+            AllowTabStop    =   True
+            Enabled         =   True
+            Height          =   2
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
+            Left            =   40
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   True
+            LockRight       =   True
+            LockTop         =   True
+            PanelIndex      =   0
+            Scope           =   0
+            TabIndex        =   91
+            TabPanelIndex   =   1
+            Tooltip         =   ""
+            Top             =   392
+            Transparent     =   False
+            Visible         =   True
+            Width           =   624
+            _mIndex         =   0
+            _mInitialParent =   ""
+            _mName          =   ""
+            _mPanelIndex    =   0
+         End
+         Begin DesktopSeparator NativeGroupBoxControl2Rule3
+            Active          =   False
+            AllowAutoDeactivate=   True
+            AllowTabStop    =   True
+            Enabled         =   True
+            Height          =   2
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
+            Left            =   40
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   True
+            LockRight       =   True
+            LockTop         =   True
+            PanelIndex      =   0
+            Scope           =   0
+            TabIndex        =   92
+            TabPanelIndex   =   1
+            Tooltip         =   ""
+            Top             =   429
+            Transparent     =   False
+            Visible         =   True
+            Width           =   624
+            _mIndex         =   0
+            _mInitialParent =   ""
+            _mName          =   ""
+            _mPanelIndex    =   0
+         End
+         Begin DesktopSeparator NativeGroupBoxControl2Rule4
+            Active          =   False
+            AllowAutoDeactivate=   True
+            AllowTabStop    =   True
+            Enabled         =   True
+            Height          =   2
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl2"
+            Left            =   40
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   True
+            LockRight       =   True
+            LockTop         =   True
+            PanelIndex      =   0
+            Scope           =   0
+            TabIndex        =   93
+            TabPanelIndex   =   1
+            Tooltip         =   ""
+            Top             =   466
+            Transparent     =   False
+            Visible         =   True
+            Width           =   624
+            _mIndex         =   0
+            _mInitialParent =   ""
+            _mName          =   ""
+            _mPanelIndex    =   0
          End
       End
       Begin NativeGroupBoxControl NativeGroupBoxControl1
@@ -1278,6 +1498,16 @@ End
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h0
+		Sub FitSwitches()
+		  // Appelé par ProjectWindow une fois la page affichée : la bibliothèque
+		  // héberge l'interrupteur au premier dessin et lui impose alors son cadre.
+		  XPUI.FitSwitch(StartSelectedCheck)
+		  XPUI.FitSwitch(ToggleableCheck)
+		  XPUI.FitSwitch(VisibleCheck)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub ApplyTexts()
 		  mUpdating = True
@@ -1292,9 +1522,9 @@ End
 		  CompLocationLabel.Text = Loc.kInstallLocation
 		  // OptionsHeader.Text = Loc.kInstallOptions
 		  CompDescLabel.Text = Loc.kDescriptionLabel
-		  StartSelectedCheck.Caption = Loc.kStartSelected
-		  ToggleableCheck.Caption = Loc.kUserToggleable
-		  VisibleCheck.Caption = Loc.kVisibleInCustomList
+		  StartSelectedCheckLabel.Text = Loc.kStartSelected
+		  ToggleableCheckLabel.Text = Loc.kUserToggleable
+		  VisibleCheckLabel.Text = Loc.kVisibleInCustomList
 		  // ScriptsHeader.Text = Loc.kInstallScripts
 		  PreLabel.Text = "preinstall"
 		  PostLabel.Text = "postinstall"
@@ -1503,33 +1733,33 @@ End
 #tag EndEvents
 #tag Events StartSelectedCheck
 	#tag Event
-		Sub ValueChanged()
+		Sub ValueChanged(value As Boolean)
 		  If mUpdating Or mProject Is Nil Then Return
 		  Var comp As PkgComponent = Current
 		  If comp Is Nil Then Return
-		  comp.StartSelected = Me.Value
+		  comp.StartSelected = value
 		  Touch
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events VisibleCheck
 	#tag Event
-		Sub ValueChanged()
+		Sub ValueChanged(value As Boolean)
 		  If mUpdating Or mProject Is Nil Then Return
 		  Var comp As PkgComponent = Current
 		  If comp Is Nil Then Return
-		  comp.IsVisible = Me.Value
+		  comp.IsVisible = value
 		  Touch
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events ToggleableCheck
 	#tag Event
-		Sub ValueChanged()
+		Sub ValueChanged(value As Boolean)
 		  If mUpdating Or mProject Is Nil Then Return
 		  Var comp As PkgComponent = Current
 		  If comp Is Nil Then Return
-		  comp.UserToggleable = Me.Value
+		  comp.UserToggleable = value
 		  Touch
 		End Sub
 	#tag EndEvent
@@ -1623,7 +1853,12 @@ End
 	#tag Event
 		Sub SelectionChanged(index As Integer)
 		  SubPanel.SelectedPanelIndex = index
-		  If index = 1 And mPayloadPanel <> Nil Then mPayloadPanel.RefreshView
+		  If index = 0 Then Timer.CallLater(150, AddressOf FitSwitches)
+		  If index = 1 And mPayloadPanel <> Nil Then
+		    // L'onglet devient visible : Xojo vient de réappliquer sa propre géométrie.
+		    LayoutChildren
+		    mPayloadPanel.RefreshView
+		  End If
 		End Sub
 	#tag EndEvent
 	#tag Event

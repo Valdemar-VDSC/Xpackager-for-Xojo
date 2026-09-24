@@ -191,7 +191,7 @@ Begin DesktopContainer RequirementsPanel
       FontName        =   "System"
       FontSize        =   0.0
       FontUnit        =   0
-      Height          =   118
+      Height          =   139
       Index           =   -2147483648
       InitialParent   =   "RequirementsPanel"
       Italic          =   False
@@ -212,71 +212,199 @@ Begin DesktopContainer RequirementsPanel
       Underline       =   False
       Visible         =   True
       Width           =   668
-      Begin NativeCheckBoxControl ArmCheck
+      Begin NativeLabelControl ArmCheckLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
-         Caption         =   ""
-         ControlSize     =   0
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
          FontUnit        =   0
-         Height          =   22
+         Height          =   20
          Index           =   -2147483648
          InitialParent   =   "ArchBox"
          Italic          =   False
          Left            =   36
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
-         MixedState      =   False
+         MaximumNumberOfLines=   1
+         Multiline       =   False
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   0
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   ""
+         TextAlignment   =   0
+         TextColor       =   &c000000
+         Tooltip         =   ""
+         Top             =   163
+         Transparent     =   False
+         TruncatesLastVisibleLine=   False
+         Underline       =   False
+         Visible         =   True
+         Width           =   570
+      End
+      Begin NativeSwitchControl ArmCheck
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         ControlSize     =   2
+         Enabled         =   True
+         Height          =   20
+         Index           =   -2147483648
+         InitialParent   =   "ArchBox"
+         Left            =   620
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   True
          Scope           =   0
          TabIndex        =   0
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   162
-         Transparent     =   False
-         Underline       =   False
+         Top             =   163
+         Transparent     =   True
          Value           =   False
          Visible         =   True
-         VisualState     =   0
-         Width           =   624
+         Width           =   40
       End
-      Begin NativeCheckBoxControl IntelCheck
+      Begin NativeLabelControl IntelCheckLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
-         Caption         =   ""
-         ControlSize     =   0
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
          FontUnit        =   0
-         Height          =   22
+         Height          =   20
          Index           =   -2147483648
          InitialParent   =   "ArchBox"
          Italic          =   False
+         Left            =   36
+         LineBreakMode   =   0
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         MaximumNumberOfLines=   1
+         Multiline       =   False
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   1
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   ""
+         TextAlignment   =   0
+         TextColor       =   &c000000
+         Tooltip         =   ""
+         Top             =   200
+         Transparent     =   False
+         TruncatesLastVisibleLine=   False
+         Underline       =   False
+         Visible         =   True
+         Width           =   570
+      End
+      Begin NativeSwitchControl IntelCheck
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         ControlSize     =   2
+         Enabled         =   True
+         Height          =   20
+         Index           =   -2147483648
+         InitialParent   =   "ArchBox"
+         Left            =   620
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   True
+         Scope           =   0
+         TabIndex        =   1
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   200
+         Transparent     =   True
+         Value           =   False
+         Visible         =   True
+         Width           =   40
+      End
+      Begin DesktopSeparator ArchBoxRule1
+         Active          =   False
+         AllowAutoDeactivate=   True
+         AllowTabStop    =   True
+         Enabled         =   True
+         Height          =   2
+         Index           =   -2147483648
+         InitialParent   =   "ArchBox"
          Left            =   36
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
-         MixedState      =   False
+         PanelIndex      =   0
          Scope           =   0
-         TabIndex        =   1
+         TabIndex        =   90
          TabPanelIndex   =   0
-         TabStop         =   True
          Tooltip         =   ""
-         Top             =   188
+         Top             =   191
          Transparent     =   False
-         Underline       =   False
-         Value           =   False
          Visible         =   True
-         VisualState     =   0
          Width           =   624
+         _mIndex         =   0
+         _mInitialParent =   ""
+         _mName          =   ""
+         _mPanelIndex    =   0
+      End
+      Begin DesktopSeparator ArchBoxRule2
+         Active          =   False
+         AllowAutoDeactivate=   True
+         AllowTabStop    =   True
+         Enabled         =   True
+         Height          =   2
+         Index           =   -2147483648
+         InitialParent   =   "ArchBox"
+         Left            =   36
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         PanelIndex      =   0
+         Scope           =   0
+         TabIndex        =   91
+         TabPanelIndex   =   0
+         Tooltip         =   ""
+         Top             =   228
+         Transparent     =   False
+         Visible         =   True
+         Width           =   624
+         _mIndex         =   0
+         _mInitialParent =   ""
+         _mName          =   ""
+         _mPanelIndex    =   0
       End
       Begin NativeLabelControl ArchLabel
          AllowAutoDeactivate=   True
@@ -312,7 +440,7 @@ Begin DesktopContainer RequirementsPanel
          TextAlignment   =   0
          TextColor       =   &c8E8E93
          Tooltip         =   ""
-         Top             =   216
+         Top             =   237
          Transparent     =   False
          TruncatesLastVisibleLine=   False
          Underline       =   False
@@ -344,7 +472,7 @@ Begin DesktopContainer RequirementsPanel
       TabStop         =   True
       TitleFontSize   =   0.0
       Tooltip         =   ""
-      Top             =   258
+      Top             =   279
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -380,7 +508,7 @@ Begin DesktopContainer RequirementsPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   292
+         Top             =   313
          Transparent     =   False
          Visible         =   True
          Width           =   624
@@ -419,7 +547,7 @@ Begin DesktopContainer RequirementsPanel
          TextAlignment   =   0
          TextColor       =   &c8E8E93
          Tooltip         =   ""
-         Top             =   348
+         Top             =   369
          Transparent     =   False
          TruncatesLastVisibleLine=   False
          Underline       =   False
@@ -453,7 +581,7 @@ Begin DesktopContainer RequirementsPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   441
+         Top             =   462
          Transparent     =   True
          Visible         =   True
          Width           =   180
@@ -485,7 +613,7 @@ Begin DesktopContainer RequirementsPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   441
+         Top             =   462
          Transparent     =   True
          Visible         =   True
          Width           =   180
@@ -515,7 +643,7 @@ Begin DesktopContainer RequirementsPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   476
+         Top             =   497
          Transparent     =   False
          Underline       =   False
          UsesItemFromMenu=   True
@@ -561,7 +689,7 @@ Begin DesktopContainer RequirementsPanel
          TextAlignment   =   0
          TextColor       =   &c000000
          Tooltip         =   ""
-         Top             =   476
+         Top             =   497
          Transparent     =   False
          Underline       =   False
          ValidationMask  =   ""
@@ -597,7 +725,7 @@ Begin DesktopContainer RequirementsPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   476
+         Top             =   497
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -637,7 +765,7 @@ Begin DesktopContainer RequirementsPanel
          TextAlignment   =   0
          TextColor       =   &c000000
          Tooltip         =   ""
-         Top             =   478
+         Top             =   499
          Transparent     =   False
          TruncatesLastVisibleLine=   False
          Underline       =   False
@@ -683,7 +811,7 @@ Begin DesktopContainer RequirementsPanel
          TextAlignment   =   0
          TextColor       =   &c000000
          Tooltip         =   ""
-         Top             =   510
+         Top             =   531
          Transparent     =   False
          Underline       =   False
          ValidationMask  =   ""
@@ -709,8 +837,8 @@ End
 		  MinOSLabel.Text = Loc.kMinimumOSField
 		  MinOSHelp.Text = Loc.kMinimumOSHelp
 		  // ArchHeader.Text = Loc.kAllowedArchitectures
-		  ArmCheck.Caption = Loc.kAppleSilicon
-		  IntelCheck.Caption = Loc.kIntelArch
+		  ArmCheckLabel.Text = Loc.kAppleSilicon
+		  IntelCheckLabel.Text = Loc.kIntelArch
 		  NoChecksLabel.Text = Loc.kNoConditions
 		  AddCheckBtn.Caption = Loc.kAddCondition
 		  RemoveCheckBtn.Caption = Loc.kRemoveCondition
@@ -741,6 +869,15 @@ End
 		  If row < 0 Or row > mProject.Requirements.Checks.LastIndex Then Return Nil
 		  Return mProject.Requirements.Checks(row)
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub FitSwitches()
+		  // Appelé par ProjectWindow une fois la page affichée : la bibliothèque
+		  // héberge l'interrupteur au premier dessin et lui impose alors son cadre.
+		  XPUI.FitSwitch(ArmCheck)
+		  XPUI.FitSwitch(IntelCheck)
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -863,9 +1000,9 @@ End
 #tag EndEvents
 #tag Events ArmCheck
 	#tag Event
-		Sub ValueChanged()
+		Sub ValueChanged(value As Boolean)
 		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Requirements.AllowArm64 = Me.Value
+		  mProject.Requirements.AllowArm64 = value
 		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
 		  Touch
 		End Sub
@@ -873,9 +1010,9 @@ End
 #tag EndEvents
 #tag Events IntelCheck
 	#tag Event
-		Sub ValueChanged()
+		Sub ValueChanged(value As Boolean)
 		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Requirements.AllowIntel = Me.Value
+		  mProject.Requirements.AllowIntel = value
 		  ArchLabel.Text = Loc.kHostArchFormat.ReplaceAll("%@", mProject.Requirements.HostArchitectures)
 		  Touch
 		End Sub

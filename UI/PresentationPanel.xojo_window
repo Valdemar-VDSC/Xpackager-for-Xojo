@@ -520,7 +520,7 @@ Begin DesktopContainer PresentationPanel
       FontName        =   "System"
       FontSize        =   0.0
       FontUnit        =   0
-      Height          =   192
+      Height          =   210
       Index           =   -2147483648
       InitialParent   =   "PresentationPanel"
       Italic          =   False
@@ -637,22 +637,62 @@ Begin DesktopContainer PresentationPanel
          Visible         =   True
          Width           =   494
       End
-      Begin NativeCheckBoxControl LaunchCheck
+      Begin NativeLabelControl LaunchCheckLabel
          AllowAutoDeactivate=   True
+         AllowsDefaultTighteningForTruncation=   False
+         AllowsExpansionToolTips=   False
+         BackgroundColor =   &cFFFFFF00
          Bold            =   False
-         Caption         =   ""
+         Bordered        =   False
+         DrawsBackground =   False
          Enabled         =   True
          FontName        =   "System"
          FontSize        =   0.0
          FontUnit        =   0
-         Height          =   22
+         Height          =   20
          Index           =   -2147483648
          InitialParent   =   "EndBox"
          Italic          =   False
          Left            =   36
+         LineBreakMode   =   0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         MaximumNumberOfLines=   1
+         Multiline       =   False
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   3
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Text            =   ""
+         TextAlignment   =   0
+         TextColor       =   &c000000
+         Tooltip         =   ""
+         Top             =   641
+         Transparent     =   False
+         TruncatesLastVisibleLine=   False
+         Underline       =   False
+         Visible         =   True
+         Width           =   570
+      End
+      Begin NativeSwitchControl LaunchCheck
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         ControlSize     =   2
+         Enabled         =   True
+         Height          =   20
+         Index           =   -2147483648
+         InitialParent   =   "EndBox"
+         Left            =   620
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
          LockRight       =   True
          LockTop         =   True
          Scope           =   0
@@ -660,13 +700,67 @@ Begin DesktopContainer PresentationPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   630
-         Transparent     =   False
-         Underline       =   False
+         Top             =   641
+         Transparent     =   True
          Value           =   False
          Visible         =   True
-         VisualState     =   0
+         Width           =   40
+      End
+      Begin DesktopSeparator EndBoxRule1
+         Active          =   False
+         AllowAutoDeactivate=   True
+         AllowTabStop    =   True
+         Enabled         =   True
+         Height          =   2
+         Index           =   -2147483648
+         InitialParent   =   "EndBox"
+         Left            =   36
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         PanelIndex      =   0
+         Scope           =   0
+         TabIndex        =   90
+         TabPanelIndex   =   0
+         Tooltip         =   ""
+         Top             =   632
+         Transparent     =   False
+         Visible         =   True
          Width           =   624
+         _mIndex         =   0
+         _mInitialParent =   ""
+         _mName          =   ""
+         _mPanelIndex    =   0
+      End
+      Begin DesktopSeparator EndBoxRule2
+         Active          =   False
+         AllowAutoDeactivate=   True
+         AllowTabStop    =   True
+         Enabled         =   True
+         Height          =   2
+         Index           =   -2147483648
+         InitialParent   =   "EndBox"
+         Left            =   36
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         PanelIndex      =   0
+         Scope           =   0
+         TabIndex        =   91
+         TabPanelIndex   =   0
+         Tooltip         =   ""
+         Top             =   669
+         Transparent     =   False
+         Visible         =   True
+         Width           =   624
+         _mIndex         =   0
+         _mInitialParent =   ""
+         _mName          =   ""
+         _mPanelIndex    =   0
       End
       Begin NativeLabelControl AppPathLabel
          AllowAutoDeactivate=   True
@@ -695,7 +789,7 @@ Begin DesktopContainer PresentationPanel
          TextAlignment   =   0
          TextColor       =   &c000000
          Tooltip         =   ""
-         Top             =   662
+         Top             =   680
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -736,7 +830,7 @@ Begin DesktopContainer PresentationPanel
          TextAlignment   =   0
          TextColor       =   &c000000
          Tooltip         =   ""
-         Top             =   660
+         Top             =   678
          Transparent     =   False
          Underline       =   False
          ValidationMask  =   ""
@@ -769,7 +863,7 @@ Begin DesktopContainer PresentationPanel
          TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
-         Top             =   660
+         Top             =   678
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -802,7 +896,7 @@ Begin DesktopContainer PresentationPanel
          TextAlignment   =   0
          TextColor       =   &c8E8E93
          Tooltip         =   ""
-         Top             =   692
+         Top             =   710
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -821,6 +915,14 @@ End
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h0
+		Sub FitSwitches()
+		  // Appelé par ProjectWindow une fois la page affichée : la bibliothèque
+		  // héberge l'interrupteur au premier dessin et lui impose alors son cadre.
+		  XPUI.FitSwitch(LaunchCheck)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub ApplyTexts()
 		  mUpdating = True
@@ -831,7 +933,7 @@ End
 		  BgLabel.Text = Loc.kImagePng
 		  BgBtn.Caption = Loc.kChooseEllipsis
 		  FinalActionLabel.Text = Loc.kFinalAction
-		  LaunchCheck.Caption = Loc.kLaunchAnApp
+		  LaunchCheckLabel.Text = Loc.kLaunchAnApp
 		  AppPathLabel.Text = Loc.kInstalledAppField
 		  AppPathBtn.Caption = Loc.kChooseEllipsis
 		  ScreenSelector.Labels = Loc.kWelcome + ";" + Loc.kReadMe + ";" _
@@ -1145,10 +1247,10 @@ End
 #tag EndEvents
 #tag Events LaunchCheck
 	#tag Event
-		Sub ValueChanged()
+		Sub ValueChanged(value As Boolean)
 		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.PostInstall.LaunchApp = Me.Value
-		  If Me.Value And mProject.PostInstall.AppPath.Trim = "" Then
+		  mProject.PostInstall.LaunchApp = value
+		  If value And mProject.PostInstall.AppPath.Trim = "" Then
 		    Var suggested As String = PackageNaming.FirstInstalledAppPath(mProject)
 		    If suggested <> "" Then
 		      mProject.PostInstall.AppPath = suggested
