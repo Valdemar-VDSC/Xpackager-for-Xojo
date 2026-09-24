@@ -33,9 +33,9 @@ Begin DesktopContainer PayloadPanel
       Backdrop        =   0
       BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   1
+      ControlSize     =   0
       Enabled         =   True
-      Height          =   24
+      Height          =   26
       ImageHugsTitle  =   True
       ImagePosition   =   7
       Index           =   -2147483648
@@ -52,7 +52,7 @@ Begin DesktopContainer PayloadPanel
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   7
+      Top             =   6
       Transparent     =   True
       Visible         =   True
       Width           =   110
@@ -65,9 +65,9 @@ Begin DesktopContainer PayloadPanel
       Backdrop        =   0
       BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   1
+      ControlSize     =   0
       Enabled         =   True
-      Height          =   24
+      Height          =   26
       ImageHugsTitle  =   True
       ImagePosition   =   7
       Index           =   -2147483648
@@ -84,7 +84,7 @@ Begin DesktopContainer PayloadPanel
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   7
+      Top             =   6
       Transparent     =   True
       Visible         =   True
       Width           =   110
@@ -97,9 +97,9 @@ Begin DesktopContainer PayloadPanel
       Backdrop        =   0
       BezelStyle      =   1
       Caption         =   ""
-      ControlSize     =   1
+      ControlSize     =   0
       Enabled         =   True
-      Height          =   24
+      Height          =   26
       ImageHugsTitle  =   True
       ImagePosition   =   7
       Index           =   -2147483648
@@ -116,41 +116,64 @@ Begin DesktopContainer PayloadPanel
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   7
+      Top             =   6
       Transparent     =   True
       Visible         =   True
       Width           =   100
    End
-   Begin NativeComboButtonControl TemplateMenu
+   Begin DesktopCanvas TemplateHost
       AllowAutoDeactivate=   True
       AllowFocus      =   False
-      AllowFocusRing  =   True
+      AllowFocusRing  =   False
       AllowTabs       =   False
       Backdrop        =   0
-      Caption         =   ""
-      ControlSize     =   1
       Enabled         =   True
-      Height          =   24
+      Height          =   26
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
-      Items           =   ""
-      Left            =   534
+      Left            =   584
       LockBottom      =   False
       LockedInPosition=   False
-      LockLeft        =   False
-      LockRight       =   True
+      LockLeft        =   True
+      LockRight       =   False
       LockTop         =   True
       Scope           =   0
-      Style           =   1
-      SymbolName      =   "plus.rectangle.on.folder"
       TabIndex        =   3
       TabPanelIndex   =   0
       TabStop         =   True
       Tooltip         =   ""
-      Top             =   7
+      Top             =   6
       Transparent     =   True
       Visible         =   True
-      Width           =   150
+      Width           =   108
+   End
+   Begin DesktopSeparator SepToolbar
+      Active          =   False
+      AllowAutoDeactivate=   True
+      AllowTabStop    =   True
+      Enabled         =   True
+      Height          =   2
+      Index           =   -2147483648
+      InitialParent   =   "PayloadPanel"
+      Left            =   0
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      PanelIndex      =   0
+      Scope           =   0
+      TabIndex        =   7
+      TabPanelIndex   =   0
+      Tooltip         =   ""
+      Top             =   37
+      Transparent     =   False
+      Visible         =   True
+      Width           =   700
+      _mIndex         =   0
+      _mInitialParent =   ""
+      _mName          =   ""
+      _mPanelIndex    =   0
    End
    Begin NativeOutlineViewControl TreeView
       AllowAutoDeactivate=   True
@@ -170,10 +193,10 @@ Begin DesktopContainer PayloadPanel
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
       Left            =   16
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
+      LockRight       =   False
       LockTop         =   True
       RowHeight       =   22.0
       Scope           =   0
@@ -195,7 +218,7 @@ Begin DesktopContainer PayloadPanel
       AllowTabs       =   False
       Backdrop        =   0
       Enabled         =   True
-      Height          =   96
+      Height          =   44
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
       Left            =   302
@@ -212,7 +235,7 @@ Begin DesktopContainer PayloadPanel
       Top             =   64
       Transparent     =   True
       Visible         =   True
-      Width           =   96
+      Width           =   44
    End
    Begin NativeLabelControl EmptyTitle
       AllowAutoDeactivate=   True
@@ -235,7 +258,7 @@ Begin DesktopContainer PayloadPanel
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
+      LockRight       =   False
       LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
@@ -245,7 +268,7 @@ Begin DesktopContainer PayloadPanel
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
-      TextAlignment   =   1
+      TextAlignment   =   2
       TextColor       =   &c8E8E93
       Tooltip         =   ""
       Top             =   172
@@ -276,7 +299,7 @@ Begin DesktopContainer PayloadPanel
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
+      LockRight       =   False
       LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   True
@@ -286,7 +309,7 @@ Begin DesktopContainer PayloadPanel
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
-      TextAlignment   =   1
+      TextAlignment   =   2
       TextColor       =   &c8E8E93
       Tooltip         =   ""
       Top             =   200
@@ -305,11 +328,11 @@ Begin DesktopContainer PayloadPanel
       Index           =   -2147483648
       InitialParent   =   "PayloadPanel"
       Left            =   16
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   False
+      LockRight       =   False
+      LockTop         =   True
       PanelIndex      =   0
       Scope           =   0
       TabIndex        =   7
@@ -342,11 +365,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   16
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -383,11 +406,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   16
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -429,11 +452,11 @@ Begin DesktopContainer PayloadPanel
       InitialParent   =   "PayloadPanel"
       Italic          =   False
       Left            =   136
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   False
+      LockRight       =   False
+      LockTop         =   True
       MaximumCharactersAllowed=   0
       Password        =   False
       ReadOnly        =   False
@@ -470,11 +493,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   16
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -511,11 +534,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   136
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -552,11 +575,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   16
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -593,11 +616,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   136
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   False
+      LockRight       =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -634,11 +657,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   16
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -680,11 +703,11 @@ Begin DesktopContainer PayloadPanel
       InitialParent   =   "PayloadPanel"
       Italic          =   False
       Left            =   136
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False
-      LockTop         =   False
+      LockTop         =   True
       MaximumCharactersAllowed=   0
       Password        =   False
       ReadOnly        =   False
@@ -721,11 +744,11 @@ Begin DesktopContainer PayloadPanel
       Italic          =   False
       Left            =   16
       LineBreakMode   =   0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   False
+      LockRight       =   False
+      LockTop         =   True
       MaximumNumberOfLines=   0
       Multiline       =   False
       Scope           =   0
@@ -734,7 +757,7 @@ Begin DesktopContainer PayloadPanel
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
-      TextAlignment   =   0
+      TextAlignment   =   2
       TextColor       =   &c8E8E93
       Tooltip         =   ""
       Top             =   434
@@ -800,9 +823,9 @@ End
 	#tag Method, Flags = &h21
 		Private Sub ApplyTexts()
 		  mUpdating = True
-		  AddFolderBtn.Caption = Loc.kFolderButton
-		  AddFilesBtn.Caption = Loc.kFilesEllipsis
-		  RemoveBtn.Caption = Loc.kRemoveButton
+		  AddFolderBtn.Caption = " " + Loc.kFolderButton
+		  AddFilesBtn.Caption = " " + Loc.kFilesEllipsis
+		  RemoveBtn.Caption = " " + Loc.kRemoveButton
 		  EmptyTitle.Text = Loc.kDropFilesHere
 		  EmptyHint.Text = Loc.kDropFilesHint
 		  InspectorHeader.Text = Loc.kSelectedItem
@@ -812,10 +835,10 @@ End
 		  PermsLabel.Text = Loc.kPermissionsLabel
 		  PermsField.Hint = Loc.kPermsPlaceholder
 		  InspectorHint.Text = Loc.kSelectItemForPermissions
-		  TemplateMenu.Caption = Loc.kTemplateButton
-		  TemplateMenu.Items = "/Applications;/Library;/usr/local/bin"
 		  // Comme en SwiftUI : Button(role: .destructive) pour « Retirer ».
 		  If RemoveBtn.Inner <> Nil Then RemoveBtn.Inner.SetDestructive(True)
+		  EnsureTemplateMenu
+		  ApplyTextStyles
 		  mUpdating = False
 		End Sub
 	#tag EndMethod
@@ -828,18 +851,189 @@ End
 		  If mPayload <> Nil Then AddNodes(mPayload.Tree, Nil)
 		  TreeView.Reload
 		  TreeView.ExpandAll
-		  Var empty As Boolean = mPayload Is Nil Or mPayload.Tree.Count = 0
 		  If mEmptyIcon Is Nil Then
-		    mEmptyIcon = New NativeImageView(96, 96)
+		    // Image(systemName: "arrow.down.doc").font(.system(size: 40)).foregroundStyle(.tertiary)
+		    mEmptyIcon = New NativeImageView(44, 44)
 		    mEmptyIcon.SetTint(True, &cB0B0B5)
 		    mEmptyIcon.ShowSymbol("arrow.down.doc", Loc.kDropFilesHere)
 		    NativeControlHost.Fill(EmptyIcon, mEmptyIcon.Handle)
 		  End If
-		  EmptyIcon.Visible = empty
-		  EmptyTitle.Visible = empty
-		  EmptyHint.Visible = empty
-		  TreeView.Visible = Not empty
 		  RefreshInspector
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ApplyEmptyState(empty As Boolean)
+		  // La liste et l'invite s'excluent. Trois pièges, relevés à la trace :
+		  // - Xojo rattache au canevas de l'arbre tout contrôle posé dans son rectangle,
+		  //   quel que soit InitialParent : l'invite est enfant de TreeView. Le canevas
+		  //   reste donc visible ; seules la table et l'invite alternent ;
+		  // - la table est une vue AppKit hébergée hors du canevas : on la masque elle-même ;
+		  // - un Visible posé pendant que l'onglet est masqué ne redescend pas jusqu'à la
+		  //   vue : setHidden, directement sur les vues.
+		  Declare Sub setHidden Lib "AppKit" Selector "setHidden:" (v As Ptr, flag As Boolean)
+		  setHidden(TreeView.Handle, False)
+		  Var table As Ptr = TreeView.Tree.Handle
+		  If table <> Nil Then setHidden(table, empty)
+		  setHidden(EmptyIcon.Handle, Not empty)
+		  setHidden(EmptyTitle.Handle, Not empty)
+		  setHidden(EmptyHint.Handle, Not empty)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ApplyTextStyles()
+		  // Text(...).foregroundStyle(.secondary) pour le titre et la légende de
+		  // l'inspecteur ; .font(.caption).foregroundStyle(.tertiary) pour l'aide.
+		  // Couleurs sémantiques d'AppKit : elles suivent le mode sombre.
+		  Declare Function NSClassFromString Lib "Foundation" (name As CFStringRef) As Ptr
+		  Declare Function secondaryLabelColor Lib "AppKit" Selector "secondaryLabelColor" (cls As Ptr) As Ptr
+		  Declare Function tertiaryLabelColor Lib "AppKit" Selector "tertiaryLabelColor" (cls As Ptr) As Ptr
+		  Declare Sub setTextColor Lib "AppKit" Selector "setTextColor:" (v As Ptr, c As Ptr)
+		  
+		  EmptyTitle.FontSize = 13
+		  EmptyHint.FontSize = 10
+		  InspectorHint.FontSize = 10
+		  
+		  Var cls As Ptr = NSClassFromString("NSColor")
+		  If Cocoa.Responds(EmptyTitle.Handle, "setTextColor:") Then setTextColor(EmptyTitle.Handle, secondaryLabelColor(cls))
+		  If Cocoa.Responds(EmptyHint.Handle, "setTextColor:") Then setTextColor(EmptyHint.Handle, tertiaryLabelColor(cls))
+		  If Cocoa.Responds(InspectorHint.Handle, "setTextColor:") Then setTextColor(InspectorHint.Handle, secondaryLabelColor(cls))
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub EnsureTemplateMenu()
+		  // Menu { … } label: { Label("Modèle", systemImage: "plus.rectangle.on.folder") }
+		  If mTemplatePopup <> Nil Then Return
+		  Var items() As String = Array("/Applications", "/Library", "/usr/local/bin")
+		  Var w As Double
+		  mTemplatePopup = XPUI.MakePullDown(Loc.kTemplateButton, "plus.rectangle.on.folder", items, w)
+		  mTemplateW = w
+		  AddHandler mTemplatePopup.Changed, AddressOf TemplateChosen
+		  NativeControlHost.Fill(TemplateHost, mTemplatePopup.Handle)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub TemplateChosen(sender As NativePopupButton, index As Integer)
+		  #Pragma Unused sender
+		  // Déroulant : l'item 0 est le titre ; les modèles suivent.
+		  If mPayload Is Nil Then Return
+		  Var node As PayloadNode
+		  Select Case index
+		  Case 1
+		    node = PayloadNode.DirectoryNode("Applications")
+		  Case 2
+		    node = PayloadNode.DirectoryNode("Library")
+		  Case 3
+		    Var bin As PayloadNode = PayloadNode.DirectoryNode("bin")
+		    Var local As PayloadNode = PayloadNode.DirectoryNode("local")
+		    local.Children.Add(bin)
+		    node = PayloadNode.DirectoryNode("usr")
+		    node.Children.Add(local)
+		  End Select
+		  If node Is Nil Then Return
+		  mPayload.Tree.Add(node)
+		  mSelectedID = node.NodeID
+		  BuildTree
+		  Touch
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function FitButton(b As NativeIconButtonControl) As Double
+		  // Largeur ajustée au contenu, comme un Button SwiftUI dans un HStack.
+		  Var inner As NativeButton = b.Inner
+		  If inner Is Nil Then Return b.Width
+		  inner.Refit
+		  Var f As Cocoa.NSRect = Cocoa.ViewFrame(inner.Handle)
+		  If f.width <= 0 Then Return b.Width
+		  Return Ceiling(f.width)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LayoutAll()
+		  // Calque du VStack(spacing: 0) SwiftUI :
+		  //   barre d'outils (padding 8, boutons espacés de 8, « Modèle » à droite)
+		  //   Divider
+		  //   liste, ou invite centrée
+		  //   Divider
+		  //   inspecteur : 44 pt sans sélection, légende centrée ; 180 pt avec.
+		  // Toute la géométrie passe par Place : taille par Xojo, cadre par AppKit.
+		  // Xojo convertit Left/Top via la position qu'il CROIT être celle du conteneur
+		  // (x = 0), alors que sa vue est à x = 230, derrière la barre latérale : tout
+		  // contrôle qu'il déplaçait atterrissait à x = -230 (relevé à la trace).
+		  Var pf As Cocoa.NSRect = Cocoa.ViewFrame(Self.Handle)
+		  Var w As Double = pf.width
+		  Var h As Double = pf.height
+		  If w <= 0 Or h <= 0 Then Return
+		  
+		  Const kPad = 8
+		  Const kBarH = 38
+		  Const kBtnH = 26
+		  Var btnTop As Double = (kBarH - kBtnH) / 2
+		  
+		  // ─── Barre d'outils ───
+		  Var x As Double = kPad
+		  For Each b As NativeIconButtonControl In Array(AddFolderBtn, AddFilesBtn, RemoveBtn)
+		    Var bw As Double = FitButton(b)
+		    XPUI.Place(Self.Handle, b, x, btnTop, bw, kBtnH)
+		    x = x + bw + kPad
+		  Next
+		  If mTemplatePopup <> Nil And mTemplateW > 0 Then
+		    XPUI.Place(Self.Handle, TemplateHost, w - kPad - mTemplateW, btnTop, mTemplateW, kBtnH)
+		    NativeControlHost.Fill(TemplateHost, mTemplatePopup.Handle)
+		  End If
+		  XPUI.Place(Self.Handle, SepToolbar, 0, kBarH - 1, w, 1)
+		  
+		  // ─── Inspecteur ───
+		  Var inspH As Double = 44
+		  If mHasSelection Then inspH = 180
+		  Var inspTop As Double = h - inspH
+		  XPUI.Place(Self.Handle, SepInspector, 0, inspTop - 1, w, 1)
+		  XPUI.Place(Self.Handle, InspectorHint, 0, inspTop + (inspH - 18) / 2, w, 18)
+		  
+		  Var y As Double = inspTop + 10
+		  Var fieldW As Double = Max(80, w - 136 - 16)
+		  XPUI.Place(Self.Handle, InspectorHeader, 16, y, 300, 20)
+		  XPUI.Place(Self.Handle, NameLabel, 16, y + 28, 110, 18)
+		  XPUI.Place(Self.Handle, NameField, 136, y + 26, fieldW, 24)
+		  XPUI.Place(Self.Handle, TypeLabel, 16, y + 58, 110, 18)
+		  XPUI.Place(Self.Handle, TypeValue, 136, y + 58, 240, 18)
+		  XPUI.Place(Self.Handle, SourceLabel, 16, y + 82, 110, 18)
+		  XPUI.Place(Self.Handle, SourceValue, 136, y + 82, fieldW, 18)
+		  XPUI.Place(Self.Handle, PermsLabel, 16, y + 110, 110, 18)
+		  XPUI.Place(Self.Handle, PermsField, 136, y + 108, 80, 24)
+		  
+		  // ─── Liste, ou invite ───
+		  Var bandTop As Double = kBarH
+		  Var bandH As Double = inspTop - 1 - bandTop
+		  XPUI.Place(Self.Handle, TreeView, 0, bandTop, w, bandH)
+		  
+		  Var empty As Boolean = mPayload Is Nil Or mPayload.Tree.Count = 0
+		  ApplyEmptyState(empty)
+		  If Not empty Then Return
+		  
+		  // VStack(spacing: 10) { icône 40 pt ; titre ; aide .caption, maxWidth 360 }
+		  Const kIcon = 44
+		  Const kTitleH = 18
+		  Const kHintH = 30
+		  Var hintW As Double = Min(360, w - 32)
+		  Var blockH As Double = kIcon + 10 + kTitleH + 10 + kHintH
+		  Var top As Double = bandTop + Max(0, (bandH - blockH) / 2)
+		  XPUI.PinView(Self.Handle, EmptyIcon.Handle, (w - kIcon) / 2, top, kIcon, kIcon)
+		  If mEmptyIcon <> Nil Then NativeControlHost.Fill(EmptyIcon, mEmptyIcon.Handle)
+		  XPUI.PinView(Self.Handle, EmptyTitle.Handle, 16, top + kIcon + 10, w - 32, kTitleH)
+		  XPUI.PinView(Self.Handle, EmptyHint.Handle, (w - hintW) / 2, top + kIcon + 10 + kTitleH + 10, hintW, kHintH)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Relayout()
+		  // Appelé par ComponentsPanel.LayoutChildren à chaque redimensionnement.
+		  LayoutAll
 		End Sub
 	#tag EndMethod
 
@@ -850,6 +1044,7 @@ End
 		  // la vue quand le panneau devient visible.
 		  TreeView.Reload
 		  TreeView.ExpandAll
+		  LayoutAll
 		End Sub
 	#tag EndMethod
 
@@ -891,18 +1086,22 @@ End
 		  Var node As PayloadNode
 		  If mPayload <> Nil And mSelectedID <> "" Then node = mPayload.Tree.FindNode(mSelectedID)
 		  Var has As Boolean = node <> Nil
-		  InspectorHeader.Visible = has
-		  NameLabel.Visible = has
-		  NameField.Visible = has
-		  TypeLabel.Visible = has
-		  TypeValue.Visible = has
-		  SourceLabel.Visible = has And node <> Nil And node.SourcePath <> ""
-		  SourceValue.Visible = SourceLabel.Visible
-		  PermsLabel.Visible = has
-		  PermsField.Visible = has
-		  InspectorHint.Visible = Not has
+		  Var hasSource As Boolean = has
+		  If has Then hasSource = node.SourcePath <> ""
+		  mHasSelection = has
+		  XPUI.SetShown(InspectorHeader, has)
+		  XPUI.SetShown(NameLabel, has)
+		  XPUI.SetShown(NameField, has)
+		  XPUI.SetShown(TypeLabel, has)
+		  XPUI.SetShown(TypeValue, has)
+		  XPUI.SetShown(SourceLabel, hasSource)
+		  XPUI.SetShown(SourceValue, hasSource)
+		  XPUI.SetShown(PermsLabel, has)
+		  XPUI.SetShown(PermsField, has)
+		  XPUI.SetShown(InspectorHint, Not has)
 		  RemoveBtn.Enabled = has
 		  If RemoveBtn.Inner <> Nil Then RemoveBtn.Inner.Enabled = has
+		  LayoutAll
 		  If Not has Then Return
 		  
 		  mUpdating = True
@@ -931,6 +1130,18 @@ End
 
 	#tag Property, Flags = &h21
 		Private mEmptyIcon As NativeImageView
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mHasSelection As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mTemplatePopup As NativePopupButton
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mTemplateW As Double
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -996,32 +1207,6 @@ End
 		  If mPayload Is Nil Or mSelectedID = "" Then Return
 		  Call mPayload.Tree.RemoveNode(mSelectedID)
 		  mSelectedID = ""
-		  BuildTree
-		  Touch
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events TemplateMenu
-	#tag Event
-		Sub MenuItemSelected(index As Integer, title As String)
-		  #Pragma Unused title
-		  If mPayload Is Nil Then Return
-		  Var node As PayloadNode
-		  Select Case index
-		  Case 0
-		    node = PayloadNode.DirectoryNode("Applications")
-		  Case 1
-		    node = PayloadNode.DirectoryNode("Library")
-		  Case 2
-		    Var bin As PayloadNode = PayloadNode.DirectoryNode("bin")
-		    Var local As PayloadNode = PayloadNode.DirectoryNode("local")
-		    local.Children.Add(bin)
-		    node = PayloadNode.DirectoryNode("usr")
-		    node.Children.Add(local)
-		  End Select
-		  If node Is Nil Then Return
-		  mPayload.Tree.Add(node)
-		  mSelectedID = node.NodeID
 		  BuildTree
 		  Touch
 		End Sub

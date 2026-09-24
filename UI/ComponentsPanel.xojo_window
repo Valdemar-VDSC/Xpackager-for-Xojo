@@ -1330,14 +1330,22 @@ End
 
 	#tag Method, Flags = &h0
 		Sub LayoutChildren()
-		  // PayloadPanel est un conteneur embarqué : comme tous, il se positionne en
-		  // coordonnées FENÊTRE et ne suit pas SubPanel. On lui reporte donc la position
-		  // de ce dernier, exprimée depuis l'origine de la fenêtre.
+		  // PayloadPanel est un conteneur embarqué dans SubPanel. Xojo en déduit
+		  // l'ordonnée d'une hauteur de référence qui n'est pas celle de SubPanel, et le
+		  // posait 66 points trop haut (trace : pay=0,66 dans un parent de même hauteur).
+		  // Même remède que ProjectWindow.PlacePanel : la TAILLE par Xojo, pour la mise
+		  // en page des enfants, puis le CADRE écrit par AppKit, pris sur la vue réelle
+		  // de SubPanel.
 		  If mPayloadPanel Is Nil Then Return
-		  mPayloadPanel.Left = Me.Left + SubPanel.Left
-		  mPayloadPanel.Top = Me.Top + SubPanel.Top
-		  mPayloadPanel.Width = SubPanel.Width
-		  mPayloadPanel.Height = SubPanel.Height
+		  Var f As Cocoa.NSRect = Cocoa.ViewFrame(SubPanel.Handle)
+		  If f.width <= 0 Or f.height <= 0 Then Return
+		  mPayloadPanel.Width = f.width
+		  mPayloadPanel.Height = f.height
+		  Var r As Cocoa.NSRect
+		  r.width = f.width
+		  r.height = f.height
+		  Cocoa.SetViewFrame(mPayloadPanel.Handle, r)
+		  mPayloadPanel.Relayout
 		End Sub
 	#tag EndMethod
 
