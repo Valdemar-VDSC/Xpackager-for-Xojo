@@ -19,15 +19,16 @@ Inherits DesktopApplication
 
 
 	#tag MenuHandler
-		Function AppAbout() As Boolean Handles AppAbout.Action
-		  ShowAbout
+		Function AppPreferences() As Boolean Handles AppPreferences.Action
+		  ShowPreferences
 		  Return True
 		End Function
 	#tag EndMenuHandler
 
 	#tag MenuHandler
-		Function AppPreferences() As Boolean Handles AppPreferences.Action
-		  ShowPreferences
+		Function FileAbout() As Boolean Handles FileAbout.Action
+		  If mAbout Is Nil Then mAbout = New AboutWindow
+		  mAbout.Show()
 		  Return True
 		End Function
 	#tag EndMenuHandler
@@ -124,13 +125,6 @@ Inherits DesktopApplication
 		  win.LoadProject(p, suggestedName)
 		  Return win
 		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub ShowAbout()
-		  If mAbout Is Nil Then mAbout = New AboutWindow
-		  mAbout.Show
-		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0

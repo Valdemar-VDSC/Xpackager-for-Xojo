@@ -74,7 +74,7 @@ Begin Menu MainMenuBar
          ShortcutKey = "S"
          Shortcut = "Cmd+Shift+S"
          MenuModifier = True
-         MenuModifierShift = True
+         AltMenuModifier = True
          AutoEnabled = True
          AutoEnable = True
          Visible = True
@@ -106,8 +106,18 @@ Begin Menu MainMenuBar
          AutoEnable = True
          Visible = True
       End
-      Begin DesktopMenuItem AppPreferences
-         SpecialMenu = 3
+      Begin DesktopQuitMenuItem FileQuit
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "#App.kFileQuit"
+         ShortcutKey = "#App.kFileQuitShortcut"
+         Shortcut = "#App.kFileQuitShortcut"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
+      Begin DesktopPreferencesMenuItem AppPreferences
+         SpecialMenu = 0
          Index = -2147483648
          Text = "#Loc.kPreferences"
          ShortcutKey = ","
@@ -117,20 +127,10 @@ Begin Menu MainMenuBar
          AutoEnable = True
          Visible = True
       End
-      Begin DesktopMenuItem AppAbout
-         SpecialMenu = 1
-         Index = -2147483648
-         Text = "#Loc.kAboutXPackager"
-         AutoEnabled = True
-         AutoEnable = True
-         Visible = True
-      End
-      Begin DesktopQuitMenuItem FileQuit
+      Begin DesktopApplicationMenuItem FileAbout
          SpecialMenu = 0
          Index = -2147483648
-         Text = "#App.kFileQuit"
-         ShortcutKey = "#App.kFileQuitShortcut"
-         Shortcut = "#App.kFileQuitShortcut"
+         Text = "#Loc.kAboutXPackager"
          AutoEnabled = True
          AutoEnable = True
          Visible = True
