@@ -1213,6 +1213,13 @@ End
 		    code = mCandidates(i)
 		  End If
 		  
+		  // Un paquet multilingue range chaque langue dans son .lproj, référence comprise :
+		  // sans son code, la construction n'aurait pas de dossier où l'écrire.
+		  If mProject.Presentation.BaseLanguage.Trim = "" Then
+		    SetReferenceLanguage
+		    If mProject.Presentation.BaseLanguage.Trim = "" Then Return
+		  End If
+		  
 		  Var added As String = mProject.Presentation.AddLanguage(code)
 		  If added = "" Then
 		    // Déjà déclarée : on s'y rend simplement.
@@ -1239,6 +1246,7 @@ End
 		  mLang = ""
 		  Touch
 		  RebuildLanguagePopup
+		  RefreshTitleField
 		  ShowScreen(mScreen)
 		End Sub
 	#tag EndMethod
@@ -1310,7 +1318,26 @@ End
 		  Flush
 		  mLang = PkgPresentation.NormalizeLanguage(code)
 		  RebuildLanguagePopup
+		  RefreshTitleField
 		  ShowScreen(mScreen)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshTitleField()
+		  // Le titre est traduisible comme les écrans : il suit donc le popup de langue.
+		  If mProject Is Nil Then Return
+		  mUpdating = True
+		  TitleField.Text = CurrentTexts.Title
+		  If mLang = "" Then
+		    TitleField.Hint = mProject.Settings.PackageName
+		    If TitleField.Hint = "" Then TitleField.Hint = Loc.kProductNamePlaceholder
+		    TitleHelp.Text = Loc.kTitleEmptyHelp
+		  Else
+		    TitleField.Hint = mProject.Presentation.Title
+		    TitleHelp.Text = Loc.kTitleLanguageHelp
+		  End If
+		  mUpdating = False
 		End Sub
 	#tag EndMethod
 
@@ -1391,7 +1418,7 @@ End
 		Sub Reload()
 		  If mProject Is Nil Then Return
 		  mUpdating = True
-		  TitleField.Text = mProject.Presentation.Title
+		  TitleField.Text = CurrentTexts.Title
 		  TitleField.Hint = mProject.Settings.PackageName
 		  If TitleField.Hint = "" Then TitleField.Hint = Loc.kProductNamePlaceholder
 		  BgField.Text = mProject.Presentation.BackgroundPath
@@ -1565,7 +1592,7 @@ End
 	#tag Event
 		Sub TextChanged()
 		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Presentation.Title = Me.Text
+		  CurrentTexts.Title = Me.Text
 		  Touch
 		End Sub
 	#tag EndEvent

@@ -116,8 +116,12 @@ Protected Class DistributionXML
 		  Var conclusion As String = ResolveScreen(p, PkgPresentationTexts.kConclusion, resourcesDir)
 		  Var background As String = CopyRes(p.BackgroundPath, resourcesDir)
 		  
+		  Var localized As Boolean = p.IsLocalized
 		  Var rawTitle As String = p.Title
 		  If rawTitle.Trim = "" Then rawTitle = PackageNaming.Resolve(project.Settings.PackageName, project)
+		  // Multilingue : le texte de référence reste dans le distribution.xml et sert de
+		  // clé — Installer le remplace par l'entrée du Localizable.strings de la langue
+		  // du système quand elle existe, et l'affiche tel quel sinon.
 		  Var title As String = Escape(rawTitle)
 		  
 		  Var req As PkgRequirements = project.Requirements
@@ -187,6 +191,7 @@ Protected Class DistributionXML
 		  Next
 		  
 		  lines.Add("</installer-gui-script>")
+		  If localized Then WriteStringsTables(project, rawTitle, resourcesDir)
 		  Return String.FromArray(lines, EndOfLine)
 		End Function
 	#tag EndMethod
@@ -196,6 +201,70 @@ Protected Class DistributionXML
 		  If b Then Return "true"
 		  Return "false"
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function StringsEntry(key As String, value As String) As String
+		  // Une ligne de table .strings : "CLÉ" = "valeur";
+		  Return Chr(34) + StringsQuote(key) + Chr(34) + " = " + Chr(34) + StringsQuote(value) + Chr(34) + ";"
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function StringsQuote(value As String) As String
+		  Var v As String = value
+		  v = v.ReplaceAll("\", "\\")
+		  v = v.ReplaceAll(Chr(34), "\" + Chr(34))
+		  v = v.ReplaceAll(Chr(13) + Chr(10), "\n")
+		  v = v.ReplaceAll(Chr(13), "\n")
+		  v = v.ReplaceAll(Chr(10), "\n")
+		  v = v.ReplaceAll(Chr(9), "\t")
+		  Return v
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function TitleFor(project As PackageProject, code As String, refTitle As String) As String
+		  If code = "" Then Return refTitle
+		  Var texts As PkgPresentationTexts = project.Presentation.Texts(code)
+		  If texts Is Nil Or texts.Title.Trim = "" Then Return refTitle
+		  Return texts.Title
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Sub WriteStringsTables(project As PackageProject, refTitle As String, resourcesDir As FolderItem)
+		  // Un Localizable.strings par langue déclarée. La clé est le texte de référence
+		  // lui-même : une langue sans entrée — ou sans .lproj — voit donc la référence,
+		  // jamais une clé brute. productbuild écarte une table posée à la racine des
+		  // ressources : inutile d'en écrire une.
+		  For Each code As String In project.Presentation.Languages
+		    Var lines() As String
+		    
+		    Var texts As PkgPresentationTexts = project.Presentation.Texts(code)
+		    If texts <> Nil And texts.Title.Trim <> "" And refTitle.Trim <> "" Then
+		      lines.Add(StringsEntry(refTitle, texts.Title))
+		    End If
+		    
+		    For Each comp As PkgComponent In project.Components
+		      Var name As String = comp.LocalizedName(code).Trim
+		      If name <> "" And comp.DisplayName.Trim <> "" Then
+		        lines.Add(StringsEntry(comp.DisplayName, name))
+		      End If
+		      Var desc As String = comp.LocalizedDescription(code).Trim
+		      // Sans description de référence, il n'y a rien dans le distribution.xml à
+		      // quoi rattacher la traduction : elle ne peut pas s'afficher.
+		      If desc <> "" And comp.ComponentDescription.Trim <> "" Then
+		        lines.Add(StringsEntry(comp.ComponentDescription, desc))
+		      End If
+		    Next
+		    
+		    If lines.Count = 0 Then Continue
+		    Var dir As FolderItem = LProjFolder(resourcesDir, code)
+		    If dir Is Nil Then Continue
+		    Call WriteFile(String.FromArray(lines, EndOfLine), dir, "Localizable.strings")
+		  Next
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -249,17 +318,28 @@ Protected Class DistributionXML
 		    Return Resolve(b.Path(screen), b.RTF(screen), b.Text(screen), PkgPresentationTexts.ScreenKey(screen), resourcesDir)
 		  End If
 		  
-		  // Le distribution.xml ne référence qu'un nom de fichier : Installer va le
-		  // chercher dans <langue>.lproj avant la racine des ressources. Toutes les
-		  // langues doivent donc écrire le même nom, donc la même extension.
+		  // Multilingue : rien à la racine. Un fichier posé là masque tous les .lproj —
+		  // Installer le trouve d'abord — donc chaque langue a son dossier, la référence
+		  // comprise, et une langue sans texte reçoit une copie de la référence pour que
+		  // son écran ne soit jamais vide.
+		  Var baseCode As String = PkgPresentation.NormalizeLanguage(p.BaseLanguage)
+		  If baseCode = "" Then Raise New BuildError(Loc.kErrNoReferenceLanguage)
+		  
 		  Var codes() As String
-		  codes.Add("")
+		  codes.Add(baseCode)
 		  For Each code As String In p.Languages
-		    codes.Add(code)
+		    If code <> baseCode Then codes.Add(code)
 		  Next
 		  
+		  // Le distribution.xml ne référence qu'un nom de fichier : toutes les langues
+		  // écrivent donc le même nom, donc la même extension.
 		  Var ext As String = ""
-		  For Each code As String In codes
+		  Var sources() As String
+		  sources.Add("")
+		  For Each code As String In p.Languages
+		    sources.Add(code)
+		  Next
+		  For Each code As String In sources
 		    Var cand As String = ContentExtension(p, screen, code)
 		    If cand = "" Then Continue
 		    If ext = "" Then
@@ -284,25 +364,17 @@ Protected Class DistributionXML
 		  Var baseFile As FolderItem = ExternalFile(p.Base.Path(screen))
 		  If baseFile <> Nil And PkgFS.FileExtension(baseFile.Name).Lowercase = ext Then fileName = baseFile.Name
 		  
-		  // Le fichier à plat est le repli : la référence si elle est remplie, sinon la
-		  // première langue qui a du contenu — productbuild exige qu'il existe.
-		  Var flatDone As Boolean = False
+		  Var written As Boolean = False
 		  For Each code As String In codes
-		    If ContentExtension(p, screen, code) = "" Then Continue
-		    If Not WriteScreen(p, screen, code, ext, resourcesDir, fileName) Then Continue
-		    flatDone = True
-		    Exit
-		  Next
-		  If Not flatDone Then Return ""
-		  
-		  // Puis une copie par langue déclarée. Une langue vide n'écrit rien et
-		  // retombe sur le repli.
-		  For Each code As String In p.Languages
-		    If ContentExtension(p, screen, code) = "" Then Continue
+		    // Les textes de cette langue, ou ceux de la référence si elle n'en a pas.
+		    Var source As String = code
+		    If ContentExtension(p, screen, source) = "" Then source = ""
+		    If ContentExtension(p, screen, source) = "" Then Continue
 		    Var dir As FolderItem = LProjFolder(resourcesDir, code)
 		    If dir Is Nil Then Continue
-		    Call WriteScreen(p, screen, code, ext, dir, fileName)
+		    If WriteScreen(p, screen, source, ext, dir, fileName) Then written = True
 		  Next
+		  If Not written Then Return ""
 		  Return fileName
 		End Function
 	#tag EndMethod
@@ -427,6 +499,7 @@ Protected Class DistributionXML
 		  Return dest.Name
 		End Function
 	#tag EndMethod
+
 
 
 End Class

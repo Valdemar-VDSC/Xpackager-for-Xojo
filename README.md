@@ -81,10 +81,13 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   étiquette) et `localized`, un **tableau** d'objets `{ "code": "en", … }` — un tableau pour
   que l'ordre d'affichage des langues soit stable.
 - **Construction** : sans langue déclarée, rien ne change — un fichier à plat par écran. Dès
-  qu'une langue est déclarée, le fichier à plat devient le **repli** et chaque langue reçoit
-  `<code>.lproj/<même nom de fichier>` ; Installer va chercher le `.lproj` de la langue du
-  système avant la racine des ressources. Une langue laissée vide n'écrit rien et retombe sur
-  le repli.
+  qu'une langue est déclarée, **plus rien n'est écrit à la racine** : chaque langue reçoit
+  `<code>.lproj/<même nom de fichier>`, la référence comprise. C'est l'inverse de ce qu'on
+  croit : un fichier posé à la racine des ressources **masque tous les `.lproj`** — Installer
+  le trouve d'abord — et la traduction ne s'affiche jamais. Vérifié en ouvrant les paquets
+  dans Installer. La langue de référence devient donc obligatoire (sinon son `.lproj` n'a pas
+  de nom) et la construction s'arrête avec un message clair si elle manque. Une langue sans
+  texte pour un écran reçoit une copie de la référence : son écran n'est jamais vide.
 - **Un seul nom de fichier : donc une seule extension.** Le texte simple d'une langue est
   promu en RTF (`TextToRTF`, échappement `\uN?`) dès qu'une autre langue est riche, et un
   fichier externe est recopié sous le nom de la référence. Un mélange irrécupérable (`.html`
@@ -104,8 +107,15 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   sert qu'à étiqueter la référence dans le popup — la construction, elle, garde le fichier à
   plat comme repli. Effacer l'étiquette et renoncer donnent la même chaîne vide, d'où
   `XPUI.PromptForText` et son drapeau `accepted` : Annuler ne touche à rien.
-- **Pas encore fait** : le titre de l'installateur et les intitulés de choix ne sont pas
-  traduits — il faudrait un `Localizable.strings` dans chaque `.lproj`.
+- **Titre et choix** : ils ne sont pas des fichiers mais des chaînes du `distribution.xml`.
+  Installer les traduit par une table `Localizable.strings` dans chaque `.lproj`, **en prenant
+  le texte lui-même comme clé** — `"Installateur de Démo" = "Demo Installer";`. Le
+  `distribution.xml` garde donc le texte de référence, une langue sans entrée l'affiche tel
+  quel, et aucune clé brute ne peut fuiter. Une table posée à la racine des ressources est
+  écartée par `productbuild` : inutile d'en écrire une. Une description traduite sans
+  description de référence n'a rien à quoi s'accrocher et n'est pas écrite.
+  Vérification sans clic : `installer -showChoicesXML -pkg x.pkg -target /` affiche les
+  intitulés de choix déjà traduits.
 
 ## Contrôles d'interface
 

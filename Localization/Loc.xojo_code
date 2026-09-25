@@ -1433,6 +1433,13 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"pkgbuild non riuscito per questo componente."
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"pkgbuild falhou para este componente."
 	#tag EndConstant
+	#tag Constant, Name = kErrNoReferenceLanguage, Type = String, Dynamic = True, Default = \"Indiquez la langue de la r\xC3\xA9f\xC3\xA9rence : un paquet multilingue range chaque langue dans son dossier .lproj et la r\xC3\xA9f\xC3\xA9rence a besoin du sien.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Set the reference language: a multilingual package puts every language in its own .lproj folder and the reference needs one too."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Indique el idioma de la referencia: un paquete multiling\xC3\xBCe coloca cada idioma en su carpeta .lproj y la referencia necesita la suya."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Geben Sie die Sprache der Referenz an: ein mehrsprachiges Paket legt jede Sprache in ihren eigenen .lproj-Ordner und die Referenz braucht auch einen."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Indica la lingua del riferimento: un pacchetto multilingue mette ogni lingua nella sua cartella .lproj e il riferimento ha bisogno della sua."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Indique o idioma da refer\xC3\xAAncia: um pacote multilingue coloca cada idioma na sua pasta .lproj e a refer\xC3\xAAncia precisa da sua."
+	#tag EndConstant
 	#tag Constant, Name = kErrLocalizedMix, Type = String, Dynamic = True, Default = \"Formats de fichier incompatibles entre les langues pour l'\xC3\xA9cran", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"Incompatible file formats across languages for screen"
 		#Tag Instance, Platform = Any, Language = es, Definition  = \"Formatos de archivo incompatibles entre idiomas para la pantalla"
@@ -1460,6 +1467,13 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprachen verwalten"
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"Gestisci le lingue"
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Gerir os idiomas"
+	#tag EndConstant
+	#tag Constant, Name = kTitleLanguageHelp, Type = String, Dynamic = True, Default = \"Laisser vide pour reprendre le titre de la r\xC3\xA9f\xC3\xA9rence.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Leave empty to reuse the reference title."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Dejar vac\xC3\xADo para reutilizar el t\xC3\xADtulo de la referencia."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Leer lassen um den Titel der Referenz zu \xC3\xBCbernehmen."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Lasciare vuoto per riprendere il titolo del riferimento."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Deixar vazio para reutilizar o t\xC3\xADtulo da refer\xC3\xAAncia."
 	#tag EndConstant
 	#tag Constant, Name = kLanguage, Type = String, Dynamic = True, Default = \"Langue", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"Language"

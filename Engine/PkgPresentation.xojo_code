@@ -23,7 +23,6 @@ Protected Class PkgPresentation
 	#tag Method, Flags = &h0
 		Function Clone() As PkgPresentation
 		  Var c As New PkgPresentation
-		  c.Title = Title
 		  c.BackgroundPath = BackgroundPath
 		  c.BaseLanguage = BaseLanguage
 		  c.SetBase(mBase.Clone)
@@ -55,17 +54,14 @@ Protected Class PkgPresentation
 		Shared Function FromJSON(j As JSONItem) As PkgPresentation
 		  Var p As New PkgPresentation
 		  If j Is Nil Then Return p
-		  If j.HasKey("title") Then
-		    // « MonPaquet » était l'ancien défaut : on le neutralise pour que le titre
-		    // suive le nom du produit.
-		    Var t As String = j.Value("title")
-		    If t <> "MonPaquet" Then p.Title = t
-		  End If
 		  If j.HasKey("backgroundPath") Then p.BackgroundPath = j.Value("backgroundPath")
 		  
 		  // Les douze clés à plat sont la langue de référence : un projet écrit avant le
 		  // multilingue se relit tel quel.
 		  p.SetBase(PkgPresentationTexts.FromJSON(j))
+		  // « MonPaquet » était l'ancien défaut : on le neutralise pour que le titre suive
+		  // le nom du produit.
+		  If p.Title = "MonPaquet" Then p.Title = ""
 		  If j.HasKey("baseLanguage") Then p.BaseLanguage = j.Value("baseLanguage")
 		  
 		  // « localized » est un tableau pour garder l'ordre d'affichage des langues.
@@ -201,7 +197,6 @@ Protected Class PkgPresentation
 		Function ToJSON() As JSONItem
 		  Var j As New JSONItem
 		  j.Compact = False
-		  j.Value("title") = Title
 		  // La référence reste écrite à plat : un XPackager plus ancien lit encore le
 		  // fichier et y retrouve sa présentation.
 		  mBase.WriteInto(j)
@@ -230,9 +225,19 @@ Protected Class PkgPresentation
 		BaseLanguage As String
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mBase.Title
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mBase.Title = value
+			End Set
+		#tag EndSetter
 		Title As String
-	#tag EndProperty
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
 		Private mBase As PkgPresentationTexts
