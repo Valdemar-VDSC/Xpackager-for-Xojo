@@ -1,122 +1,143 @@
 {
-  "settings": {
-    "packageName": "xpackagerbuild",
-    "signingIdentity": "",
-    "hardenPayloadApps": false,
-    "appSigningIdentity": "",
-    "webSafeName": false
-  },
-  "presentation": {
-    "title": "Outil en ligne de commande XPackager",
-    "welcomePath": "",
-    "welcomeRTF": "",
-    "welcomeText": "Cet installateur pose l'outil en ligne de commande xpackagerbuild.\n\nLe binaire et ses bibliothèques vont dans /usr/local/libexec/xpackager ; un lanceur de deux lignes est posé dans /usr/local/bin pour que la commande soit disponible sans rien voir des bibliothèques.",
-    "readmePath": "",
-    "readmeRTF": "",
-    "readmeText": "",
-    "licensePath": "",
-    "licenseRTF": "",
-    "licenseText": "",
-    "conclusionPath": "",
-    "conclusionRTF": "",
-    "conclusionText": "L'outil est installé.\n\nTapez « xpackagerbuild --help » dans le Terminal pour la liste des options.",
-    "backgroundPath": ""
-  },
-  "requirements": {},
-  "notarization": {},
-  "postInstall": {},
-  "components": [
-    {
-      "id": "c-cli",
-      "name": "Outil en ligne de commande",
-      "identifier": "com.vdsc.xpackager.cli",
-      "version": "1.1.0",
-      "installLocation": "/",
-      "payload": {
-        "rootPath": "",
-        "tree": [
-          {
-            "id": "n-usr",
-            "name": "usr",
-            "isDirectory": true,
-            "sourcePath": "",
-            "permissions": 493,
-            "children": [
-              {
-                "id": "n-local",
-                "name": "local",
-                "isDirectory": true,
-                "sourcePath": "",
-                "permissions": 493,
-                "children": [
-                  {
-                    "id": "n-bin",
-                    "name": "bin",
-                    "isDirectory": true,
-                    "sourcePath": "",
-                    "permissions": 493,
-                    "children": [
-                      {
-                        "id": "n-lanceur",
-                        "name": "xpackagerbuild",
-                        "isDirectory": false,
-                        "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/CLI/lanceur/xpackagerbuild",
-                        "permissions": 493
-                      }
-                    ]
-                  },
-                  {
-                    "id": "n-libexec",
-                    "name": "libexec",
-                    "isDirectory": true,
-                    "sourcePath": "",
-                    "permissions": 493,
-                    "children": [
-                      {
-                        "id": "n-xpackager",
-                        "name": "xpackager",
+    "settings": {
+        "packageName": "xpackagerbuild",
+        "signingIdentity": "Developer ID Installer: Valdemar De SOUSA (NHZMQ2KB94)",
+        "hardenPayloadApps": true,
+        "appSigningIdentity": "Developer ID Application: Valdemar De SOUSA (NHZMQ2KB94)",
+        "webSafeName": false
+    },
+    "presentation": {
+        "title": "Outil en ligne de commande XPackager",
+        "backgroundPath": "",
+        "welcomePath": "",
+        "welcomeRTF": "{\\rtf1\\ansi\\ansicpg1252\\cocoartf2907\n\\cocoatextscaling0\\cocoaplatform0{\\fonttbl\\f0\\fnil\\fcharset0 HelveticaNeue;}\n{\\colortbl;\\red255\\green255\\blue255;}\n{\\*\\expandedcolortbl;;}\n\\deftab720\n\\pard\\pardeftab720\\partightenfactor0\n\n\\f0\\fs26 \\cf0 Cet installateur pose l'outil en ligne de commande xpackagerbuild.\\\n\\\nLe binaire et ses biblioth\\'e8ques vont dans /usr/local/libexec/xpackager ; un lanceur de deux lignes est pos\\'e9 dans /usr/local/bin pour que la commande soit disponible sans rien voir des biblioth\\'e8ques.}",
+        "welcomeText": "Cet installateur pose l'outil en ligne de commande xpackagerbuild.\n\nLe binaire et ses bibliothèques vont dans /usr/local/libexec/xpackager ; un lanceur de deux lignes est posé dans /usr/local/bin pour que la commande soit disponible sans rien voir des bibliothèques.",
+        "readmePath": "",
+        "readmeRTF": "{\\rtf1\\ansi\\ansicpg1252\\cocoartf2907\n\\cocoatextscaling0\\cocoaplatform0{\\fonttbl}\n{\\colortbl;\\red255\\green255\\blue255;}\n{\\*\\expandedcolortbl;;}\n}",
+        "readmeText": "",
+        "licensePath": "",
+        "licenseRTF": "",
+        "licenseText": "",
+        "conclusionPath": "",
+        "conclusionRTF": "",
+        "conclusionText": "L'outil est installé.\n\nTapez « xpackagerbuild --help » dans le Terminal pour la liste des options."
+    },
+    "requirements": {
+        "minimumOSVersion": "",
+        "allowArm64": true,
+        "allowIntel": true,
+        "checks": {
+
+        }
+    },
+    "notarization": {
+        "enabled": true,
+        "keychainProfile": "XPackager"
+    },
+    "postInstall": {
+        "launchApp": false,
+        "appPath": "",
+        "conclusion": "none"
+    },
+    "components": [
+        {
+            "id": "c-cli",
+            "name": "Outil en ligne de commande",
+            "identifier": "com.vdsc.xpackager.cli",
+            "version": "1.1.0",
+            "installLocation": "/",
+            "payload": {
+                "rootPath": "",
+                "tree": [
+                    {
+                        "id": "n-usr",
+                        "name": "usr",
                         "isDirectory": true,
                         "sourcePath": "",
                         "permissions": 493,
                         "children": [
-                          {
-                            "id": "n-outil",
-                            "name": "xpackagerbuild",
-                            "isDirectory": false,
-                            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild",
-                            "permissions": 493
-                          },
-                          {
-                            "id": "n-libs",
-                            "name": "xpackagerbuild Libs",
-                            "isDirectory": true,
-                            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild Libs",
-                            "permissions": 493,
-                            "children": []
-                          },
-                          {
-                            "id": "n-res",
-                            "name": "Resources",
-                            "isDirectory": true,
-                            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/Resources",
-                            "permissions": 493,
-                            "children": []
-                          }
+                            {
+                                "id": "n-local",
+                                "name": "local",
+                                "isDirectory": true,
+                                "sourcePath": "",
+                                "permissions": 493,
+                                "children": [
+                                    {
+                                        "id": "n-bin",
+                                        "name": "bin",
+                                        "isDirectory": true,
+                                        "sourcePath": "",
+                                        "permissions": 493,
+                                        "children": [
+                                            {
+                                                "id": "n-lanceur",
+                                                "name": "xpackagerbuild",
+                                                "isDirectory": false,
+                                                "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/CLI/lanceur/xpackagerbuild",
+                                                "permissions": 493
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "n-libexec",
+                                        "name": "libexec",
+                                        "isDirectory": true,
+                                        "sourcePath": "",
+                                        "permissions": 493,
+                                        "children": [
+                                            {
+                                                "id": "n-xpackager",
+                                                "name": "xpackager",
+                                                "isDirectory": true,
+                                                "sourcePath": "",
+                                                "permissions": 493,
+                                                "children": [
+                                                    {
+                                                        "id": "n-outil",
+                                                        "name": "xpackagerbuild",
+                                                        "isDirectory": false,
+                                                        "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild",
+                                                        "permissions": 493
+                                                    },
+                                                    {
+                                                        "id": "n-libs",
+                                                        "name": "xpackagerbuild Libs",
+                                                        "isDirectory": true,
+                                                        "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild Libs",
+                                                        "permissions": 493,
+                                                        "children": {
+
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": "n-res",
+                                                        "name": "Resources",
+                                                        "isDirectory": true,
+                                                        "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/Resources",
+                                                        "permissions": 493,
+                                                        "children": {
+
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
                         ]
-                      }
-                    ]
-                  }
+                    }
                 ]
-              }
-            ]
-          }
-        ]
-      },
-      "scripts": {},
-      "componentDescription": "xpackagerbuild et ses bibliothèques plus le lanceur.",
-      "startSelected": true,
-      "userToggleable": false,
-      "visible": true
-    }
-  ]
+            },
+            "scripts": {
+                "preinstallPath": "",
+                "postinstallPath": ""
+            },
+            "componentDescription": "xpackagerbuild et ses bibliothèques plus le lanceur.",
+            "startSelected": true,
+            "userToggleable": false,
+            "visible": true
+        }
+    ]
 }

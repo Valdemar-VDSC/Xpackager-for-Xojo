@@ -7,7 +7,7 @@
 				Begin BuildProjectStep Build
 				End
 				Begin SignProjectStep Sign
-				  DeveloperID=
+				  DeveloperID=Apple Development: Valdemar De SOUSA (NC32DR648M)
 				  macOSEntitlements={"App Sandbox":"False","Hardened Runtime":"False","Notarize":"False","UserEntitlements":""}
 				End
 			End
