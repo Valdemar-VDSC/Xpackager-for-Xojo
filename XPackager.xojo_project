@@ -45,6 +45,7 @@ DesktopWindow=ProjectWindow;UI/ProjectWindow.xojo_window;&hFFFFFFFFBBBB1027;&hFF
 DesktopWindow=RequirementsPanel;UI/RequirementsPanel.xojo_window;&hFFFFFFFFBBBB1028;&hFFFFFFFFBBBB1020;false
 DesktopWindow=SettingsPanel;UI/SettingsPanel.xojo_window;&hFFFFFFFFBBBB1029;&hFFFFFFFFBBBB1020;false
 DesktopWindow=TemplateChooserWindow;UI/TemplateChooserWindow.xojo_window;&hFFFFFFFFBBBB102A;&hFFFFFFFFBBBB1020;false
+FileTypeSet=FileTypes;FileTypes.xojo_filetypeset;&hFFFFFFFFBBBB102C;&h0000000000000000;false
 MenuBar=MainMenuBar;MainMenuBar.xojo_menu;&hFFFFFFFFBBBB109A;&h0000000000000000;false
 BuildSteps=Build Automation;Build Automation.xojo_code;&hFFFFFFFFBBBB109B;&h0000000000000000;false
 AppMenuBar=MainMenuBar
