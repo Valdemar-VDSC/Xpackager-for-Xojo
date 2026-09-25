@@ -112,8 +112,10 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   le texte lui-même comme clé** — `"Installateur de Démo" = "Demo Installer";`. Le
   `distribution.xml` garde donc le texte de référence, une langue sans entrée l'affiche tel
   quel, et aucune clé brute ne peut fuiter. Une table posée à la racine des ressources est
-  écartée par `productbuild` : inutile d'en écrire une. Une description traduite sans
-  description de référence n'a rien à quoi s'accrocher et n'est pas écrite.
+  écartée par `productbuild` : inutile d'en écrire une. Quand la description de référence est
+  vide alors qu'une langue en a une, c'est cette traduction — celle de la langue de référence
+  sinon la première déclarée — qui devient le texte du `distribution.xml` et donc la clé :
+  sans ça la traduction n'avait rien à quoi s'accrocher et disparaissait du paquet.
   Vérification sans clic : `installer -showChoicesXML -pkg x.pkg -target /` affiche les
   intitulés de choix déjà traduits.
 - **Où les saisir** : le titre suit le popup de langue de la page Présentation ; le nom et la

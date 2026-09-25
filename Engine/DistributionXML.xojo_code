@@ -171,8 +171,9 @@ Protected Class DistributionXML
 		  For i As Integer = 0 To componentFiles.LastIndex
 		    Var comp As PkgComponent = project.Components(i)
 		    Var attrs As String = "id=""choice" + i.ToString + """ title=""" + Escape(comp.DisplayName) + """"
-		    If comp.ComponentDescription.Trim <> "" Then
-		      attrs = attrs + " description=""" + Escape(comp.ComponentDescription) + """"
+		    Var choiceDesc As String = ChoiceDescription(p, comp)
+		    If choiceDesc.Trim <> "" Then
+		      attrs = attrs + " description=""" + Escape(choiceDesc) + """"
 		    End If
 		    attrs = attrs + " start_selected=""" + BoolText(comp.StartSelected) + """"
 		    attrs = attrs + " start_enabled=""" + BoolText(comp.UserToggleable) + """"
@@ -252,10 +253,11 @@ Protected Class DistributionXML
 		        lines.Add(StringsEntry(comp.DisplayName, name))
 		      End If
 		      Var desc As String = comp.LocalizedDescription(code).Trim
-		      // Sans description de référence, il n'y a rien dans le distribution.xml à
-		      // quoi rattacher la traduction : elle ne peut pas s'afficher.
-		      If desc <> "" And comp.ComponentDescription.Trim <> "" Then
-		        lines.Add(StringsEntry(comp.ComponentDescription, desc))
+		      Var refDesc As String = ChoiceDescription(project.Presentation, comp)
+		      // Rien à écrire quand la traduction est déjà le texte porté par le
+		      // distribution.xml : il s'affichera tel quel.
+		      If desc <> "" And refDesc.Trim <> "" And desc <> refDesc Then
+		        lines.Add(StringsEntry(refDesc, desc))
 		      End If
 		    Next
 		    
@@ -265,6 +267,27 @@ Protected Class DistributionXML
 		    Call WriteFile(String.FromArray(lines, EndOfLine), dir, "Localizable.strings")
 		  Next
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function ChoiceDescription(p As PkgPresentation, comp As PkgComponent) As String
+		  // Le distribution.xml porte le texte qui sert aussi de clé de traduction. Sans
+		  // description de référence, une traduction n'aurait rien où s'accrocher et serait
+		  // perdue : on prend alors celle de la langue de référence, sinon la première
+		  // langue déclarée qui en a une. Les autres langues la traduisent comme d'habitude.
+		  If comp.ComponentDescription.Trim <> "" Then Return comp.ComponentDescription
+		  If Not p.IsLocalized Then Return ""
+		  Var codes() As String
+		  If p.BaseLanguage.Trim <> "" Then codes.Add(p.BaseLanguage)
+		  For Each code As String In p.Languages
+		    codes.Add(code)
+		  Next
+		  For Each code As String In codes
+		    Var desc As String = comp.LocalizedDescription(code).Trim
+		    If desc <> "" Then Return desc
+		  Next
+		  Return ""
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
