@@ -218,6 +218,58 @@ Begin DesktopContainer PresentationPanel
          Visible         =   True
          Width           =   400
       End
+      Begin NativePopupMenuControl LangPopup
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         Enabled         =   True
+         Height          =   24
+         Index           =   -2147483648
+         InitialParent   =   "ScreenBox"
+         Left            =   444
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   True
+         Scope           =   0
+         TabIndex        =   2
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   158
+         Transparent     =   False
+         Visible         =   True
+         Width           =   166
+      End
+      Begin DesktopCanvas LangMenuHost
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
+         Backdrop        =   0
+         Enabled         =   True
+         Height          =   24
+         Index           =   -2147483648
+         InitialParent   =   "ScreenBox"
+         Left            =   616
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   True
+         Scope           =   0
+         TabIndex        =   3
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   158
+         Transparent     =   True
+         Visible         =   True
+         Width           =   44
+      End
       Begin DesktopCanvas RTFCanvas
          AllowAutoDeactivate=   True
          AllowFocus      =   False
@@ -1045,44 +1097,210 @@ End
 
 	#tag Method, Flags = &h21
 		Private Function CurrentPath() As String
-		  Select Case mScreen
-		  Case 1
-		    Return mProject.Presentation.ReadmePath
-		  Case 2
-		    Return mProject.Presentation.LicensePath
-		  Case 3
-		    Return mProject.Presentation.ConclusionPath
-		  End Select
-		  Return mProject.Presentation.WelcomePath
+		  Return CurrentTexts.Path(mScreen)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Function CurrentRTF() As String
-		  Select Case mScreen
-		  Case 1
-		    Return mProject.Presentation.ReadmeRTF
-		  Case 2
-		    Return mProject.Presentation.LicenseRTF
-		  Case 3
-		    Return mProject.Presentation.ConclusionRTF
-		  End Select
-		  Return mProject.Presentation.WelcomeRTF
+		  Return CurrentTexts.RTF(mScreen)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Function CurrentText() As String
-		  Select Case mScreen
-		  Case 1
-		    Return mProject.Presentation.ReadmeText
-		  Case 2
-		    Return mProject.Presentation.LicenseText
-		  Case 3
-		    Return mProject.Presentation.ConclusionText
-		  End Select
-		  Return mProject.Presentation.WelcomeText
+		  Return CurrentTexts.Text(mScreen)
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function CurrentTexts() As PkgPresentationTexts
+		  // Les textes de la langue en cours d'édition ; "" est la référence.
+		  Var t As PkgPresentationTexts = mProject.Presentation.Texts(mLang)
+		  If t Is Nil Then
+		    // Langue retirée entre-temps : on retombe sur la référence.
+		    mLang = ""
+		    t = mProject.Presentation.Base
+		  End If
+		  Return t
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub EnsureLanguageMenu()
+		  // Un seul déroulant à droite du sélecteur d'écran : les langues à ajouter, puis
+		  // retirer la langue courante et y recopier la référence. Déroulant sans bordure
+		  // hébergé dans un canevas, comme le menu des variables des Réglages.
+		  If mLangMenu <> Nil Then Return
+		  mCandidates.RemoveAll
+		  For Each code As String In Array("en", "fr", "de", "es", "pt", "pt-BR", "it", "nl", _
+		    "sv", "da", "nb", "fi", "pl", "cs", "ru", "uk", "tr", "el", "ar", "he", _
+		    "ja", "ko", "zh-Hans", "zh-Hant", "hi", "id", "vi", "th")
+		    mCandidates.Add(code)
+		  Next
+		  Var entries() As String
+		  For Each code As String In mCandidates
+		    entries.Add(LanguageRowLabel(code))
+		  Next
+		  Var w As Double
+		  mLangMenu = XPUI.MakePullDown("", "globe", entries, w)
+		  mLangMenu.AddSeparator
+		  mLangMenu.AddItem(Loc.kOtherLanguageEllipsis)
+		  mLangMenu.AddSeparator
+		  mLangMenu.AddItem(Loc.kRemoveLanguage)
+		  mLangMenu.AddItem(Loc.kCopyFromReference)
+		  // titre 0, langues 1…N, séparateur, « Autre langue… », séparateur, retirer, copier
+		  mIdxOther = mCandidates.Count + 2
+		  mIdxRemove = mIdxOther + 2
+		  mIdxSeed = mIdxRemove + 1
+		  
+		  // NSMenu active ses items tout seul faute de cible : on reprend la main pour
+		  // pouvoir griser « retirer » et « copier » sur la référence.
+		  Declare Function menuOf Lib "AppKit" Selector "menu" (p As Ptr) As Ptr
+		  Declare Sub setAutoenables Lib "AppKit" Selector "setAutoenablesItems:" (m As Ptr, flag As Boolean)
+		  Declare Sub setToolTip Lib "AppKit" Selector "setToolTip:" (v As Ptr, s As Ptr)
+		  Var menu As Ptr = menuOf(mLangMenu.Handle)
+		  If menu <> Nil Then setAutoenables(menu, False)
+		  setToolTip(mLangMenu.Handle, Cocoa.NSStr(Loc.kManageLanguages))
+		  
+		  AddHandler mLangMenu.Changed, AddressOf LanguageMenuChosen
+		  NativeControlHost.Fill(LangMenuHost, mLangMenu.Handle)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function LanguageRowLabel(code As String) As String
+		  // « anglais — en » : le nom dans la langue de l'utilisateur, et le code qui
+		  // finira en nom de dossier .lproj. Le tiret évite « portugais (Brésil) (pt-BR) ».
+		  Var name As String = XPUI.LanguageName(code)
+		  If name = code Then Return code
+		  Return name + " — " + code
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub LanguageMenuChosen(sender As NativePopupButton, index As Integer)
+		  #Pragma Unused sender
+		  If mProject Is Nil Then Return
+		  If index = mIdxRemove Then
+		    RemoveCurrentLanguage
+		    Return
+		  End If
+		  If index = mIdxSeed Then
+		    SeedCurrentScreen
+		    Return
+		  End If
+		  
+		  Var code As String
+		  If index = mIdxOther Then
+		    code = XPUI.PromptForName(Loc.kAddLanguage, Loc.kLanguageCodePrompt, "")
+		    If code = "" Then Return
+		    If PkgPresentation.NormalizeLanguage(code) = "" Then
+		      XPUI.ShowError(Loc.kBadLanguageCode)
+		      Return
+		    End If
+		  Else
+		    Var i As Integer = index - 1
+		    If i < 0 Or i > mCandidates.LastIndex Then Return
+		    code = mCandidates(i)
+		  End If
+		  
+		  Var added As String = mProject.Presentation.AddLanguage(code)
+		  If added = "" Then
+		    // Déjà déclarée : on s'y rend simplement.
+		    added = PkgPresentation.NormalizeLanguage(code)
+		  Else
+		    Touch
+		  End If
+		  SelectLanguage(added)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RemoveCurrentLanguage()
+		  If mProject Is Nil Or mLang = "" Then Return
+		  // Le texte en cours de frappe vit encore dans la vue : sans ce Flush, une langue
+		  // tout juste renseignée paraissait vide et partait sans rien demander.
+		  Flush
+		  Var texts As PkgPresentationTexts = mProject.Presentation.Texts(mLang)
+		  // Confirmation seulement s'il y a quelque chose à perdre.
+		  If texts <> Nil And Not texts.IsEmpty Then
+		    If Not XPUI.Confirm(Loc.kRemoveLanguageQuestion, LanguageRowLabel(mLang), Loc.kRemoveButton) Then Return
+		  End If
+		  mProject.Presentation.RemoveLanguage(mLang)
+		  mLang = ""
+		  Touch
+		  RebuildLanguagePopup
+		  ShowScreen(mScreen)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub SeedCurrentScreen()
+		  // Copie l'écran affiché depuis la référence : on traduit à partir du texte
+		  // existant au lieu de le retaper.
+		  If mProject Is Nil Or mLang = "" Then Return
+		  Var base As PkgPresentationTexts = mProject.Presentation.Base
+		  Var here As PkgPresentationTexts = CurrentTexts
+		  here.SetPath(mScreen, base.Path(mScreen))
+		  here.SetRTF(mScreen, base.RTF(mScreen))
+		  here.SetText(mScreen, base.Text(mScreen))
+		  Touch
+		  ShowScreen(mScreen)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RebuildLanguagePopup()
+		  // Référence puis les langues déclarées, dans l'ordre du modèle.
+		  If mProject Is Nil Then Return
+		  mUpdating = True
+		  LangPopup.RemoveAllRows
+		  Var refRow As String = Loc.kReferenceTexts
+		  Var base As String = mProject.Presentation.BaseLanguage.Trim
+		  If base <> "" Then refRow = refRow + " (" + base + ")"
+		  LangPopup.AddRow(refRow)
+		  Var selected As Integer = 0
+		  Var codes() As String = mProject.Presentation.Languages
+		  For i As Integer = 0 To codes.LastIndex
+		    LangPopup.AddRow(LanguageRowLabel(codes(i)))
+		    If codes(i) = mLang Then selected = i + 1
+		  Next
+		  If selected = 0 Then mLang = ""
+		  LangPopup.SelectedRowIndex = selected
+		  mUpdating = False
+		  UpdateLanguageState
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub SelectLanguage(code As String)
+		  // Toujours vider l'éditeur dans la langue qu'on quitte avant de changer.
+		  Flush
+		  mLang = PkgPresentation.NormalizeLanguage(code)
+		  RebuildLanguagePopup
+		  ShowScreen(mScreen)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub UpdateLanguageState()
+		  // Retirer et copier n'ont de sens que hors de la référence ; le rappel sous
+		  // l'éditeur dit ce que fera l'installateur pour un écran laissé vide.
+		  Var localized As Boolean = mLang <> ""
+		  If mLangMenu <> Nil Then
+		    Declare Function itemAtIndex Lib "AppKit" Selector "itemAtIndex:" (p As Ptr, i As Integer) As Ptr
+		    Declare Sub setEnabled Lib "AppKit" Selector "setEnabled:" (item As Ptr, flag As Boolean)
+		    Var it As Ptr = itemAtIndex(mLangMenu.Handle, mIdxRemove)
+		    If it <> Nil Then setEnabled(it, localized)
+		    it = itemAtIndex(mLangMenu.Handle, mIdxSeed)
+		    If it <> Nil Then setEnabled(it, localized)
+		  End If
+		  If mProject Is Nil Then Return
+		  If localized And Not CurrentTexts.HasContent(mScreen) Then
+		    ResourceHint.Text = Loc.kLanguageEmptyHint
+		  End If
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -1130,7 +1348,10 @@ End
 		Sub LoadProject(p As PackageProject)
 		  mProject = p
 		  EnsureEditor
+		  EnsureLanguageMenu
 		  mScreen = 0
+		  mLang = ""
+		  RebuildLanguagePopup
 		  Reload
 		End Sub
 	#tag EndMethod
@@ -1154,47 +1375,36 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub SetCurrentPath(value As String)
-		  Select Case mScreen
-		  Case 1
-		    mProject.Presentation.ReadmePath = value
-		  Case 2
-		    mProject.Presentation.LicensePath = value
-		  Case 3
-		    mProject.Presentation.ConclusionPath = value
-		  Case Else
-		    mProject.Presentation.WelcomePath = value
-		  End Select
+		  CurrentTexts.SetPath(mScreen, value)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub SetCurrentRTF(value As String)
-		  Select Case mScreen
-		  Case 1
-		    mProject.Presentation.ReadmeRTF = value
-		  Case 2
-		    mProject.Presentation.LicenseRTF = value
-		  Case 3
-		    mProject.Presentation.ConclusionRTF = value
-		  Case Else
-		    mProject.Presentation.WelcomeRTF = value
-		  End Select
+		  CurrentTexts.SetRTF(mScreen, value)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub ShowScreen(index As Integer)
 		  mScreen = index
+		  Var screenName As String
 		  Select Case index
 		  Case 1
-		    ScreenBox.Caption = Loc.kReadMe
+		    screenName = Loc.kReadMe
 		  Case 2
-		    ScreenBox.Caption = Loc.kLicense
+		    screenName = Loc.kLicense
 		  Case 3
-		    ScreenBox.Caption = Loc.kConclusion
+		    screenName = Loc.kConclusion
 		  Case Else
-		    ScreenBox.Caption = Loc.kWelcome
+		    screenName = Loc.kWelcome
 		  End Select
+		  // Le titre du groupe porte la langue : on sait toujours ce qu'on édite.
+		  If mLang = "" Then
+		    ScreenBox.Caption = screenName
+		  Else
+		    ScreenBox.Caption = screenName + " — " + LanguageRowLabel(mLang)
+		  End If
 		  If mProject Is Nil Then Return
 		  EnsureEditor
 		  mUpdating = True
@@ -1224,6 +1434,7 @@ End
 		    End If
 		  End If
 		  mUpdating = False
+		  UpdateLanguageState
 		End Sub
 	#tag EndMethod
 
@@ -1286,6 +1497,30 @@ End
 		Private mUpdating As Boolean
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private mCandidates() As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLang As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLangMenu As NativePopupButton
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mIdxOther As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mIdxRemove As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mIdxSeed As Integer
+	#tag EndProperty
+
 	#tag Property, Flags = &h0
 		Owner As ProjectWindow
 	#tag EndProperty
@@ -1305,6 +1540,23 @@ End
 		Sub SelectionChanged(index As Integer)
 		  Flush
 		  ShowScreen(index)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events LangPopup
+	#tag Event
+		Sub SelectionChanged(item As DesktopMenuItem)
+		  #Pragma Unused item
+		  If mUpdating Or mProject Is Nil Then Return
+		  Var row As Integer = LangPopup.SelectedRowIndex
+		  If row <= 0 Then
+		    SelectLanguage("")
+		    Return
+		  End If
+		  Var codes() As String = mProject.Presentation.Languages
+		  Var i As Integer = row - 1
+		  If i > codes.LastIndex Then Return
+		  SelectLanguage(codes(i))
 		End Sub
 	#tag EndEvent
 #tag EndEvents

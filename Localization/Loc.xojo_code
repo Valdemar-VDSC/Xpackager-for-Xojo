@@ -1440,6 +1440,83 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"Formati di file incompatibili tra le lingue per la schermata"
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Formatos de ficheiro incompat\xC3\xADveis entre idiomas para o ecr\xC3\xA3"
 	#tag EndConstant
+	#tag Constant, Name = kManageLanguages, Type = String, Dynamic = True, Default = \"G\xC3\xA9rer les langues", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Manage languages"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Gestionar idiomas"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprachen verwalten"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Gestisci le lingue"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Gerir os idiomas"
+	#tag EndConstant
+	#tag Constant, Name = kLanguage, Type = String, Dynamic = True, Default = \"Langue", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Language"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Idioma"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprache"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Lingua"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Idioma"
+	#tag EndConstant
+	#tag Constant, Name = kReferenceTexts, Type = String, Dynamic = True, Default = \"R\xC3\xA9f\xC3\xA9rence", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Reference"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Referencia"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Referenz"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Riferimento"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Refer\xC3\xAAncia"
+	#tag EndConstant
+	#tag Constant, Name = kAddLanguage, Type = String, Dynamic = True, Default = \"Ajouter une langue", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Add a language"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"A\xC3\xB1adir un idioma"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprache hinzuf\xC3\xBCgen"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Aggiungi una lingua"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Adicionar um idioma"
+	#tag EndConstant
+	#tag Constant, Name = kOtherLanguageEllipsis, Type = String, Dynamic = True, Default = \"Autre langue\xE2\x80\xA6", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Other language\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Otro idioma\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Andere Sprache\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Altra lingua\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Outro idioma\xE2\x80\xA6"
+	#tag EndConstant
+	#tag Constant, Name = kLanguageCodePrompt, Type = String, Dynamic = True, Default = \"Code de la langue (exemple : pt-BR)", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Language code (example: pt-BR)"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"C\xC3\xB3digo del idioma (ejemplo: pt-BR)"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprachcode (Beispiel: pt-BR)"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Codice della lingua (esempio: pt-BR)"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"C\xC3\xB3digo do idioma (exemplo: pt-BR)"
+	#tag EndConstant
+	#tag Constant, Name = kRemoveLanguage, Type = String, Dynamic = True, Default = \"Retirer cette langue", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Remove this language"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Quitar este idioma"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Diese Sprache entfernen"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Rimuovi questa lingua"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Remover este idioma"
+	#tag EndConstant
+	#tag Constant, Name = kRemoveLanguageQuestion, Type = String, Dynamic = True, Default = \"Retirer cette langue et ses textes ?", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Remove this language and its texts?"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"\xC2\xBFQuitar este idioma y sus textos?"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Diese Sprache und ihre Texte entfernen?"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Rimuovere questa lingua e i suoi testi?"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Remover este idioma e os seus textos?"
+	#tag EndConstant
+	#tag Constant, Name = kCopyFromReference, Type = String, Dynamic = True, Default = \"Copier le texte de la r\xC3\xA9f\xC3\xA9rence dans cette langue", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Copy the reference text into this language"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Copiar el texto de la referencia en este idioma"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Referenztext in diese Sprache kopieren"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Copia il testo del riferimento in questa lingua"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Copiar o texto da refer\xC3\xAAncia para este idioma"
+	#tag EndConstant
+	#tag Constant, Name = kLanguageEmptyHint, Type = String, Dynamic = True, Default = \"\xC3\x89cran vide dans cette langue : l'installateur utilisera la r\xC3\xA9f\xC3\xA9rence.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"This screen is empty in this language: the installer will use the reference."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Esta pantalla est\xC3\xA1 vac\xC3\xADa en este idioma: el instalador usar\xC3\xA1 la referencia."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Diese Seite ist in dieser Sprache leer: das Installationsprogramm verwendet die Referenz."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Questa schermata \xC3\xA8 vuota in questa lingua: il programma di installazione user\xC3\xA0 il riferimento."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Este ecr\xC3\xA3 est\xC3\xA1 vazio neste idioma: o instalador usar\xC3\xA1 a refer\xC3\xAAncia."
+	#tag EndConstant
+	#tag Constant, Name = kBadLanguageCode, Type = String, Dynamic = True, Default = \"Code de langue invalide.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Invalid language code."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"C\xC3\xB3digo de idioma no v\xC3\xA1lido."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Ung\xC3\xBCltiger Sprachcode."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Codice lingua non valido."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"C\xC3\xB3digo de idioma inv\xC3\xA1lido."
+	#tag EndConstant
 	#tag Constant, Name = kReferenceLanguage, Type = String, Dynamic = True, Default = \"r\xC3\xA9f\xC3\xA9rence", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"reference"
 		#Tag Instance, Platform = Any, Language = es, Definition  = \"referencia"

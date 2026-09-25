@@ -90,9 +90,19 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   fichier externe est recopié sous le nom de la référence. Un mélange irrécupérable (`.html`
   d'un côté, RTF de l'autre) lève une `BuildError` qui nomme l'écran, la langue et les deux
   extensions.
-- **Pas encore fait** : aucune interface — le panneau Présentation édite la référence ; et le
-  titre de l'installateur comme les intitulés de choix ne sont pas traduits (il faudrait un
-  `Localizable.strings` dans chaque `.lproj`).
+- **Interface** : à droite du sélecteur d'écran, un popup choisit la langue éditée
+  (« Référence », puis « anglais — en »…) et un menu `globe` à côté ajoute une langue
+  (liste courante ou code libre), retire la langue courante ou y recopie le texte de la
+  référence. Le titre du groupe rappelle ce qu'on édite (« Licence — anglais — en ») et le
+  rappel sous l'éditeur annonce le repli quand l'écran est vide dans cette langue. Trois
+  pièges tenus par le code : `Flush` avant tout changement de langue **et** avant de retirer
+  une langue — sans quoi le texte encore dans la vue ne compte pas et la langue part sans
+  confirmation ; le menu hébergé n'est construit qu'à l'ouverture du panneau ; et le nom de
+  langue vient de `localizedStringForLocaleIdentifier:` — le sélecteur
+  `localizedStringForLanguageIdentifier:` n'existe pas et faisait tomber l'application.
+- **Pas encore fait** : le titre de l'installateur et les intitulés de choix ne sont pas
+  traduits (il faudrait un `Localizable.strings` dans chaque `.lproj`) et la langue de
+  référence (`baseLanguage`) ne se règle pas encore depuis l'interface.
 
 ## Contrôles d'interface
 

@@ -272,6 +272,46 @@ Protected Module XPUI
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Confirm(question As String, informative As String, confirmTitle As String) As Boolean
+		  // Alerte à deux boutons ; le bouton de confirmation est celui de droite.
+		  Var alert As New NativeAlert(question, informative)
+		  alert.Style = NativeAlert.Styles.Warning
+		  Var okIndex As Integer = alert.AddButton(confirmTitle)
+		  Var cancelIndex As Integer = alert.AddButton(Loc.kCancelButton)
+		  alert.SetDefaultButton(okIndex)
+		  alert.SetCancelButton(cancelIndex)
+		  Return alert.RunModal = okIndex
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function LanguageName(code As String) As String
+		  // Nom de la langue dans la langue de l'utilisateur : « anglais » pour « en »,
+		  // « portugais (Brésil) » pour « pt-BR ». Renvoie le code lui-même si le système
+		  // ne connaît pas l'identifiant.
+		  //
+		  // Le sélecteur est localizedStringForLocaleIdentifier: — il n'existe pas de
+		  // localizedStringForLanguageIdentifier:, et l'appeler faisait tomber
+		  // l'application au lancement sur un sélecteur inconnu.
+		  #If TargetMacOS
+		    Declare Function NSClassFromString Lib "Foundation" (name As CFStringRef) As Ptr
+		    Declare Function currentLocale Lib "Foundation" Selector "currentLocale" (cls As Ptr) As Ptr
+		    Declare Function localizedString Lib "Foundation" Selector "localizedStringForLocaleIdentifier:" (loc As Ptr, id As CFStringRef) As Ptr
+		    Declare Function utf8 Lib "Foundation" Selector "UTF8String" (s As Ptr) As CString
+		    
+		    Var loc As Ptr = currentLocale(NSClassFromString("NSLocale"))
+		    If loc = Nil Then Return code
+		    Var obj As Ptr = localizedString(loc, code)
+		    If obj = Nil Then Return code
+		    Var raw As String = utf8(obj)
+		    Var name As String = raw.DefineEncoding(Encodings.UTF8)
+		    If name.Trim <> "" Then Return name
+		  #EndIf
+		  Return code
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub ShowError(message As String)
 		  Var alert As New NativeAlert(message)
 		  alert.Style = NativeAlert.Styles.Warning
