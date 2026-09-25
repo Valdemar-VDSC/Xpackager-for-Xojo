@@ -1358,6 +1358,47 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Function EncodingLooksSane(f As FolderItem) As Boolean
+		  // Un RTF en page de codes Windows n'a jamais d'octet ≥ 0x80 : tout accent y est
+		  // échappé (\'e9). S'il en contient, il a été écrit en UTF-8 brut et l'installateur
+		  // affichera « Ã© ». Le fichier étant recopié tel quel dans le paquet, autant
+		  // prévenir avant plutôt que de le découvrir à l'installation.
+		  If PkgFS.FileExtension(f.Name).Lowercase <> "rtf" Then Return True
+		  
+		  Var data As String
+		  Try
+		    Var bs As BinaryStream = BinaryStream.Open(f, False)
+		    Var n As Integer = 2097152
+		    If bs.Length < n Then n = bs.Length
+		    data = bs.Read(n)
+		    bs.Close
+		  Catch err As RuntimeException
+		    Return True
+		  End Try
+		  
+		  Var mb As MemoryBlock = data
+		  If mb Is Nil Or mb.Size = 0 Then Return True
+		  Var headLen As Integer = 512
+		  If mb.Size < headLen Then headLen = mb.Size
+		  Var head As String = mb.StringValue(0, headLen)
+		  // Pas de page de codes annoncée, ou UTF-8 assumé : rien à redire.
+		  If head.IndexOf("\ansi") < 0 Then Return True
+		  If head.IndexOf("\ansicpg65001") >= 0 Then Return True
+		  
+		  Var raw As Boolean
+		  For i As Integer = 0 To mb.Size - 1
+		    If mb.Byte(i) >= 128 Then
+		      raw = True
+		      Exit
+		    End If
+		  Next
+		  If Not raw Then Return True
+		  
+		  Return XPUI.Confirm(Loc.kRTFEncodingQuestion, Loc.kRTFEncodingDetail, Loc.kImportAnyway)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub EnsureEditor()
 		  If mEditor <> Nil Then Return
 		  mEditor = New NativeRichTextEditor(RTFCanvas.Width, RTFCanvas.Height)
@@ -1637,6 +1678,7 @@ End
 		  If mProject Is Nil Then Return
 		  Var f As FolderItem = ChooseFile(Loc.kImportFileEllipsis)
 		  If f Is Nil Then Return
+		  If Not EncodingLooksSane(f) Then Return
 		  Flush
 		  SetCurrentPath(f.NativePath)
 		  ShowScreen(mScreen)

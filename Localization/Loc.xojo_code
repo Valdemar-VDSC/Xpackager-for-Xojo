@@ -1538,6 +1538,27 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"Questa schermata \xC3\xA8 vuota in questa lingua: il programma di installazione user\xC3\xA0 il riferimento."
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Este ecr\xC3\xA3 est\xC3\xA1 vazio neste idioma: o instalador usar\xC3\xA1 a refer\xC3\xAAncia."
 	#tag EndConstant
+	#tag Constant, Name = kRTFEncodingQuestion, Type = String, Dynamic = True, Default = \"Ce fichier RTF risque de s'afficher de travers.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"This RTF file may display incorrectly."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Este archivo RTF puede mostrarse mal."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Diese RTF-Datei wird m\xC3\xB6glicherweise falsch angezeigt."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Questo file RTF rischia di visualizzarsi male."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Este ficheiro RTF pode ser apresentado incorretamente."
+	#tag EndConstant
+	#tag Constant, Name = kRTFEncodingDetail, Type = String, Dynamic = True, Default = \"Il annonce la page de codes Windows mais contient des caract\xC3\xA8res non \xC3\xA9chapp\xC3\xA9s. L'installateur affichera \xC2\xAB \xC3\x83\xC2\xA9 \xC2\xBB \xC3\xA0 la place de \xC2\xAB \xC3\xA9 \xC2\xBB. Le r\xC3\xA9enregistrer depuis TextEdit corrige le fichier.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"It declares the Windows code page but holds unescaped characters. The installer will show \xC2\xAB \xC3\x83\xC2\xA9 \xC2\xBB instead of \xC2\xAB \xC3\xA9 \xC2\xBB. Saving it again from TextEdit fixes the file."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Declara la p\xC3\xA1gina de c\xC3\xB3digos de Windows pero contiene caracteres sin escapar. El instalador mostrar\xC3\xA1 \xC2\xAB \xC3\x83\xC2\xA9 \xC2\xBB en lugar de \xC2\xAB \xC3\xA9 \xC2\xBB. Volver a guardarlo desde TextEdit corrige el archivo."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sie gibt die Windows-Codepage an enth\xC3\xA4lt aber nicht maskierte Zeichen. Das Installationsprogramm zeigt \xC2\xAB \xC3\x83\xC2\xA9 \xC2\xBB statt \xC2\xAB \xC3\xA9 \xC2\xBB. Erneutes Sichern aus TextEdit behebt die Datei."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Dichiara la code page Windows ma contiene caratteri non preceduti da escape. Il programma di installazione mostrer\xC3\xA0 \xC2\xAB \xC3\x83\xC2\xA9 \xC2\xBB invece di \xC2\xAB \xC3\xA9 \xC2\xBB. Salvarlo di nuovo da TextEdit corregge il file."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Declara a p\xC3\xA1gina de c\xC3\xB3digo do Windows mas cont\xC3\xA9m caracteres sem escape. O instalador mostrar\xC3\xA1 \xC2\xAB \xC3\x83\xC2\xA9 \xC2\xBB em vez de \xC2\xAB \xC3\xA9 \xC2\xBB. Voltar a guard\xC3\xA1-lo no TextEdit corrige o ficheiro."
+	#tag EndConstant
+	#tag Constant, Name = kImportAnyway, Type = String, Dynamic = True, Default = \"Importer quand m\xC3\xAAme", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Import anyway"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Importar de todos modos"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Trotzdem importieren"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Importa comunque"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Importar mesmo assim"
+	#tag EndConstant
 	#tag Constant, Name = kBadLanguageCode, Type = String, Dynamic = True, Default = \"Code de langue invalide.", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"Invalid language code."
 		#Tag Instance, Platform = Any, Language = es, Definition  = \"C\xC3\xB3digo de idioma no v\xC3\xA1lido."

@@ -276,6 +276,16 @@ après un écran en gras, le texte simple de l'écran suivant s'affichait en gra
 écrivait ce gras dans le projet. Le panneau passe donc par un RTF minimal
 (`DistributionXML.TextToRTF` + `LoadRTF`), qui remet la vue à plat.
 
+### Fichiers importés
+
+Un fichier externe est recopié **octet pour octet** dans le paquet : c'est voulu — on ne
+réécrit pas le contrat de licence de quelqu'un — mais un RTF mal formé s'affiche alors de
+travers dans l'installateur. L'import prévient donc quand un `.rtf` annonce la page de codes
+Windows (`\ansi` sans `\ansicpg65001`) tout en contenant des octets ≥ 0x80 : un RTF correct
+dans cette page de codes échappe tous ses accents (`\'e9`), les octets hauts bruts sont donc
+le signe d'un fichier écrit en UTF-8 qui affichera « Ã© ». L'avertissement laisse le choix
+d'importer quand même.
+
 ### Boucle de vérification
 
 L'IDE **ne relit pas** les fichiers modifiés hors de lui : « Revert to Saved » reste grisé
