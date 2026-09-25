@@ -133,7 +133,9 @@ Protected Class PayloadNode
 		  j.Value("sourcePath") = SourcePath
 		  j.Value("permissions") = Permissions
 		  If Children.Count > 0 Or IsDirectory Then
-		    Var kids As New JSONItem
+		    // « New JSONItem » donne un objet ; sans cette amorce un dossier vide
+		    // s'écrivait « "children": {} » au lieu d'un tableau.
+		    Var kids As New JSONItem("[]")
 		    kids.Compact = False
 		    For Each child As PayloadNode In Children
 		      kids.Add(child.ToJSON)
