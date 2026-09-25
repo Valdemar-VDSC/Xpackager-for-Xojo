@@ -301,6 +301,31 @@ suffit pas toujours : après l'ajout d'une classe au manifeste `.xojo_project`, 
 reconstruit une copie en mémoire périmée — sans erreur et sans se marquer modifié. Il a
 fallu quitter Xojo puis rouvrir le projet.
 
+## État du portage
+
+**Fait et vérifié sur l'application en marche** — chaque point a été éprouvé en pilotant
+l'interface, en dépliant les paquets produits (`pkgutil --expand`) et en les ouvrant dans
+Installer :
+
+- Les quatre pages (Réglages, Composants, Prérequis, Présentation), le payload avec son
+  glisser-déposer du Finder, les modèles de projet, les préférences et la fenêtre À propos.
+- L'éditeur riche : mise en forme conservée d'un écran à l'autre, fichiers externes
+  importés ou repris par l'éditeur, document marqué modifié dès la frappe.
+- Le multilingue de bout en bout : écrans, titre de l'installateur, intitulés et
+  descriptions de choix, image de fond ; langue de référence obligatoire ; avancement des
+  traductions affiché ; codes régionaux et d'écriture normalisés (`pt-BR`, `zh-Hans`).
+- La construction, depuis l'application comme depuis la CLI — les deux produisent des
+  paquets identiques, structure, `distribution.xml` et ressources comprises.
+
+**Jamais exercé** : la signature et la notarisation, faute de certificat. Le code date du
+portage et n'a pas bougé depuis, mais aucun paquet signé n'a été produit.
+
+**Pas de tests automatisés.** Tout se vérifie à la main, avec trois outils qui suffisent :
+`pkgutil --expand` pour l'agencement des ressources,
+`installer -showChoicesXML -pkg x.pkg -target / -AppleLanguages '(de)'` pour le rendu langue
+par langue, et l'ouverture du paquet dans Installer pour ce que seul l'œil voit — l'image de
+fond, que l'accessibilité n'expose pas.
+
 ## Écarts assumés par rapport à l'interface SwiftUI
 
 - **Présentation** : les quatre écrans (Bienvenue / Lisez-moi / Licence / Conclusion) se
