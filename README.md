@@ -49,6 +49,12 @@ L'utilisateur tape `xpackagerbuild` et ne voit jamais les dylibs. Le script pren
 `--sign « Developer ID Installer: … »` et `--out chemin.pkg`, lit la version dans l'outil
 lui-même et enchaîne `pkgbuild` puis `productbuild` — la même paire que XPackager.
 
+Le même paquet se fabrique **avec l'application elle-même** : `xpackagerbuild.xpackager`
+décrit le payload en arbre — un dossier `libexec/xpackager` qui importe le contenu du dossier
+construit par Xojo, et le lanceur `CLI/lanceur/xpackagerbuild` posé dans `bin`. Les deux
+chemins produisent la même arborescence ; le script sert à enchaîner sans ouvrir l'interface.
+Les chemins du projet sont absolus : à réajuster si le dépôt change de place.
+
 Deux choses à savoir en le vérifiant :
 
 - `pkgutil --payload-files` affiche des entrées `._…` : c'est ainsi que les attributs

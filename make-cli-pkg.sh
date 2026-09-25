@@ -47,12 +47,9 @@ mkdir -p "$STAGE$LIBEXEC" "$STAGE$PREFIX/bin"
 ditto --noextattr --norsrc --noqtn "$BUILD" "$STAGE$LIBEXEC"
 rm -rf "$STAGE$LIBEXEC/_CodeSignature"
 
-# 2) Le lanceur, seul fichier visible dans le chemin de commandes.
-cat > "$STAGE$PREFIX/bin/xpackagerbuild" <<'LAUNCHER'
-#!/bin/sh
-# Lanceur : le binaire vit avec ses bibliothèques dans libexec.
-exec "/usr/local/libexec/xpackager/xpackagerbuild" "$@"
-LAUNCHER
+# 2) Le lanceur, seul fichier visible dans le chemin de commandes. Il vit dans le dépôt :
+# le projet xpackagerbuild.xpackager pointe sur le même fichier, pas sur une copie.
+cp "$ROOT/CLI/lanceur/xpackagerbuild" "$STAGE$PREFIX/bin/xpackagerbuild"
 chmod 755 "$STAGE$PREFIX/bin/xpackagerbuild"
 
 # 3) pkgbuild puis productbuild, comme le fait XPackager lui-même.

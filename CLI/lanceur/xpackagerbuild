@@ -1,0 +1,3 @@
+#!/bin/sh
+# Lanceur : le binaire vit avec ses bibliothèques dans libexec.
+exec "/usr/local/libexec/xpackager/xpackagerbuild" "$@"
