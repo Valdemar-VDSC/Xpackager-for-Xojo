@@ -1488,7 +1488,13 @@ End
 		      mEditor.Editor.LoadRTF(tmp)
 		      PkgFS.DeleteRecursively(tmp)
 		    Else
-		      mEditor.Editor.Text = CurrentText
+		      // Poser le texte tel quel laissait la vue garder ses attributs de frappe :
+		      // un écran en gras teintait le texte simple du suivant, et le Flush écrivait
+		      // ce gras dans le projet. Passer par un RTF minimal remet tout à plat.
+		      Var tmp As FolderItem = SpecialFolder.Temporary.Child("xpackager-plain-" + PkgIDs.NewID + ".rtf")
+		      PkgFS.WriteTextFile(tmp, DistributionXML.TextToRTF(CurrentText))
+		      mEditor.Editor.LoadRTF(tmp)
+		      PkgFS.DeleteRecursively(tmp)
 		    End If
 		  End If
 		  mUpdating = False

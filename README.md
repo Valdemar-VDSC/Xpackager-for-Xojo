@@ -262,6 +262,13 @@ documentation.
   il marque les plages avec `NSInlinePresentationIntent` (2 = gras, 1 = italique), à
   convertir soi-même. Voir `XPUI.SetMarkdown`.
 
+### Éditeur riche
+
+Poser un texte simple dans la vue avec `Text = …` lui laisse ses **attributs de frappe** :
+après un écran en gras, le texte simple de l'écran suivant s'affichait en gras et le `Flush`
+écrivait ce gras dans le projet. Le panneau passe donc par un RTF minimal
+(`DistributionXML.TextToRTF` + `LoadRTF`), qui remet la vue à plat.
+
 ### Boucle de vérification
 
 L'IDE **ne relit pas** les fichiers modifiés hors de lui : « Revert to Saved » reste grisé

@@ -451,10 +451,11 @@ Protected Class DistributionXML
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Shared Function TextToRTF(content As String) As String
+	#tag Method, Flags = &h0
+		Shared Function TextToRTF(content As String) As String
 		  // Dès qu'une langue est riche, le texte simple des autres doit devenir du RTF :
-		  // le fichier référencé porte la même extension partout.
+		  // le fichier référencé porte la même extension partout. L'éditeur s'en sert
+		  // aussi pour charger un texte simple sans hériter de la mise en forme affichée.
 		  Var lines() As String
 		  lines.Add("{\rtf1\ansi\ansicpg1252")
 		  lines.Add("{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;}")
