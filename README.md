@@ -31,6 +31,34 @@ sans quoi `Opening` et `Paint` sont intervertis sur onze contrôles (voir les pi
 | `Localization/` | `Loc` : constantes dynamiques (fr source + en, es, de, it, pt) |
 | `CLI/` | `CLIApp` : l'outil en ligne de commande |
 
+## L'outil en ligne de commande
+
+Xojo ne produit pas un binaire mais un dossier de six fichiers — 22 Mo, dont 10 pour
+`rbframework.dylib` — et **aucune bibliothèque n'est superflue** : retirer n'importe laquelle
+fait tomber l'outil au démarrage. Seul `Resources/*.lproj` est facultatif ; sans lui l'outil
+tourne et perd ses messages traduits.
+
+`./make-cli-pkg.sh` fabrique donc le paquet qui range tout ça hors du chemin :
+
+```
+/usr/local/libexec/xpackager/   le binaire et ses bibliothèques
+/usr/local/bin/xpackagerbuild   un lanceur de deux lignes qui l'appelle
+```
+
+L'utilisateur tape `xpackagerbuild` et ne voit jamais les dylibs. Le script prend
+`--sign « Developer ID Installer: … »` et `--out chemin.pkg`, lit la version dans l'outil
+lui-même et enchaîne `pkgbuild` puis `productbuild` — la même paire que XPackager.
+
+Deux choses à savoir en le vérifiant :
+
+- `pkgutil --payload-files` affiche des entrées `._…` : c'est ainsi que les attributs
+  étendus voyagent dans une charge utile. `pkgutil --expand-full` montre ce qui atterrit
+  vraiment sur le disque — l'arborescence y est nette.
+- La CLI Swift d'origine produit, elle, un binaire unique de 1,1 Mo sans dépendance. Elle n'a
+  pas été gardée parce qu'elle suppose **un second moteur** : celui de Swift est resté à
+  l'état d'avant le multilingue, et deux implémentations du même format de fichier divergent
+  en silence. Un seul moteur, un problème d'installation en échange.
+
 ## Correspondance avec la version Swift
 
 | Swift | Xojo |
