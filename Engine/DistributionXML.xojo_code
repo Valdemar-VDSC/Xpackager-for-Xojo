@@ -110,10 +110,10 @@ Protected Class DistributionXML
 	#tag Method, Flags = &h0
 		Shared Function Make(project As PackageProject, componentFiles() As String, resourcesDir As FolderItem) As String
 		  Var p As PkgPresentation = project.Presentation
-		  Var welcome As String = Resolve(p.WelcomePath, p.WelcomeRTF, p.WelcomeText, "welcome", resourcesDir)
-		  Var readme As String = Resolve(p.ReadmePath, p.ReadmeRTF, p.ReadmeText, "readme", resourcesDir)
-		  Var license As String = Resolve(p.LicensePath, p.LicenseRTF, p.LicenseText, "license", resourcesDir)
-		  Var conclusion As String = Resolve(p.ConclusionPath, p.ConclusionRTF, p.ConclusionText, "conclusion", resourcesDir)
+		  Var welcome As String = ResolveScreen(p, PkgPresentationTexts.kWelcome, resourcesDir)
+		  Var readme As String = ResolveScreen(p, PkgPresentationTexts.kReadme, resourcesDir)
+		  Var license As String = ResolveScreen(p, PkgPresentationTexts.kLicense, resourcesDir)
+		  Var conclusion As String = ResolveScreen(p, PkgPresentationTexts.kConclusion, resourcesDir)
 		  Var background As String = CopyRes(p.BackgroundPath, resourcesDir)
 		  
 		  Var rawTitle As String = p.Title
@@ -195,6 +195,212 @@ Protected Class DistributionXML
 		Private Shared Function BoolText(b As Boolean) As String
 		  If b Then Return "true"
 		  Return "false"
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function ContentExtension(p As PkgPresentation, screen As Integer, code As String) As String
+		  // Extension du contenu qu'une langue apporte pour cet écran, "" si elle
+		  // n'apporte rien. Priorité identique à Resolve : fichier externe, puis RTF,
+		  // puis texte simple.
+		  Var t As PkgPresentationTexts = TextsFor(p, code)
+		  If t Is Nil Then Return ""
+		  Var f As FolderItem = ExternalFile(t.Path(screen))
+		  If f <> Nil Then
+		    Var e As String = PkgFS.FileExtension(f.Name).Lowercase
+		    If e = "" Then e = "txt"
+		    Return e
+		  End If
+		  If t.RTF(screen) <> "" Then Return "rtf"
+		  If t.Text(screen) <> "" Then Return "txt"
+		  Return ""
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function ExternalFile(path As String) As FolderItem
+		  If path.Trim = "" Then Return Nil
+		  Var f As FolderItem = PkgFS.ItemAtPath(path)
+		  If f Is Nil Or Not f.Exists Then Return Nil
+		  Return f
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function LProjFolder(resourcesDir As FolderItem, code As String) As FolderItem
+		  Var dir As FolderItem = resourcesDir.Child(code + ".lproj")
+		  If dir Is Nil Then Return Nil
+		  If Not dir.Exists Then
+		    Try
+		      dir.CreateFolder
+		    Catch err As RuntimeException
+		      Return Nil
+		    End Try
+		  End If
+		  Return dir
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function ResolveScreen(p As PkgPresentation, screen As Integer, resourcesDir As FolderItem) As String
+		  // Sans langue déclarée, on garde le chemin historique : un fichier à plat.
+		  If Not p.IsLocalized Then
+		    Var b As PkgPresentationTexts = p.Base
+		    Return Resolve(b.Path(screen), b.RTF(screen), b.Text(screen), PkgPresentationTexts.ScreenKey(screen), resourcesDir)
+		  End If
+		  
+		  // Le distribution.xml ne référence qu'un nom de fichier : Installer va le
+		  // chercher dans <langue>.lproj avant la racine des ressources. Toutes les
+		  // langues doivent donc écrire le même nom, donc la même extension.
+		  Var codes() As String
+		  codes.Add("")
+		  For Each code As String In p.Languages
+		    codes.Add(code)
+		  Next
+		  
+		  Var ext As String = ""
+		  For Each code As String In codes
+		    Var cand As String = ContentExtension(p, screen, code)
+		    If cand = "" Then Continue
+		    If ext = "" Then
+		      ext = cand
+		    ElseIf ext <> cand Then
+		      // Seul mélange rattrapable : du texte simple à promouvoir en RTF.
+		      If ext = "txt" And cand = "rtf" Then
+		        ext = "rtf"
+		      ElseIf ext = "rtf" And cand = "txt" Then
+		        // le texte simple sera converti
+		      Else
+		        Var langue As String = code
+		        If langue = "" Then langue = Loc.kReferenceLanguage
+		        Raise New BuildError(Loc.kErrLocalizedMix + " " + PkgPresentationTexts.ScreenKey(screen) + " : " + ext + " / " + cand + " (" + langue + ")")
+		      End If
+		    End If
+		  Next
+		  If ext = "" Then Return ""
+		  
+		  // Nom du fichier : celui du fichier externe de référence quand il en a un.
+		  Var fileName As String = PkgPresentationTexts.ScreenKey(screen) + "." + ext
+		  Var baseFile As FolderItem = ExternalFile(p.Base.Path(screen))
+		  If baseFile <> Nil And PkgFS.FileExtension(baseFile.Name).Lowercase = ext Then fileName = baseFile.Name
+		  
+		  // Le fichier à plat est le repli : la référence si elle est remplie, sinon la
+		  // première langue qui a du contenu — productbuild exige qu'il existe.
+		  Var flatDone As Boolean = False
+		  For Each code As String In codes
+		    If ContentExtension(p, screen, code) = "" Then Continue
+		    If Not WriteScreen(p, screen, code, ext, resourcesDir, fileName) Then Continue
+		    flatDone = True
+		    Exit
+		  Next
+		  If Not flatDone Then Return ""
+		  
+		  // Puis une copie par langue déclarée. Une langue vide n'écrit rien et
+		  // retombe sur le repli.
+		  For Each code As String In p.Languages
+		    If ContentExtension(p, screen, code) = "" Then Continue
+		    Var dir As FolderItem = LProjFolder(resourcesDir, code)
+		    If dir Is Nil Then Continue
+		    Call WriteScreen(p, screen, code, ext, dir, fileName)
+		  Next
+		  Return fileName
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function RTFEscape(s As String) As String
+		  Var norm As String = s.ReplaceAll(Chr(13) + Chr(10), Chr(10)).ReplaceAll(Chr(13), Chr(10))
+		  Var out As String
+		  For Each ch As String In norm.Characters
+		    Select Case ch
+		    Case "\"
+		      out = out + "\\"
+		    Case "{"
+		      out = out + "\{"
+		    Case "}"
+		      out = out + "\}"
+		    Case Chr(9)
+		      out = out + "\tab "
+		    Case Chr(10)
+		      out = out + "\par" + EndOfLine
+		    Else
+		      Var cp As Integer = Asc(ch)
+		      If cp < 128 Then
+		        out = out + ch
+		      ElseIf cp <= 65535 Then
+		        Var signed As Integer = cp
+		        If signed > 32767 Then signed = signed - 65536
+		        out = out + "\u" + Str(signed) + "?"
+		      Else
+		        out = out + "?"
+		      End If
+		    End Select
+		  Next
+		  Return out
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function TextToRTF(content As String) As String
+		  // Dès qu'une langue est riche, le texte simple des autres doit devenir du RTF :
+		  // le fichier référencé porte la même extension partout.
+		  Var lines() As String
+		  lines.Add("{\rtf1\ansi\ansicpg1252")
+		  lines.Add("{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;}")
+		  lines.Add("\pard\f0\fs26 " + RTFEscape(content) + "}")
+		  Return String.FromArray(lines, EndOfLine)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function TextsFor(p As PkgPresentation, code As String) As PkgPresentationTexts
+		  If code = "" Then Return p.Base
+		  Return p.Texts(code)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function WriteFile(content As String, destDir As FolderItem, fileName As String) As Boolean
+		  Var dest As FolderItem = destDir.Child(fileName)
+		  If dest Is Nil Then Return False
+		  Try
+		    PkgFS.WriteTextFile(dest, content)
+		  Catch err As RuntimeException
+		    Return False
+		  End Try
+		  Return True
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function WriteScreen(p As PkgPresentation, screen As Integer, code As String, ext As String, destDir As FolderItem, fileName As String) As Boolean
+		  // Écrit le contenu d'une langue pour un écran, sous le nom commun.
+		  Var t As PkgPresentationTexts = TextsFor(p, code)
+		  If t Is Nil Then Return False
+		  Var src As FolderItem = ExternalFile(t.Path(screen))
+		  If src <> Nil Then
+		    Var srcExt As String = PkgFS.FileExtension(src.Name).Lowercase
+		    If srcExt = "" Then srcExt = "txt"
+		    If srcExt = ext Then
+		      Try
+		        PkgFS.CopyInto(src, destDir, fileName)
+		      Catch err As RuntimeException
+		        Return False
+		      End Try
+		      Return True
+		    End If
+		    // Un .txt externe face à des langues riches : converti comme le texte saisi.
+		    If ext = "rtf" And srcExt = "txt" Then
+		      Return WriteFile(TextToRTF(PkgFS.ReadTextFile(src)), destDir, fileName)
+		    End If
+		    Return False
+		  End If
+		  Var rtf As String = t.RTF(screen)
+		  If rtf <> "" Then Return WriteFile(rtf, destDir, fileName)
+		  Var txt As String = t.Text(screen)
+		  If txt = "" Then Return False
+		  If ext = "rtf" Then Return WriteFile(TextToRTF(txt), destDir, fileName)
+		  Return WriteFile(txt, destDir, fileName)
 		End Function
 	#tag EndMethod
 

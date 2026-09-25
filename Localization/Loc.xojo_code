@@ -1433,6 +1433,20 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"pkgbuild non riuscito per questo componente."
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"pkgbuild falhou para este componente."
 	#tag EndConstant
+	#tag Constant, Name = kErrLocalizedMix, Type = String, Dynamic = True, Default = \"Formats de fichier incompatibles entre les langues pour l'\xC3\xA9cran", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Incompatible file formats across languages for screen"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Formatos de archivo incompatibles entre idiomas para la pantalla"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Nicht kompatible Dateiformate zwischen den Sprachen f\xC3\xBCr die Seite"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Formati di file incompatibili tra le lingue per la schermata"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Formatos de ficheiro incompat\xC3\xADveis entre idiomas para o ecr\xC3\xA3"
+	#tag EndConstant
+	#tag Constant, Name = kReferenceLanguage, Type = String, Dynamic = True, Default = \"r\xC3\xA9f\xC3\xA9rence", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"reference"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"referencia"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Referenz"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"riferimento"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"refer\xC3\xAAncia"
+	#tag EndConstant
 
 	#tag Constant, Name = kErrProductbuild, Type = String, Dynamic = True, Default = \"productbuild a \xC3\xA9chou\xC3\xA9.", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"productbuild failed."

@@ -21,6 +21,7 @@ Class=PkgNotarization;Engine/PkgNotarization.xojo_code;&hFFFFFFFFBBBB1010;&hFFFF
 Class=PkgPayload;Engine/PkgPayload.xojo_code;&hFFFFFFFFBBBB1011;&hFFFFFFFFBBBB1002;false
 Class=PkgPostInstall;Engine/PkgPostInstall.xojo_code;&hFFFFFFFFBBBB1012;&hFFFFFFFFBBBB1002;false
 Class=PkgPresentation;Engine/PkgPresentation.xojo_code;&hFFFFFFFFBBBB1013;&hFFFFFFFFBBBB1002;false
+Class=PkgPresentationTexts;Engine/PkgPresentationTexts.xojo_code;&hFFFFFFFFBBBB102B;&hFFFFFFFFBBBB1002;false
 Class=PkgRequirements;Engine/PkgRequirements.xojo_code;&hFFFFFFFFBBBB1014;&hFFFFFFFFBBBB1002;false
 Class=PkgScripts;Engine/PkgScripts.xojo_code;&hFFFFFFFFBBBB1015;&hFFFFFFFFBBBB1002;false
 Class=PkgSettings;Engine/PkgSettings.xojo_code;&hFFFFFFFFBBBB1016;&hFFFFFFFFBBBB1002;false

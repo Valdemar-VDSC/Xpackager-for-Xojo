@@ -35,7 +35,7 @@ sans quoi `Opening` et `Paint` sont intervertis sur onze contrôles (voir les pi
 
 | Swift | Xojo |
 |---|---|
-| `Engine/PackageProject.swift` | `PackageProject` + `PkgSettings`, `PkgPresentation`, `PkgRequirements`, `PkgNotarization`, `PkgPostInstall`, `PkgComponent`, `PkgPayload`, `PkgScripts`, `PkgInstallCheck` |
+| `Engine/PackageProject.swift` | `PackageProject` + `PkgSettings`, `PkgPresentation` (+ `PkgPresentationTexts`), `PkgRequirements`, `PkgNotarization`, `PkgPostInstall`, `PkgComponent`, `PkgPayload`, `PkgScripts`, `PkgInstallCheck` |
 | `Engine/PayloadNode.swift` | `PayloadNode` + module `PayloadTree` (méthodes d'extension de tableau) |
 | `Engine/PackageBuilder.swift` | `PackageBuilder.PrepareSteps` (staging + scripts, synchrone) puis `BuildRunner` (asynchrone) ou `BuildSequence` (CLI) |
 | `Engine/DistributionXML.swift` | `DistributionXML` |
@@ -63,6 +63,36 @@ sans quoi `Opening` et `Paint` sont intervertis sur onze contrôles (voir les pi
    la CLI, elle, enchaîne les mêmes étapes en synchrone (`BuildSequence`).
 3. **Pas de `Codable`.** Le décodage tolérant se fait par de simples `HasKey` sur un
    `JSONItem` — plus court qu'en Swift, et même format de fichier `.xpackager`.
+
+## Présentation multilingue
+
+Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
+
+- **Modèle** : `PkgPresentation` porte les textes de **référence** (un
+  `PkgPresentationTexts` : quatre écrans × chemin externe / RTF / texte simple) plus un jeu
+  par langue déclarée. Les douze propriétés historiques (`WelcomeRTF`, `LicensePath`…)
+  adressent toujours la référence, donc le panneau et les modèles de projet n'ont pas bougé.
+  Langues : `AddLanguage`, `RemoveLanguage`, `Languages`, `Texts(code)`, `EnsureTexts(code)`,
+  `SeedFromBase(code)` ; les codes sont normalisés en nom de dossier `.lproj` (`fr`, `pt-BR`,
+  `zh-Hans`) et un code contenant autre chose que des lettres des chiffres ou des tirets est
+  refusé — il finit en dossier sur le disque.
+- **Format `.xpackager`** : les clés à plat restent la référence, donc un XPackager plus
+  ancien relit le fichier et y retrouve sa présentation. S'ajoutent `baseLanguage` (simple
+  étiquette) et `localized`, un **tableau** d'objets `{ "code": "en", … }` — un tableau pour
+  que l'ordre d'affichage des langues soit stable.
+- **Construction** : sans langue déclarée, rien ne change — un fichier à plat par écran. Dès
+  qu'une langue est déclarée, le fichier à plat devient le **repli** et chaque langue reçoit
+  `<code>.lproj/<même nom de fichier>` ; Installer va chercher le `.lproj` de la langue du
+  système avant la racine des ressources. Une langue laissée vide n'écrit rien et retombe sur
+  le repli.
+- **Un seul nom de fichier : donc une seule extension.** Le texte simple d'une langue est
+  promu en RTF (`TextToRTF`, échappement `\uN?`) dès qu'une autre langue est riche, et un
+  fichier externe est recopié sous le nom de la référence. Un mélange irrécupérable (`.html`
+  d'un côté, RTF de l'autre) lève une `BuildError` qui nomme l'écran, la langue et les deux
+  extensions.
+- **Pas encore fait** : aucune interface — le panneau Présentation édite la référence ; et le
+  titre de l'installateur comme les intitulés de choix ne sont pas traduits (il faudrait un
+  `Localizable.strings` dans chaque `.lproj`).
 
 ## Contrôles d'interface
 
@@ -202,7 +232,10 @@ documentation.
 L'IDE **ne relit pas** les fichiers modifiés hors de lui : « Revert to Saved » reste grisé
 et la construction repart de la copie en mémoire. Il faut fermer le projet (« Close
 Window ») puis le rouvrir. Dans le doute, chercher une chaîne de trace dans le binaire
-construit dit tout de suite si la version compilée est la bonne.
+construit dit tout de suite si la version compilée est la bonne. Fermer la fenêtre ne
+suffit pas toujours : après l'ajout d'une classe au manifeste `.xojo_project`, l'IDE a
+reconstruit une copie en mémoire périmée — sans erreur et sans se marquer modifié. Il a
+fallu quitter Xojo puis rouvrir le projet.
 
 ## Écarts assumés par rapport à l'interface SwiftUI
 
