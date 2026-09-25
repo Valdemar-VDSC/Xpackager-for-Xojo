@@ -104,7 +104,7 @@ Protected Module Badges
 		    Declare Sub setBorderWidth Lib "AppKit" Selector "setBorderWidth:" (b As Ptr, width As Double)
 		    Declare Sub setCornerRadius Lib "AppKit" Selector "setCornerRadius:" (b As Ptr, radius As Double)
 		    Declare Sub setFillColor Lib "AppKit" Selector "setFillColor:" (b As Ptr, c As Ptr)
-		    Declare Function whiteColor Lib "AppKit" Selector "whiteColor" (cls As Ptr) As Ptr
+		    Declare Function colorWithWhite Lib "AppKit" Selector "colorWithCalibratedWhite:alpha:" (cls As Ptr, white As Double, alpha As Double) As Ptr
 		    Declare Sub setAutoresizingMask Lib "AppKit" Selector "setAutoresizingMask:" (v As Ptr, mask As Integer)
 		    Declare Sub setHidden Lib "AppKit" Selector "setHidden:" (v As Ptr, hidden As Boolean)
 
@@ -120,7 +120,8 @@ Protected Module Badges
 		    setTitlePosition(box, 0)   // NSNoTitle
 		    setBorderWidth(box, 0)
 		    setCornerRadius(box, 10)
-		    setFillColor(box, whiteColor(Cocoa.ClassRef("NSColor")))
+		    // Un blanc laiteux plutôt qu'opaque : la barre latérale transparaît un peu.
+		    setFillColor(box, colorWithWhite(Cocoa.ClassRef("NSColor"), 1.0, 0.85))
 		    setAutoresizingMask(box, 32)
 		    setHidden(box, Not visible)
 		    Return box
@@ -133,7 +134,8 @@ Protected Module Badges
 		  // On retient les pastilles pour les montrer ou les cacher quand l'utilisateur
 		  // change d'apparence. AppKit ne prévient pas une vue posée à la main, et
 		  // aucune couleur système ne fait « clair en sombre, rien en clair » : d'où
-		  // ce réveil régulier, qui ne compare qu'un booléen.
+		  // ce réveil régulier, qui ne compare qu'un booléen — assez rapproché pour
+		  // que le fond paraisse suivre le basculement.
 		  If owner = Nil Or boites.Count = 0 Then Return
 		  For Each boite As Ptr In boites
 		    mProprietaires.Add(New WeakRef(owner))
@@ -142,7 +144,7 @@ Protected Module Badges
 
 		  If mVeille = Nil Then
 		    mVeille = New Timer
-		    mVeille.Period = 2000
+		    mVeille.Period = 250   // le fond suit l'apparence sans attente visible
 		    AddHandler mVeille.Action, AddressOf VeilleAction
 		  End If
 		  mSombre = Color.IsDarkMode
