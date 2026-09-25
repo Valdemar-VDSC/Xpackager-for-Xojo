@@ -353,7 +353,10 @@ End
 		  // Chrome natif : NSSplitViewController propriétaire de la fenêtre.
 		  mChrome = New NativeWindowChrome(Self)
 		  AddHandler mChrome.DetailResized, AddressOf ChromeDetailResized
-		  mChrome.Install(mSidebar.BuildSidebarView(230, Self.Height), 230, 200, 340)
+		  Var sidebarView As Ptr = mSidebar.BuildSidebarView(230, Self.Height)
+		  mChrome.Install(sidebarView, 230, 200, 340)
+		  // Deux logos au bas de la barre latérale : avec quoi c'est fait.
+		  Badges.Install(sidebarView)
 		  
 		  BuildNativeToolbar
 		  

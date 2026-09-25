@@ -1475,6 +1475,20 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"Lasciare vuoto per riprendere il titolo del riferimento."
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Deixar vazio para reutilizar o t\xC3\xADtulo da refer\xC3\xAAncia."
 	#tag EndConstant
+	#tag Constant, Name = kMadeWithXojo, Type = String, Dynamic = True, Default = \"Application \xC3\xA9crite en Xojo", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Application written in Xojo"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Aplicaci\xC3\xB3n escrita en Xojo"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"In Xojo geschriebene Anwendung"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Applicazione scritta in Xojo"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Aplica\xC3\xA7\xC3\xA3o escrita em Xojo"
+	#tag EndConstant
+	#tag Constant, Name = kMadeWithTools, Type = String, Dynamic = True, Default = \"Interface native construite avec VDSTools", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Native interface built with VDSTools"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Interfaz nativa construida con VDSTools"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Native Oberfl\xC3\xA4che mit VDSTools gebaut"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Interfaccia nativa costruita con VDSTools"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Interface nativa constru\xC3\xADda com VDSTools"
+	#tag EndConstant
 	#tag Constant, Name = kLanguage, Type = String, Dynamic = True, Default = \"Langue", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"Language"
 		#Tag Instance, Platform = Any, Language = es, Definition  = \"Idioma"
