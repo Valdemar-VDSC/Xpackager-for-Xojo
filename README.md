@@ -116,6 +116,11 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   description de référence n'a rien à quoi s'accrocher et n'est pas écrite.
   Vérification sans clic : `installer -showChoicesXML -pkg x.pkg -target /` affiche les
   intitulés de choix déjà traduits.
+- **Où les saisir** : le titre suit le popup de langue de la page Présentation ; le nom et la
+  description du choix suivent un popup de langue ajouté à la page Composants, qui n'apparaît
+  que si le projet déclare des langues. Sur une langue, les champs qui ne se traduisent pas —
+  identifiant, version, emplacement, interrupteurs, scripts — sont grisés, et le filigrane des
+  deux champs traduisibles rappelle le texte de référence qui servira si on les laisse vides.
 
 ## Contrôles d'interface
 

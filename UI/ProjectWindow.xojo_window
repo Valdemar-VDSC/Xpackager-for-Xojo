@@ -423,6 +423,12 @@ End
 		Sub ShowPage(index As Integer)
 		  If index < 0 Or index > 3 Then Return
 		  If index <> 3 And mPresentationPanel <> Nil Then mPresentationPanel.Flush
+		  // La liste des langues se règle dans la Présentation : la page Composants la
+		  // relit en arrivant, sinon son popup resterait sur l'état d'avant.
+		  If index = 1 And mComponentsPanel <> Nil Then
+		    mComponentsPanel.ReloadDetail
+		    mComponentsPanel.Relayout
+		  End If
 		  DetailPanel.SelectedPanelIndex = index
 		  // Les interrupteurs ne sont hébergés qu'au premier dessin de leur page.
 		  Timer.CallLater(150, AddressOf FitSwitches)

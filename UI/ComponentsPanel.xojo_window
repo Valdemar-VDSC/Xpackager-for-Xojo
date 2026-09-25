@@ -898,6 +898,64 @@ Begin DesktopContainer ComponentsPanel
             Visible         =   True
             Width           =   180
          End
+         Begin NativeLabelControl CompLangLabel
+            AllowAutoDeactivate=   True
+            Bold            =   False
+            Enabled         =   True
+            FontName        =   "System"
+            FontSize        =   0.0
+            FontUnit        =   0
+            Height          =   18
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl1"
+            Italic          =   False
+            Left            =   30
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   True
+            LockRight       =   False
+            LockTop         =   True
+            Scope           =   0
+            Selectable      =   False
+            TabIndex        =   8
+            TabPanelIndex   =   0
+            TabStop         =   True
+            Text            =   ""
+            TextAlignment   =   0
+            TextColor       =   &c00000000
+            Tooltip         =   ""
+            Top             =   110
+            Transparent     =   False
+            Underline       =   False
+            Visible         =   True
+            Width           =   150
+         End
+         Begin NativePopupMenuControl CompLangPopup
+            AllowAutoDeactivate=   True
+            AllowFocus      =   False
+            AllowFocusRing  =   True
+            AllowTabs       =   False
+            Backdrop        =   0
+            Enabled         =   True
+            Height          =   24
+            Index           =   -2147483648
+            InitialParent   =   "NativeGroupBoxControl1"
+            Left            =   220
+            LockBottom      =   False
+            LockedInPosition=   False
+            LockLeft        =   True
+            LockRight       =   True
+            LockTop         =   True
+            Scope           =   0
+            TabIndex        =   9
+            TabPanelIndex   =   0
+            TabStop         =   True
+            Tooltip         =   ""
+            Top             =   108
+            Transparent     =   False
+            Visible         =   True
+            Width           =   260
+         End
          Begin NativeTextFieldControl CompNameField
             AllowAutoDeactivate=   True
             AllowFocusRing  =   True
@@ -1429,6 +1487,12 @@ End
 		  Var top As Double = y
 		  Var n As Integer = 0
 		  y = y + kTitleH
+		  // La langue ne se montre que si le projet en déclare : sinon la page reste
+		  // exactement celle d'avant.
+		  Var localized As Boolean = mProject <> Nil And mProject.Presentation.IsLocalized
+		  XPUI.SetShown(CompLangLabel, localized)
+		  XPUI.SetShown(CompLangPopup, localized)
+		  If localized Then y = FieldRow(n, NativeGroupBoxControl1, CompLangLabel, CompLangPopup, cl, vc, cr, y, kRowH)
 		  y = FieldRow(n, NativeGroupBoxControl1, CompNameLabel, CompNameField, cl, vc, cr, y, kRowH)
 		  y = FieldRow(n, NativeGroupBoxControl1, CompIdLabel, CompIdField, cl, vc, cr, y, kRowH)
 		  y = FieldRow(n, NativeGroupBoxControl1, CompVersionLabel, CompVersionField, cl, vc, cr, y, kRowH)
@@ -1656,6 +1720,27 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub RebuildLanguagePopup()
+		  // Les langues viennent de la Présentation : c'est là qu'on les déclare.
+		  If mProject Is Nil Then Return
+		  Var wasUpdating As Boolean = mUpdating
+		  mUpdating = True
+		  CompLangPopup.RemoveAllRows
+		  CompLangPopup.AddRow(Loc.kReferenceTexts)
+		  Var selected As Integer = 0
+		  Var codes() As String = mProject.Presentation.Languages
+		  For i As Integer = 0 To codes.LastIndex
+		    CompLangPopup.AddRow(XPUI.LanguageName(codes(i)) + " — " + codes(i))
+		    If codes(i) = mLang Then selected = i + 1
+		  Next
+		  If selected = 0 Then mLang = ""
+		  CompLangPopup.SelectedRowIndex = selected
+		  CompLangLabel.Text = Loc.kLanguage
+		  mUpdating = wasUpdating
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ReloadComponentMenu()
 		  If mProject Is Nil Then Return
 		  mUpdating = True
@@ -1687,17 +1772,42 @@ End
 		  Var comp As PkgComponent = Current
 		  If comp Is Nil Then Return
 		  mSelectedID = comp.ComponentID
+		  RebuildLanguagePopup
 		  mUpdating = True
-		  CompNameField.Text = comp.Name
+		  If mLang = "" Then
+		    CompNameField.Text = comp.Name
+		    CompDescField.Text = comp.ComponentDescription
+		    CompNameField.Hint = ""
+		    CompDescField.Hint = ""
+		  Else
+		    // Vide : c'est le texte de référence qui s'affichera dans l'installateur,
+		    // d'où l'indice en filigrane.
+		    CompNameField.Text = comp.LocalizedName(mLang)
+		    CompDescField.Text = comp.LocalizedDescription(mLang)
+		    CompNameField.Hint = comp.DisplayName
+		    CompDescField.Hint = comp.ComponentDescription
+		  End If
 		  CompIdField.Text = comp.Identifier
 		  CompVersionField.Text = comp.Version
 		  CompLocationField.Text = comp.InstallLocation
-		  CompDescField.Text = comp.ComponentDescription
 		  StartSelectedCheck.Value = comp.StartSelected
 		  ToggleableCheck.Value = comp.UserToggleable
 		  VisibleCheck.Value = comp.IsVisible
 		  PreField.Text = comp.Scripts.PreinstallPath
 		  PostField.Text = comp.Scripts.PostinstallPath
+		  // Seuls le nom et la description du choix se traduisent : le reste décrit le
+		  // composant lui-même et vaut pour toutes les langues.
+		  Var perLanguage As Boolean = mLang = ""
+		  CompIdField.Enabled = perLanguage
+		  CompVersionField.Enabled = perLanguage
+		  CompLocationField.Enabled = perLanguage
+		  StartSelectedCheck.Enabled = perLanguage
+		  ToggleableCheck.Enabled = perLanguage
+		  VisibleCheck.Enabled = perLanguage
+		  PreField.Enabled = perLanguage
+		  PostField.Enabled = perLanguage
+		  PreButton.Enabled = perLanguage
+		  PostButton.Enabled = perLanguage
 		  mUpdating = False
 		  If mPayloadPanel <> Nil Then mPayloadPanel.LoadPayload(comp.Payload)
 		End Sub
@@ -1741,6 +1851,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mPayloadPanel As PayloadPanel
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLang As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1814,7 +1928,11 @@ End
 		  If mUpdating Or mProject Is Nil Then Return
 		  Var comp As PkgComponent = Current
 		  If comp Is Nil Then Return
-		  comp.ComponentDescription = Me.Text
+		  If mLang = "" Then
+		    comp.ComponentDescription = Me.Text
+		  Else
+		    comp.SetLocalizedDescription(mLang, Me.Text)
+		  End If
 		  Touch
 		End Sub
 	#tag EndEvent
@@ -1885,14 +2003,36 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events CompLangPopup
+	#tag Event
+		Sub SelectionChanged(item As DesktopMenuItem)
+		  #Pragma Unused item
+		  If mUpdating Or mProject Is Nil Then Return
+		  Var row As Integer = CompLangPopup.SelectedRowIndex
+		  If row <= 0 Then
+		    mLang = ""
+		  Else
+		    Var codes() As String = mProject.Presentation.Languages
+		    Var i As Integer = row - 1
+		    If i > codes.LastIndex Then Return
+		    mLang = codes(i)
+		  End If
+		  ReloadDetail
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events CompNameField
 	#tag Event
 		Sub TextChanged()
 		  If mUpdating Or mProject Is Nil Then Return
 		  Var comp As PkgComponent = Current
 		  If comp Is Nil Then Return
-		  comp.Name = Me.Text
-		  ReloadComponentMenu
+		  If mLang = "" Then
+		    comp.Name = Me.Text
+		    ReloadComponentMenu
+		  Else
+		    comp.SetLocalizedName(mLang, Me.Text)
+		  End If
 		  Touch
 		End Sub
 	#tag EndEvent
