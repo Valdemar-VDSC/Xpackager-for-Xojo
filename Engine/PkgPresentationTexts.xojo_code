@@ -4,6 +4,7 @@ Protected Class PkgPresentationTexts
 		Function Clone() As PkgPresentationTexts
 		  Var c As New PkgPresentationTexts
 		  c.Title = Title
+		  c.BackgroundPath = BackgroundPath
 		  c.WelcomePath = WelcomePath
 		  c.WelcomeRTF = WelcomeRTF
 		  c.WelcomeText = WelcomeText
@@ -27,6 +28,7 @@ Protected Class PkgPresentationTexts
 		  Var t As New PkgPresentationTexts
 		  If j Is Nil Then Return t
 		  If j.HasKey("title") Then t.Title = j.Value("title")
+		  If j.HasKey("backgroundPath") Then t.BackgroundPath = j.Value("backgroundPath")
 		  If j.HasKey("welcomePath") Then t.WelcomePath = j.Value("welcomePath")
 		  If j.HasKey("welcomeRTF") Then t.WelcomeRTF = j.Value("welcomeRTF")
 		  If j.HasKey("welcomeText") Then t.WelcomeText = j.Value("welcomeText")
@@ -51,8 +53,8 @@ Protected Class PkgPresentationTexts
 
 	#tag Method, Flags = &h0
 		Function IsEmpty() As Boolean
-		  // Le titre compte : une langue qui n'a que lui n'est pas vide.
-		  If Title.Trim <> "" Then Return False
+		  // Le titre et l'image comptent : une langue qui n'a qu'eux n'est pas vide.
+		  If Title.Trim <> "" Or BackgroundPath.Trim <> "" Then Return False
 		  For s As Integer = 0 To kScreenCount - 1
 		    If HasContent(s) Then Return False
 		  Next
@@ -177,6 +179,7 @@ Protected Class PkgPresentationTexts
 		  // ou dans l'objet d'une langue.
 		  If j Is Nil Then Return
 		  j.Value("title") = Title
+		  j.Value("backgroundPath") = BackgroundPath
 		  j.Value("welcomePath") = WelcomePath
 		  j.Value("welcomeRTF") = WelcomeRTF
 		  j.Value("welcomeText") = WelcomeText
@@ -192,6 +195,10 @@ Protected Class PkgPresentationTexts
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		BackgroundPath As String
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		ConclusionPath As String

@@ -123,6 +123,11 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   sans ça la traduction n'avait rien à quoi s'accrocher et disparaissait du paquet.
   Vérification sans clic : `installer -showChoicesXML -pkg x.pkg -target /` affiche les
   intitulés de choix déjà traduits.
+- **Image de fond** : traduisible comme le reste. Sans langue déclarée elle reste à plat ;
+  sinon chaque `.lproj` reçoit la sienne — celle de la référence pour les langues qui n'en
+  fixent pas — sous un nom de fichier commun, puisque le `distribution.xml` n'en référence
+  qu'un. Elle n'entre pas dans le décompte d'avancement : une image se traduit rarement et la
+  compter aurait poussé à la dupliquer pour rien.
 - **Avancement** : chaque ligne des deux popups de langue porte ce qu'il reste à traduire —
   « anglais — en · 2/8 » — et rien du tout quand la langue est complète, pour que seules les
   langues incomplètes attirent l'œil. Le décompte (`PackageProject.TranslatedCount`) ne

@@ -1243,6 +1243,7 @@ End
 		  Touch
 		  RebuildLanguagePopup
 		  RefreshTitleField
+		  RefreshBackgroundField
 		  ShowScreen(mScreen)
 		End Sub
 	#tag EndMethod
@@ -1315,7 +1316,29 @@ End
 		  mLang = PkgPresentation.NormalizeLanguage(code)
 		  RebuildLanguagePopup
 		  RefreshTitleField
+		  RefreshBackgroundField
 		  ShowScreen(mScreen)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RefreshBackgroundField()
+		  // L'image de fond se traduit comme le reste ; vide sur une langue veut dire
+		  // « celle de la référence », d'où le filigrane.
+		  If mProject Is Nil Then Return
+		  mUpdating = True
+		  BgField.Text = CurrentTexts.BackgroundPath
+		  If mLang = "" Then
+		    BgField.Hint = ""
+		  Else
+		    Var ref As String = mProject.Presentation.Base.BackgroundPath
+		    If ref.Trim <> "" Then
+		      Var f As FolderItem = PkgFS.ItemAtPath(ref)
+		      If f <> Nil Then ref = f.Name
+		    End If
+		    BgField.Hint = ref
+		  End If
+		  mUpdating = False
 		End Sub
 	#tag EndMethod
 
@@ -1458,7 +1481,7 @@ End
 		  TitleField.Text = CurrentTexts.Title
 		  TitleField.Hint = mProject.Settings.PackageName
 		  If TitleField.Hint = "" Then TitleField.Hint = Loc.kProductNamePlaceholder
-		  BgField.Text = mProject.Presentation.BackgroundPath
+		  BgField.Text = CurrentTexts.BackgroundPath
 		  ConclusionPopup.SelectedRowIndex = Integer(mProject.PostInstall.Conclusion)
 		  LaunchCheck.Value = mProject.PostInstall.LaunchApp
 		  AppPathField.Text = mProject.PostInstall.AppPath
@@ -1700,7 +1723,7 @@ End
 	#tag Event
 		Sub TextChanged()
 		  If mUpdating Or mProject Is Nil Then Return
-		  mProject.Presentation.BackgroundPath = Me.Text
+		  CurrentTexts.BackgroundPath = Me.Text
 		  Touch
 		End Sub
 	#tag EndEvent

@@ -114,7 +114,7 @@ Protected Class DistributionXML
 		  Var readme As String = ResolveScreen(p, PkgPresentationTexts.kReadme, resourcesDir)
 		  Var license As String = ResolveScreen(p, PkgPresentationTexts.kLicense, resourcesDir)
 		  Var conclusion As String = ResolveScreen(p, PkgPresentationTexts.kConclusion, resourcesDir)
-		  Var background As String = CopyRes(p.BackgroundPath, resourcesDir)
+		  Var background As String = ResolveBackground(p, resourcesDir)
 		  
 		  Var localized As Boolean = p.IsLocalized
 		  Var rawTitle As String = p.Title
@@ -346,6 +346,61 @@ Protected Class DistributionXML
 		    End Try
 		  End If
 		  Return dir
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function ResolveBackground(p As PkgPresentation, resourcesDir As FolderItem) As String
+		  // Même règle que les écrans : à plat tant qu'il n'y a pas de langue, sinon une
+		  // copie dans chaque .lproj sous un nom commun — un fichier à la racine masquerait
+		  // les .lproj. Une langue sans image reprend celle de la référence.
+		  If Not p.IsLocalized Then Return CopyRes(p.Base.BackgroundPath, resourcesDir)
+		  
+		  Var baseCode As String = PkgPresentation.NormalizeLanguage(p.BaseLanguage)
+		  If baseCode = "" Then Raise New BuildError(Loc.kErrNoReferenceLanguage)
+		  
+		  Var baseFile As FolderItem = ExternalFile(p.Base.BackgroundPath)
+		  Var fileName As String = ""
+		  If baseFile <> Nil Then fileName = baseFile.Name
+		  If fileName = "" Then
+		    // Pas d'image de référence : c'est la première langue qui en a une qui donne
+		    // le nom porté par le distribution.xml.
+		    For Each code As String In p.Languages
+		      Var t As PkgPresentationTexts = p.Texts(code)
+		      If t Is Nil Then Continue
+		      Var f As FolderItem = ExternalFile(t.BackgroundPath)
+		      If f <> Nil Then
+		        fileName = f.Name
+		        Exit
+		      End If
+		    Next
+		  End If
+		  If fileName = "" Then Return ""
+		  
+		  Var codes() As String
+		  codes.Add(baseCode)
+		  For Each code As String In p.Languages
+		    If code <> baseCode Then codes.Add(code)
+		  Next
+		  
+		  Var written As Boolean
+		  For Each code As String In codes
+		    Var src As FolderItem = Nil
+		    Var t As PkgPresentationTexts = p.Texts(code)
+		    If t <> Nil Then src = ExternalFile(t.BackgroundPath)
+		    If src Is Nil Then src = ExternalFile(p.Base.BackgroundPath)
+		    If src Is Nil Then Continue
+		    Var dir As FolderItem = LProjFolder(resourcesDir, code)
+		    If dir Is Nil Then Continue
+		    Try
+		      PkgFS.CopyInto(src, dir, fileName)
+		      written = True
+		    Catch err As RuntimeException
+		      Continue
+		    End Try
+		  Next
+		  If Not written Then Return ""
+		  Return fileName
 		End Function
 	#tag EndMethod
 

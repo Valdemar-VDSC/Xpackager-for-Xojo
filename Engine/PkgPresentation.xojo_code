@@ -23,7 +23,6 @@ Protected Class PkgPresentation
 	#tag Method, Flags = &h0
 		Function Clone() As PkgPresentation
 		  Var c As New PkgPresentation
-		  c.BackgroundPath = BackgroundPath
 		  c.BaseLanguage = BaseLanguage
 		  c.SetBase(mBase.Clone)
 		  For Each code As String In mLanguages
@@ -54,7 +53,6 @@ Protected Class PkgPresentation
 		Shared Function FromJSON(j As JSONItem) As PkgPresentation
 		  Var p As New PkgPresentation
 		  If j Is Nil Then Return p
-		  If j.HasKey("backgroundPath") Then p.BackgroundPath = j.Value("backgroundPath")
 		  
 		  // Les douze clés à plat sont la langue de référence : un projet écrit avant le
 		  // multilingue se relit tel quel.
@@ -200,7 +198,6 @@ Protected Class PkgPresentation
 		  // La référence reste écrite à plat : un XPackager plus ancien lit encore le
 		  // fichier et y retrouve sa présentation.
 		  mBase.WriteInto(j)
-		  j.Value("backgroundPath") = BackgroundPath
 		  If BaseLanguage.Trim <> "" Then j.Value("baseLanguage") = BaseLanguage
 		  If mLanguages.Count > 0 Then
 		    Var arr As New JSONItem
@@ -217,9 +214,19 @@ Protected Class PkgPresentation
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h0
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mBase.BackgroundPath
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mBase.BackgroundPath = value
+			End Set
+		#tag EndSetter
 		BackgroundPath As String
-	#tag EndProperty
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h0
 		BaseLanguage As String
