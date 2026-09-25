@@ -226,6 +226,8 @@ Protected Class DistributionXML
 
 	#tag Method, Flags = &h21
 		Private Shared Function TitleFor(project As PackageProject, code As String, refTitle As String) As String
+		  // La langue de référence n'est pas déclarée comme langue : Texts() rend Nil et
+		  // c'est bien le titre de référence qu'elle doit afficher.
 		  If code = "" Then Return refTitle
 		  Var texts As PkgPresentationTexts = project.Presentation.Texts(code)
 		  If texts Is Nil Or texts.Title.Trim = "" Then Return refTitle
@@ -235,28 +237,42 @@ Protected Class DistributionXML
 
 	#tag Method, Flags = &h21
 		Private Shared Sub WriteStringsTables(project As PackageProject, refTitle As String, resourcesDir As FolderItem)
-		  // Un Localizable.strings par langue déclarée. La clé est le texte de référence
-		  // lui-même : une langue sans entrée — ou sans .lproj — voit donc la référence,
-		  // jamais une clé brute. productbuild écarte une table posée à la racine des
-		  // ressources : inutile d'en écrire une.
-		  For Each code As String In project.Presentation.Languages
+		  // Un Localizable.strings par langue, la référence comprise, et TOUTES les clés
+		  // dans chacun — la traduction si elle existe, le texte de référence sinon.
+		  //
+		  // Une langue dont le .lproj n'a pas de table ne montre pas le texte de
+		  // référence : la recherche part chercher la table d'une autre langue. Un paquet
+		  // français + anglais affichait ainsi le titre anglais à un Français, alors que
+		  // ses écrans restaient en français. Chaque langue doit donc porter sa table.
+		  //
+		  // productbuild écarte une table posée à la racine des ressources : inutile d'en
+		  // écrire une.
+		  Var p As PkgPresentation = project.Presentation
+		  Var baseCode As String = PkgPresentation.NormalizeLanguage(p.BaseLanguage)
+		  If baseCode = "" Then Return
+		  
+		  Var codes() As String
+		  codes.Add(baseCode)
+		  For Each code As String In p.Languages
+		    If code <> baseCode Then codes.Add(code)
+		  Next
+		  
+		  For Each code As String In codes
 		    Var lines() As String
-		    
-		    Var texts As PkgPresentationTexts = project.Presentation.Texts(code)
-		    If texts <> Nil And texts.Title.Trim <> "" And refTitle.Trim <> "" Then
-		      lines.Add(StringsEntry(refTitle, texts.Title))
-		    End If
+		    If refTitle.Trim <> "" Then lines.Add(StringsEntry(refTitle, TitleFor(project, code, refTitle)))
 		    
 		    For Each comp As PkgComponent In project.Components
-		      Var name As String = comp.LocalizedName(code).Trim
-		      If name <> "" And comp.DisplayName.Trim <> "" Then
-		        lines.Add(StringsEntry(comp.DisplayName, name))
+		      Var refName As String = comp.DisplayName
+		      If refName.Trim <> "" Then
+		        Var name As String = comp.LocalizedName(code).Trim
+		        If name = "" Then name = refName
+		        lines.Add(StringsEntry(refName, name))
 		      End If
-		      Var desc As String = comp.LocalizedDescription(code).Trim
-		      Var refDesc As String = ChoiceDescription(project.Presentation, comp)
-		      // Rien à écrire quand la traduction est déjà le texte porté par le
-		      // distribution.xml : il s'affichera tel quel.
-		      If desc <> "" And refDesc.Trim <> "" And desc <> refDesc Then
+		      
+		      Var refDesc As String = ChoiceDescription(p, comp)
+		      If refDesc.Trim <> "" Then
+		        Var desc As String = comp.LocalizedDescription(code).Trim
+		        If desc = "" Then desc = refDesc
 		        lines.Add(StringsEntry(refDesc, desc))
 		      End If
 		    Next

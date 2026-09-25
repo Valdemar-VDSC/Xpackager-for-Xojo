@@ -110,9 +110,14 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
 - **Titre et choix** : ils ne sont pas des fichiers mais des chaînes du `distribution.xml`.
   Installer les traduit par une table `Localizable.strings` dans chaque `.lproj`, **en prenant
   le texte lui-même comme clé** — `"Installateur de Démo" = "Demo Installer";`. Le
-  `distribution.xml` garde donc le texte de référence, une langue sans entrée l'affiche tel
-  quel, et aucune clé brute ne peut fuiter. Une table posée à la racine des ressources est
-  écartée par `productbuild` : inutile d'en écrire une. Quand la description de référence est
+  `distribution.xml` garde donc le texte de référence et aucune clé brute ne peut fuiter. Une
+  table posée à la racine des ressources est écartée par `productbuild` : inutile d'en écrire
+  une. **Chaque langue déclarée porte sa propre table, avec toutes les clés** — sa traduction
+  ou le texte de référence à défaut : une langue dont le `.lproj` n'a pas de table ne retombe
+  pas sur la référence, la recherche part chercher la table d'une autre langue. Un paquet
+  français + anglais affichait ainsi un titre anglais à un Français dont les écrans restaient
+  en français. Pour vérifier langue par langue sans changer les réglages du Mac :
+  `installer -showChoicesXML -pkg x.pkg -target / -AppleLanguages '(de)'`. Quand la description de référence est
   vide alors qu'une langue en a une, c'est cette traduction — celle de la langue de référence
   sinon la première déclarée — qui devient le texte du `distribution.xml` et donc la clé :
   sans ça la traduction n'avait rien à quoi s'accrocher et disparaissait du paquet.
