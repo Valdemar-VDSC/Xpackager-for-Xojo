@@ -1,0 +1,181 @@
+{
+  "settings": {
+    "packageName": "XPackager",
+    "signingIdentity": "Developer ID Installer: Valdemar De SOUSA (NHZMQ2KB94)",
+    "hardenPayloadApps": true,
+    "appSigningIdentity": "Developer ID Application: Valdemar De SOUSA (NHZMQ2KB94)",
+    "webSafeName": false
+  },
+  "presentation": {
+    "title": "Installation de XPackager",
+    "welcomePath": "",
+    "welcomeRTF": "",
+    "welcomeText": "XPackager fabrique des installateurs macOS : paquets signés, notarisés et agrafés, à partir d'un projet que l'on règle dans une interface.\n\nCet installateur pose l'application dans le dossier Applications et, si vous le souhaitez, l'outil en ligne de commande xpackagerbuild pour construire les mêmes paquets depuis le Terminal ou un script.",
+    "readmePath": "",
+    "readmeRTF": "",
+    "readmeText": "L'application et l'outil partagent le même moteur : un projet construit d'un côté donne exactement le même paquet de l'autre.\n\nL'outil en ligne de commande s'installe dans /usr/local : le binaire et ses bibliothèques dans libexec/xpackager et un lanceur dans bin qui rend la commande « xpackagerbuild » disponible dans le Terminal.",
+    "licensePath": "",
+    "licenseRTF": "",
+    "licenseText": "",
+    "conclusionPath": "",
+    "conclusionRTF": "",
+    "conclusionText": "XPackager est installé.\n\nOuvrez l'application depuis le dossier Applications. Si vous avez retenu l'outil en ligne de commande tapez « xpackagerbuild --help » dans le Terminal.",
+    "backgroundPath": "",
+    "baseLanguage": "fr",
+    "localized": [
+      {
+        "code": "en",
+        "title": "Install XPackager",
+        "welcomeText": "XPackager builds macOS installers: packages that are signed, notarized and stapled, from a project you set up in a graphical interface.\n\nThis installer puts the application in your Applications folder and, if you want it, the xpackagerbuild command-line tool that builds the same packages from the Terminal or from a script.",
+        "readmeText": "The application and the tool share the same engine: a project built on one side produces exactly the same package on the other.\n\nThe command-line tool installs into /usr/local: the binary and its libraries in libexec/xpackager and a launcher in bin that makes the « xpackagerbuild » command available in the Terminal.",
+        "conclusionText": "XPackager is installed.\n\nOpen the application from your Applications folder. If you kept the command-line tool type « xpackagerbuild --help » in the Terminal."
+      }
+    ]
+  },
+  "requirements": {
+    "allowIntel": true,
+    "allowArm64": true,
+    "minimumOSVersion": ""
+  },
+  "notarization": {
+    "enabled": true,
+    "keychainProfile": ""
+  },
+  "postInstall": {
+    "conclusion": "none",
+    "launchApp": false,
+    "appPath": ""
+  },
+  "components": [
+    {
+      "id": "c-app",
+      "name": "Application XPackager",
+      "identifier": "fr.vdsc.xpackager.app",
+      "version": "1.2",
+      "installLocation": "/Applications",
+      "payload": {
+        "rootPath": "",
+        "tree": [
+          {
+            "id": "a-app",
+            "name": "XPackager.app",
+            "isDirectory": false,
+            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackager/macOS Universal/XPackager.app",
+            "permissions": 493
+          }
+        ]
+      },
+      "scripts": {},
+      "componentDescription": "L'application à interface graphique dans le dossier Applications.",
+      "startSelected": true,
+      "userToggleable": false,
+      "visible": true,
+      "localized": [
+        {
+          "code": "en",
+          "name": "XPackager application",
+          "componentDescription": "The graphical application in the Applications folder."
+        }
+      ]
+    },
+    {
+      "id": "c-cli",
+      "name": "Outil en ligne de commande",
+      "identifier": "fr.vdsc.xpackager.cli",
+      "version": "1.2",
+      "installLocation": "/",
+      "payload": {
+        "rootPath": "",
+        "tree": [
+          {
+            "id": "c-usr",
+            "name": "usr",
+            "isDirectory": true,
+            "sourcePath": "",
+            "permissions": 493,
+            "children": [
+              {
+                "id": "c-local",
+                "name": "local",
+                "isDirectory": true,
+                "sourcePath": "",
+                "permissions": 493,
+                "children": [
+                  {
+                    "id": "c-bin",
+                    "name": "bin",
+                    "isDirectory": true,
+                    "sourcePath": "",
+                    "permissions": 493,
+                    "children": [
+                      {
+                        "id": "c-lanceur",
+                        "name": "xpackagerbuild",
+                        "isDirectory": false,
+                        "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/CLI/lanceur/xpackagerbuild",
+                        "permissions": 493
+                      }
+                    ]
+                  },
+                  {
+                    "id": "c-libexec",
+                    "name": "libexec",
+                    "isDirectory": true,
+                    "sourcePath": "",
+                    "permissions": 493,
+                    "children": [
+                      {
+                        "id": "c-xpackager",
+                        "name": "xpackager",
+                        "isDirectory": true,
+                        "sourcePath": "",
+                        "permissions": 493,
+                        "children": [
+                          {
+                            "id": "c-outil",
+                            "name": "xpackagerbuild",
+                            "isDirectory": false,
+                            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild",
+                            "permissions": 493
+                          },
+                          {
+                            "id": "c-libs",
+                            "name": "xpackagerbuild Libs",
+                            "isDirectory": true,
+                            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild Libs",
+                            "permissions": 493,
+                            "children": []
+                          },
+                          {
+                            "id": "c-res",
+                            "name": "Resources",
+                            "isDirectory": true,
+                            "sourcePath": "/Users/valdemar/Git-VDSC-Repos/Xpackager-for-Xojo/Builds - XPackagerBuild/macOS Universal/xpackagerbuild/Resources",
+                            "permissions": 493,
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "scripts": {},
+      "componentDescription": "La commande xpackagerbuild pour construire un paquet depuis le Terminal.",
+      "startSelected": true,
+      "userToggleable": true,
+      "visible": true,
+      "localized": [
+        {
+          "code": "en",
+          "name": "Command-line tool",
+          "componentDescription": "The xpackagerbuild command to build a package from the Terminal."
+        }
+      ]
+    }
+  ]
+}
