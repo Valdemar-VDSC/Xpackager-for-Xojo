@@ -1174,11 +1174,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Function LanguageRowLabel(code As String) As String
-		  // « anglais — en » : le nom dans la langue de l'utilisateur, et le code qui
-		  // finira en nom de dossier .lproj. Le tiret évite « portugais (Brésil) (pt-BR) ».
-		  Var name As String = XPUI.LanguageName(code)
-		  If name = code Then Return code
-		  Return name + " — " + code
+		  Return XPUI.LanguageLabel(code)
 		End Function
 	#tag EndMethod
 
@@ -1302,7 +1298,7 @@ End
 		  Var selected As Integer = 0
 		  Var codes() As String = mProject.Presentation.Languages
 		  For i As Integer = 0 To codes.LastIndex
-		    LangPopup.AddRow(LanguageRowLabel(codes(i)))
+		    LangPopup.AddRow(LanguageRowLabel(codes(i)) + XPUI.LanguageProgress(mProject, codes(i)))
 		    If codes(i) = mLang Then selected = i + 1
 		  Next
 		  If selected = 0 Then mLang = ""
@@ -1608,6 +1604,10 @@ End
 		Sub SelectionChanged(index As Integer)
 		  Flush
 		  ShowScreen(index)
+		  // L'avancement des traductions vient de changer si on a saisi quelque chose.
+		  // Le rafraîchir ici et non dans ShowScreen : reposer les lignes du popup depuis
+		  // le chemin d'affichage relançait l'affichage et l'application n'ouvrait plus.
+		  RebuildLanguagePopup
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1616,15 +1616,18 @@ End
 		Sub SelectionChanged(item As DesktopMenuItem)
 		  #Pragma Unused item
 		  If mUpdating Or mProject Is Nil Then Return
+		  // Reposer les lignes du popup rejoue l'événement : sans ce garde-fou, le
+		  // rafraîchissement de l'avancement relançait un changement de langue en boucle.
 		  Var row As Integer = LangPopup.SelectedRowIndex
-		  If row <= 0 Then
-		    SelectLanguage("")
-		    Return
+		  Var chosen As String
+		  If row > 0 Then
+		    Var codes() As String = mProject.Presentation.Languages
+		    Var i As Integer = row - 1
+		    If i > codes.LastIndex Then Return
+		    chosen = codes(i)
 		  End If
-		  Var codes() As String = mProject.Presentation.Languages
-		  Var i As Integer = row - 1
-		  If i > codes.LastIndex Then Return
-		  SelectLanguage(codes(i))
+		  If chosen = mLang Then Return
+		  SelectLanguage(chosen)
 		End Sub
 	#tag EndEvent
 #tag EndEvents

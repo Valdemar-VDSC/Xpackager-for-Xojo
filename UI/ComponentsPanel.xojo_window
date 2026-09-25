@@ -1730,7 +1730,7 @@ End
 		  Var selected As Integer = 0
 		  Var codes() As String = mProject.Presentation.Languages
 		  For i As Integer = 0 To codes.LastIndex
-		    CompLangPopup.AddRow(XPUI.LanguageName(codes(i)) + " — " + codes(i))
+		    CompLangPopup.AddRow(XPUI.LanguageLabel(codes(i)) + XPUI.LanguageProgress(mProject, codes(i)))
 		    If codes(i) = mLang Then selected = i + 1
 		  Next
 		  If selected = 0 Then mLang = ""
@@ -2009,14 +2009,16 @@ End
 		  #Pragma Unused item
 		  If mUpdating Or mProject Is Nil Then Return
 		  Var row As Integer = CompLangPopup.SelectedRowIndex
-		  If row <= 0 Then
-		    mLang = ""
-		  Else
+		  Var chosen As String
+		  If row > 0 Then
 		    Var codes() As String = mProject.Presentation.Languages
 		    Var i As Integer = row - 1
 		    If i > codes.LastIndex Then Return
-		    mLang = codes(i)
+		    chosen = codes(i)
 		  End If
+		  // Reposer les lignes rejoue l'événement : ne rien faire si rien ne change.
+		  If chosen = mLang Then Return
+		  mLang = chosen
 		  ReloadDetail
 		End Sub
 	#tag EndEvent

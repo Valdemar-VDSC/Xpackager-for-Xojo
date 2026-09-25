@@ -123,6 +123,13 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   sans ça la traduction n'avait rien à quoi s'accrocher et disparaissait du paquet.
   Vérification sans clic : `installer -showChoicesXML -pkg x.pkg -target /` affiche les
   intitulés de choix déjà traduits.
+- **Avancement** : chaque ligne des deux popups de langue porte ce qu'il reste à traduire —
+  « anglais — en · 2/8 » — et rien du tout quand la langue est complète, pour que seules les
+  langues incomplètes attirent l'œil. Le décompte (`PackageProject.TranslatedCount`) ne
+  retient que ce que la référence porte vraiment : son titre, les écrans qu'elle remplit,
+  puis le nom et la description de chaque choix. Il se recalcule au changement d'écran, de
+  langue ou de composant — **jamais depuis `ShowScreen`** : reposer les lignes d'un popup
+  depuis le chemin d'affichage relançait l'affichage et l'application n'ouvrait plus.
 - **Où les saisir** : le titre suit le popup de langue de la page Présentation ; le nom et la
   description du choix suivent un popup de langue ajouté à la page Composants, qui n'apparaît
   que si le projet déclare des langues. Sur une langue, les champs qui ne se traduisent pas —

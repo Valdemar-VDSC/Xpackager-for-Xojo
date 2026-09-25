@@ -298,6 +298,28 @@ Protected Module XPUI
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function LanguageLabel(code As String) As String
+		  // « anglais — en » : le nom dans la langue de l'utilisateur, et le code qui finira
+		  // en nom de dossier .lproj. Le tiret évite « portugais (Brésil) (pt-BR) ».
+		  Var name As String = LanguageName(code)
+		  If name = code Then Return code
+		  Return name + " — " + code
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function LanguageProgress(project As PackageProject, code As String) As String
+		  // Ce qu'il reste à traduire, et rien du tout quand la langue est complète : une
+		  // liste où seules les langues incomplètes portent une marque se lit d'un coup.
+		  If project Is Nil Or code = "" Then Return ""
+		  Var total As Integer
+		  Var done As Integer = project.TranslatedCount(code, total)
+		  If total = 0 Or done >= total Then Return ""
+		  Return " · " + Str(done) + "/" + Str(total)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function LanguageName(code As String) As String
 		  // Nom de la langue dans la langue de l'utilisateur : « anglais » pour « en »,
 		  // « portugais (Brésil) » pour « pt-BR ». Renvoie le code lui-même si le système

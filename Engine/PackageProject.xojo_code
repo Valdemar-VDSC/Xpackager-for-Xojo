@@ -90,6 +90,41 @@ Protected Class PackageProject
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function TranslatedCount(code As String, ByRef total As Integer) As Integer
+		  // Ce qui se traduit dans un projet : le titre, les écrans que la référence
+		  // remplit, puis le nom et la description de chaque choix. On ne compte que ce
+		  // que la référence porte — traduire un écran vide n'aurait pas de sens.
+		  total = 0
+		  Var done As Integer = 0
+		  Var texts As PkgPresentationTexts = Presentation.Texts(code)
+		  
+		  If Presentation.Title.Trim <> "" Then
+		    total = total + 1
+		    If texts <> Nil And texts.Title.Trim <> "" Then done = done + 1
+		  End If
+		  
+		  For s As Integer = 0 To PkgPresentationTexts.kScreenCount - 1
+		    If Not Presentation.Base.HasContent(s) Then Continue
+		    total = total + 1
+		    If texts <> Nil And texts.HasContent(s) Then done = done + 1
+		  Next
+		  
+		  For Each comp As PkgComponent In Components
+		    If comp.DisplayName.Trim <> "" Then
+		      total = total + 1
+		      If comp.LocalizedName(code).Trim <> "" Then done = done + 1
+		    End If
+		    If comp.ComponentDescription.Trim <> "" Then
+		      total = total + 1
+		      If comp.LocalizedDescription(code).Trim <> "" Then done = done + 1
+		    End If
+		  Next
+		  
+		  Return done
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ToJSON() As JSONItem
 		  Var j As New JSONItem
 		  j.Compact = False
