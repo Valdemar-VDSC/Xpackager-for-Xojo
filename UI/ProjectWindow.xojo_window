@@ -356,7 +356,7 @@ End
 		  Var sidebarView As Ptr = mSidebar.BuildSidebarView(230, Self.Height)
 		  mChrome.Install(sidebarView, 230, 200, 340)
 		  // Deux logos au bas de la barre latérale : avec quoi c'est fait.
-		  Badges.Install(sidebarView)
+		  Badges.Install(sidebarView, Self)
 		  
 		  BuildNativeToolbar
 		  
