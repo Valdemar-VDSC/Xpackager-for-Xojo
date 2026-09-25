@@ -990,7 +990,12 @@ End
 		  Const kMargin = 16
 		  Const kGap = 12
 		  Const kMinScreen = 190
-		  Var fixedH As Double = kMargin + mBaseH(0) + kGap + kGap + mBaseH(3) + kGap + mBaseH(4) + kMargin
+		  // La section finale ne montre ses deux dernières lignes que si « Lancer une
+		  // application » est coché. Elle gardait pourtant sa hauteur de conception : 90 pt
+		  // de vide en bas de page pendant que l'éditeur était écrasé à deux lignes.
+		  Var endH As Double = EndSectionHeight
+		  Var endDH As Double = endH - mBaseH(4)
+		  Var fixedH As Double = kMargin + mBaseH(0) + kGap + kGap + mBaseH(3) + kGap + endH + kMargin
 		  Var screenH As Double = Max(kMinScreen, pf.height - fixedH)
 		  Var dh As Double = screenH - mBaseH(1)
 		  
@@ -1000,12 +1005,47 @@ End
 		      Place(i, 0, 0)
 		    Case 1, 2       // le groupe de l'éditeur et son canevas grandissent
 		      Place(i, 0, dh)
+		    Case 4          // la section finale descend et suit son contenu
+		      Place(i, dh, endDH)
 		    Else            // tout ce qui suit descend d'autant
 		      Place(i, dh, 0)
 		    End Select
 		  Next
 		  XPUI.FitSwitch(LaunchCheck)
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function BaselineBottom(c As DesktopUIControl) As Double
+		  // Bas d'un contrôle dans les positions de conception relevées une fois.
+		  For i As Integer = 0 To mItems.LastIndex
+		    If mItems(i) Is c Then Return mBaseTop(i) + mBaseH(i)
+		  Next
+		  Return 0
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function EndSectionHeight() As Double
+		  // Hauteur utile de la section finale. Elle se déduit du modèle et non de la
+		  // visibilité des contrôles : Relayout peut passer avant UpdateEndSection et
+		  // lirait alors un état périmé. Sans ce calcul, le cadre gardait ses 210 pt de
+		  // conception même sans ligne d'application — 67 pt de vide en bas de page
+		  // pendant que l'éditeur riche était écrasé à deux lignes.
+		  Const kPad = 16
+		  If mItems.LastIndex < 4 Then Return 0
+		  Var launching As Boolean = mProject <> Nil And mProject.PostInstall.LaunchApp
+		  Var bottom As Double
+		  If launching Then
+		    bottom = Max(BaselineBottom(AppPathField), BaselineBottom(LaunchHelp))
+		  Else
+		    bottom = Max(BaselineBottom(LaunchCheckLabel), BaselineBottom(LaunchCheck))
+		  End If
+		  If bottom <= 0 Then Return mBaseH(4)
+		  Var h As Double = bottom - mBaseTop(4) + kPad
+		  If h > mBaseH(4) Then h = mBaseH(4)
+		  Return h
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -1763,6 +1803,8 @@ End
 		    End If
 		  End If
 		  UpdateEndSection
+		  // Deux lignes apparaissent ou disparaissent : la page se repose d'autant.
+		  Relayout
 		  Touch
 		End Sub
 	#tag EndEvent
