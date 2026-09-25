@@ -18,7 +18,7 @@ Begin DesktopWindow ProjectWindow
    MaximumWidth    =   32000
    MenuBar         =   ""
    MenuBarVisible  =   False
-   MinimumHeight   =   700
+   MinimumHeight   =   780
    MinimumWidth    =   860
    Resizeable      =   True
    Title           =   "XPackager"

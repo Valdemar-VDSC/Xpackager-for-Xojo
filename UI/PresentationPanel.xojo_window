@@ -989,7 +989,11 @@ End
 		  
 		  Const kMargin = 16
 		  Const kGap = 12
-		  Const kMinScreen = 190
+		  // Plancher du groupe de l'éditeur : en dessous, le canevas riche tombait à deux
+		  // lignes dès que la fenêtre n'était pas très haute — l'éditeur est la raison
+		  // d'être de la page, il garde de quoi lire. Le reste passe dessous et la page
+		  // défile.
+		  Const kMinScreen = 308
 		  // La section finale ne montre ses deux dernières lignes que si « Lancer une
 		  // application » est coché. Elle gardait pourtant sa hauteur de conception : 90 pt
 		  // de vide en bas de page pendant que l'éditeur était écrasé à deux lignes.

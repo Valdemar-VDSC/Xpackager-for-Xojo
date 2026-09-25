@@ -344,6 +344,16 @@ Ce que la notarisation attend d'un exécutable, et que `codesign -dv` doit montr
 `Authority=Developer ID Application: …`, `flags=0x10000(runtime)`, une ligne `Timestamp=`,
 et aucun `get-task-allow` dans `codesign -d --entitlements -`.
 
+### Hauteur de la page Présentation
+
+Aucune page ne défile : le contenu doit tenir dans la fenêtre, et c'est l'éditeur riche qui
+absorbe la différence. Deux garde-fous en découlent — un plancher pour le groupe de
+l'éditeur, et une hauteur minimale de fenêtre (780 pt) qui laisse ce plancher tenir. À
+700 pt, l'ancien minimum, l'éditeur tombait à deux lignes et coupait le texte.
+
+Si l'on veut un jour une page confortable sur un petit écran, la vraie réponse est de faire
+défiler le volet de détail — la version SwiftUI le fait avec un `Form`.
+
 ### Boucle de vérification
 
 L'IDE **ne relit pas** les fichiers modifiés hors de lui : « Revert to Saved » reste grisé
