@@ -65,6 +65,46 @@ Deux choses à savoir en le vérifiant :
   l'état d'avant le multilingue, et deux implémentations du même format de fichier divergent
   en silence. Un seul moteur, un problème d'installation en échange.
 
+## Construire le paquet depuis l'IDE
+
+Un pas de construction en Xojo Script, dans la liste « Mac OS X » de `Build Automation`
+après la signature, appelle l'outil en ligne de commande sur `XPackager.xpackager` :
+construire l'application produit le paquet signé, notarisé et agrafé sans passer par le
+Terminal.
+
+```
+If CurrentBuildTargetIsMacOS And CurrentBuildAppName = "XPackager.app" Then
+  Dim cmd As String = "racine=$(dirname " + ProjectShellPath + ") && " + _
+  "cd ""$racine"" && " + _
+  """./Builds - XPackagerBuild/macOS Universal/xpackagerbuild/xpackagerbuild"" " + _
+  """$racine/XPackager.xpackager"" > /tmp/xpackager-build.log 2>&1 || echo ECHEC"
+  Dim sortie As String = DoShellCommand(cmd)
+  If InStr(sortie, "ECHEC") > 0 Then Print "Le paquet a échoué — voir /tmp/xpackager-build.log"
+End If
+```
+
+Trois pièges, tous mesurés plutôt que supposés :
+
+- **`Applies To` doit valoir « Release »** (`AppliesTo = 2` dans le fichier). Laissé sur
+  « Any », le pas tournerait aussi au Run : chaque lancement de débogage partirait en
+  notarisation.
+- **`CurrentBuildAppName` porte l'extension** : `XPackager.app`, pas `XPackager`. Comparé
+  au nom nu, le garde est toujours faux et le pas s'exécute sans rien faire — silencieux,
+  donc long à voir.
+- **`ProjectShellPath` désigne le fichier projet, déjà échappé pour le shell** :
+  `/Users/…/Git\-VDSC\-Repos/…/XPackager.xojo_project`. L'entourer de guillemets rendrait
+  les contre-obliques littérales ; on le concatène nu et `dirname` en tire le dossier, cité
+  normalement ensuite.
+
+Le garde sur le nom n'est pas une précaution de principe : `Build Automation.xojo_code` est
+le **même fichier** pour `XPackager.xojo_project` et `XPackagerBuild.xojo_project`. Sans lui,
+construire l'outil en ligne de commande lancerait une notarisation de l'application.
+
+Deux conséquences à accepter : une construction passe de quarante secondes à environ trois
+minutes, l'IDE restant bloqué pendant la notarisation ; et le paquet est fabriqué par l'outil
+**déjà construit** — après une modification du moteur, reconstruire `XPackagerBuild` avant
+l'application, sinon le paquet sort de la version précédente.
+
 ## Correspondance avec la version Swift
 
 | Swift | Xojo |
@@ -380,8 +420,11 @@ Installer :
 - La construction, depuis l'application comme depuis la CLI — les deux produisent des
   paquets identiques, structure, `distribution.xml` et ressources comprises.
 
-**Jamais exercé** : la signature et la notarisation, faute de certificat. Le code date du
-portage et n'a pas bougé depuis, mais aucun paquet signé n'a été produit.
+**Signature et notarisation : exercées.** L'application et l'outil repartent signés
+« Developer ID Application » avec Hardened Runtime et horodatage, le paquet « Developer ID
+Installer » ; `notarytool` répond `Accepted`, le ticket est agrafé et `spctl -t install`
+donne `accepted / source=Notarized Developer ID`. Le pas de construction de l'IDE refait
+l'ensemble à chaque Build.
 
 **Pas de tests automatisés.** Tout se vérifie à la main, avec trois outils qui suffisent :
 `pkgutil --expand` pour l'agencement des ressources,
