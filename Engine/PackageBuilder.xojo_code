@@ -55,9 +55,11 @@ Protected Class PackageBuilder
 		  For Each app As FolderItem In TopLevelAppBundles(root)
 		    Var nested() As FolderItem = SignableItems(app)
 		    For Each item As FolderItem In nested
-		      steps.Add(CodesignStep(item, identity, True, phase, progress))
+		      steps.Add(CodesignStep(item, identity, True, phase, progress, Not HasDebugEntitlement(item)))
 		    Next
-		    Var last As BuildStep = CodesignStep(app, identity, False, phase, progress)
+		    // Préserver les entitlements garderait le get-task-allow que Xojo pose sur ses
+		    // binaires : la notarisation le refuse. On ne préserve donc que s'il n'y est pas.
+		    Var last As BuildStep = CodesignStep(app, identity, False, phase, progress, Not HasDebugEntitlement(app))
 		    last.Label = Loc.kHardenLabel + " " + app.Name
 		    steps.Add(last)
 		  Next
@@ -75,6 +77,24 @@ Protected Class PackageBuilder
 		  Next
 		End Sub
 
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function HasDebugEntitlement(item As FolderItem) As Boolean
+		  // Lit les entitlements déjà posés. Un binaire construit par Xojo porte
+		  // com.apple.security.get-task-allow — l'entitlement de débogage — qu'Apple
+		  // refuse à la notarisation et que --preserve-metadata conserverait.
+		  If item Is Nil Or Not item.Exists Then Return False
+		  Try
+		    Var sh As New Shell
+		    sh.ExecuteMode = Shell.ExecuteModes.Synchronous
+		    sh.TimeOut = 10000
+		    sh.Execute("/usr/bin/codesign -d --entitlements - " + ToolRunner.ShellQuote(item.NativePath) + " 2>&1")
+		    Return sh.Result.IndexOf("get-task-allow") > -1
+		  Catch err As RuntimeException
+		    Return False
+		  End Try
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21

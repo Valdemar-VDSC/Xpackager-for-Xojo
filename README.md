@@ -334,10 +334,11 @@ Deux pièges se cumulent quand le payload n'est pas une `.app` :
   — signature ad hoc, sans horodatage ni Hardened Runtime. Le renforcement couvre désormais
   aussi le code hors bundle.
 - **Xojo signe ses binaires ad hoc avec `com.apple.security.get-task-allow`**, l'entitlement
-  de débogage, qu'Apple rejette. `codesign --preserve-metadata=entitlements` le garderait :
-  les exécutables nus sont donc re-signés **sans** préserver les entitlements — ils n'en ont
-  pas besoin. Les bundles gardent l'ancien comportement (un XPC Sparkle, lui, a des
-  entitlements à conserver).
+  de débogage, qu'Apple rejette. `codesign --preserve-metadata=entitlements` le garderait —
+  y compris pour une `.app` construite par Xojo, qui repartait donc renforcée mais refusée.
+  Les entitlements existants sont maintenant lus avant de signer (`codesign -d
+  --entitlements -`) : on ne les préserve que s'ils sont propres, et les exécutables nus,
+  qui n'en ont pas besoin, sont signés sans.
 
 Ce que la notarisation attend d'un exécutable, et que `codesign -dv` doit montrer :
 `Authority=Developer ID Application: …`, `flags=0x10000(runtime)`, une ligne `Timestamp=`,
