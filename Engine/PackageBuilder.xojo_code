@@ -61,13 +61,62 @@ Protected Class PackageBuilder
 		    last.Label = Loc.kHardenLabel + " " + app.Name
 		    steps.Add(last)
 		  Next
+		  
+		  // Puis le code qui ne vit dans aucun bundle : un outil en ligne de commande et
+		  // ses bibliothèques. Sans ça, un payload sans .app n'était jamais re-signé et la
+		  // notarisation le refusait — signature ad hoc, sans horodatage ni Hardened
+		  // Runtime. Les entitlements ne sont pas préservés ici : Xojo signe ses binaires
+		  // avec com.apple.security.get-task-allow, l'entitlement de débogage, qu'Apple
+		  // rejette. Un exécutable nu n'a de toute façon pas d'entitlements à garder.
+		  For Each item As FolderItem In LooseMachOItems(root)
+		    Var st As BuildStep = CodesignStep(item, identity, True, phase, progress, False)
+		    st.Label = Loc.kHardenLabel + " " + item.Name
+		    steps.Add(st)
+		  Next
+		End Sub
+
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function LooseMachOItems(root As FolderItem) As FolderItem()
+		  // Exécutables et bibliothèques hors de tout bundle : on ne descend pas dans un
+		  // paquet (.app, .framework…), son contenu étant signé avec lui.
+		  Var found() As FolderItem
+		  CollectLooseMachO(root, found)
+		  Var depths() As Integer
+		  For Each f As FolderItem In found
+		    depths.Add(-f.NativePath.Split("/").Count)
+		  Next
+		  depths.SortWith(found)
+		  Return found
+		End Function
+
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Sub CollectLooseMachO(folder As FolderItem, found() As FolderItem)
+		  If folder Is Nil Or Not folder.Exists Or Not folder.IsFolder Then Return
+		  Try
+		    For Each child As FolderItem In folder.Children
+		      If child Is Nil Then Continue
+		      If child.IsFolder Then
+		        // Un bundle est signé d'un bloc par HardenSteps : ne pas y entrer.
+		        If Not PkgFS.IsPackage(child) Then CollectLooseMachO(child, found)
+		        Continue
+		      End If
+		      If PkgFS.FileExtension(child.Name).Lowercase = "dylib" Or PkgFS.IsMachO(child) Then found.Add(child)
+		    Next
+		  Catch err As RuntimeException
+		  End Try
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Shared Function CodesignStep(item As FolderItem, identity As String, quiet As Boolean, phase As String, progress As Double) As BuildStep
+		Private Shared Function CodesignStep(item As FolderItem, identity As String, quiet As Boolean, phase As String, progress As Double, preserveEntitlements As Boolean = True) As BuildStep
 		  // Tente d'abord de préserver les entitlements (utile pour les XPC de Sparkle),
-		  // sinon signe sans — exactement comme la version Swift.
+		  // sinon signe sans — exactement comme la version Swift. Les préserver garderait
+		  // aussi un get-task-allow hérité d'une signature ad hoc : d'où le choix laissé
+		  // à l'appelant.
 		  Var st As New BuildStep
 		  st.Label = "codesign " + item.Name
 		  st.Phase = phase
@@ -75,7 +124,7 @@ Protected Class PackageBuilder
 		  st.Quiet = quiet
 		  st.EchoCommand = Not quiet
 		  st.ToolPath = "/usr/bin/codesign"
-		  st.AddArg("--preserve-metadata=entitlements")
+		  If preserveEntitlements Then st.AddArg("--preserve-metadata=entitlements")
 		  st.AddArg("--force")
 		  st.AddArg("--options")
 		  st.AddArg("runtime")

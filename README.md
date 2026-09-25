@@ -325,6 +325,24 @@ dans cette page de codes échappe tous ses accents (`\'e9`), les octets hauts br
 le signe d'un fichier écrit en UTF-8 qui affichera « Ã© ». L'avertissement laisse le choix
 d'importer quand même.
 
+### Signature du payload et notarisation
+
+Deux pièges se cumulent quand le payload n'est pas une `.app` :
+
+- Le renforcement ne visitait que les **bundles** `.app`. Un outil en ligne de commande et
+  ses dylibs n'en sont pas un : rien n'était re-signé, et la notarisation refusait le paquet
+  — signature ad hoc, sans horodatage ni Hardened Runtime. Le renforcement couvre désormais
+  aussi le code hors bundle.
+- **Xojo signe ses binaires ad hoc avec `com.apple.security.get-task-allow`**, l'entitlement
+  de débogage, qu'Apple rejette. `codesign --preserve-metadata=entitlements` le garderait :
+  les exécutables nus sont donc re-signés **sans** préserver les entitlements — ils n'en ont
+  pas besoin. Les bundles gardent l'ancien comportement (un XPC Sparkle, lui, a des
+  entitlements à conserver).
+
+Ce que la notarisation attend d'un exécutable, et que `codesign -dv` doit montrer :
+`Authority=Developer ID Application: …`, `flags=0x10000(runtime)`, une ligne `Timestamp=`,
+et aucun `get-task-allow` dans `codesign -d --entitlements -`.
+
 ### Boucle de vérification
 
 L'IDE **ne relit pas** les fichiers modifiés hors de lui : « Revert to Saved » reste grisé

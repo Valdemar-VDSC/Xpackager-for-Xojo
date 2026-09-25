@@ -298,12 +298,12 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Refor\xC3\xA7o do payload (opcional)"
 	#tag EndConstant
 
-	#tag Constant, Name = kHardenToggle, Type = String, Dynamic = True, Default = \"Re-signer les apps en Hardened Runtime avant de packager", Scope = Public
-		#Tag Instance, Platform = Any, Language = en, Definition  = \"Re-sign apps with Hardened Runtime before packaging"
-		#Tag Instance, Platform = Any, Language = es, Definition  = \"Volver a firmar las apps con Hardened Runtime antes de empaquetar"
-		#Tag Instance, Platform = Any, Language = de, Definition  = \"Apps vor dem Paketieren mit Hardened Runtime neu signieren"
-		#Tag Instance, Platform = Any, Language = it, Definition  = \"Rifirma le app in Hardened Runtime prima di creare il pacchetto"
-		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Reassinar as apps com Hardened Runtime antes de empacotar"
+	#tag Constant, Name = kHardenToggle, Type = String, Dynamic = True, Default = \"Re-signer le payload en Hardened Runtime avant de packager", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Re-sign the payload with Hardened Runtime before packaging"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Volver a firmar el payload con Hardened Runtime antes de empaquetar"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Nutzlast vor dem Paketieren mit Hardened Runtime neu signieren"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Rifirma il payload in Hardened Runtime prima di creare il pacchetto"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Reassinar o payload com Hardened Runtime antes de empacotar"
 	#tag EndConstant
 
 	#tag Constant, Name = kAppIdentityLabel, Type = String, Dynamic = True, Default = \"Identit\xC3\xA9 (Developer ID Application)", Scope = Public
