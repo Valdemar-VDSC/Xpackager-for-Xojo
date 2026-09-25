@@ -100,9 +100,12 @@ Ajout par rapport à la version Swift, qui n'a pas de notion de langue.
   confirmation ; le menu hébergé n'est construit qu'à l'ouverture du panneau ; et le nom de
   langue vient de `localizedStringForLocaleIdentifier:` — le sélecteur
   `localizedStringForLanguageIdentifier:` n'existe pas et faisait tomber l'application.
+- **Langue de la référence** : le même menu la règle (« Langue de la référence… »). Elle ne
+  sert qu'à étiqueter la référence dans le popup — la construction, elle, garde le fichier à
+  plat comme repli. Effacer l'étiquette et renoncer donnent la même chaîne vide, d'où
+  `XPUI.PromptForText` et son drapeau `accepted` : Annuler ne touche à rien.
 - **Pas encore fait** : le titre de l'installateur et les intitulés de choix ne sont pas
-  traduits (il faudrait un `Localizable.strings` dans chaque `.lproj`) et la langue de
-  référence (`baseLanguage`) ne se règle pas encore depuis l'interface.
+  traduits — il faudrait un `Localizable.strings` dans chaque `.lproj`.
 
 ## Contrôles d'interface
 

@@ -1440,6 +1440,20 @@ Protected Module Loc
 		#Tag Instance, Platform = Any, Language = it, Definition  = \"Formati di file incompatibili tra le lingue per la schermata"
 		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Formatos de ficheiro incompat\xC3\xADveis entre idiomas para o ecr\xC3\xA3"
 	#tag EndConstant
+	#tag Constant, Name = kSetReferenceLanguage, Type = String, Dynamic = True, Default = \"Langue de la r\xC3\xA9f\xC3\xA9rence\xE2\x80\xA6", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Reference language\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"Idioma de la referencia\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprache der Referenz\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Lingua del riferimento\xE2\x80\xA6"
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"Idioma da refer\xC3\xAAncia\xE2\x80\xA6"
+	#tag EndConstant
+	#tag Constant, Name = kReferenceLanguagePrompt, Type = String, Dynamic = True, Default = \"Code de la langue des textes de r\xC3\xA9f\xC3\xA9rence ; laisser vide pour ne pas la pr\xC3\xA9ciser.", Scope = Public
+		#Tag Instance, Platform = Any, Language = en, Definition  = \"Language code of the reference texts; leave empty to say nothing."
+		#Tag Instance, Platform = Any, Language = es, Definition  = \"C\xC3\xB3digo del idioma de los textos de referencia; dejar vac\xC3\xADo para no indicarlo."
+		#Tag Instance, Platform = Any, Language = de, Definition  = \"Sprachcode der Referenztexte; leer lassen um nichts anzugeben."
+		#Tag Instance, Platform = Any, Language = it, Definition  = \"Codice della lingua dei testi di riferimento; lasciare vuoto per non indicarlo."
+		#Tag Instance, Platform = Any, Language = pt, Definition  = \"C\xC3\xB3digo do idioma dos textos de refer\xC3\xAAncia; deixar vazio para n\xC3\xA3o indicar."
+	#tag EndConstant
 	#tag Constant, Name = kManageLanguages, Type = String, Dynamic = True, Default = \"G\xC3\xA9rer les langues", Scope = Public
 		#Tag Instance, Platform = Any, Language = en, Definition  = \"Manage languages"
 		#Tag Instance, Platform = Any, Language = es, Definition  = \"Gestionar idiomas"

@@ -1149,10 +1149,14 @@ End
 		  mLangMenu.AddSeparator
 		  mLangMenu.AddItem(Loc.kRemoveLanguage)
 		  mLangMenu.AddItem(Loc.kCopyFromReference)
-		  // titre 0, langues 1…N, séparateur, « Autre langue… », séparateur, retirer, copier
+		  mLangMenu.AddSeparator
+		  mLangMenu.AddItem(Loc.kSetReferenceLanguage)
+		  // titre 0, langues 1…N, séparateur, « Autre langue… », séparateur, retirer,
+		  // copier, séparateur, langue de la référence
 		  mIdxOther = mCandidates.Count + 2
 		  mIdxRemove = mIdxOther + 2
 		  mIdxSeed = mIdxRemove + 1
+		  mIdxBase = mIdxSeed + 2
 		  
 		  // NSMenu active ses items tout seul faute de cible : on reprend la main pour
 		  // pouvoir griser « retirer » et « copier » sur la référence.
@@ -1188,6 +1192,10 @@ End
 		  End If
 		  If index = mIdxSeed Then
 		    SeedCurrentScreen
+		    Return
+		  End If
+		  If index = mIdxBase Then
+		    SetReferenceLanguage
 		    Return
 		  End If
 		  
@@ -1232,6 +1240,29 @@ End
 		  Touch
 		  RebuildLanguagePopup
 		  ShowScreen(mScreen)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub SetReferenceLanguage()
+		  // Étiquette des textes de référence : elle n'entre pas dans la construction —
+		  // le fichier à plat reste le repli — mais elle dit dans quelle langue ils sont.
+		  If mProject Is Nil Then Return
+		  // Vide efface l'étiquette ; Annuler ne touche à rien. Les deux renvoient la
+		  // même chaîne, d'où le drapeau.
+		  Var accepted As Boolean
+		  Var entered As String = XPUI.PromptForText(Loc.kSetReferenceLanguage, _
+		  Loc.kReferenceLanguagePrompt, mProject.Presentation.BaseLanguage, accepted)
+		  If Not accepted Then Return
+		  Var code As String = PkgPresentation.NormalizeLanguage(entered)
+		  If entered.Trim <> "" And code = "" Then
+		    XPUI.ShowError(Loc.kBadLanguageCode)
+		    Return
+		  End If
+		  If code = mProject.Presentation.BaseLanguage Then Return
+		  mProject.Presentation.BaseLanguage = code
+		  Touch
+		  RebuildLanguagePopup
 		End Sub
 	#tag EndMethod
 
@@ -1507,6 +1538,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mLangMenu As NativePopupButton
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mIdxBase As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

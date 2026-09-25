@@ -243,8 +243,20 @@ Protected Module XPUI
 
 	#tag Method, Flags = &h0
 		Function PromptForName(title As String, message As String, defaultValue As String) As String
-		  // Petite invite modale pour saisir un nom (NSAlert + NSTextField accessoire),
-		  // équivalent du promptForName(…) de la version SwiftUI.
+		  // Renvoie "" aussi bien sur Annuler que sur une saisie vide. Quand la
+		  // différence compte — effacer une valeur n'est pas renoncer — passer par
+		  // PromptForText.
+		  Var accepted As Boolean
+		  Return PromptForText(title, message, defaultValue, accepted)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function PromptForText(title As String, message As String, defaultValue As String, ByRef accepted As Boolean) As String
+		  // Petite invite modale pour saisir un texte (NSAlert + NSTextField accessoire),
+		  // équivalent du promptForName(…) de la version SwiftUI. « accepted » distingue
+		  // la validation d'une saisie vide du renoncement.
+		  accepted = False
 		  Var alert As New NativeAlert(title, message)
 		  Var okIndex As Integer = alert.AddButton(Loc.kSaveButton)
 		  Var cancelIndex As Integer = alert.AddButton(Loc.kCancelButton)
@@ -266,6 +278,7 @@ Protected Module XPUI
 		  
 		  Var response As Integer = alert.RunModal
 		  If response <> okIndex Then Return ""
+		  accepted = True
 		  Var entered As String = stringValue(field)
 		  Return entered.Trim
 		End Function
